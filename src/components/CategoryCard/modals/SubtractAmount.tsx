@@ -1,14 +1,34 @@
+import { FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
 import { RootState } from '../../../store'
 import { toggleSubtractAmount } from '../../../store/slices/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function SubtractAmount() {
-  const { isVisible } = useSelector(
+  const [title, setTitle] = useState('')
+  const [amount, setAmount] = useState(0)
+  const { isVisible, category } = useSelector(
     (state: RootState) => state.ui.subtractAmount,
   )
   const dispatch = useDispatch()
+  const { handleUpdateDoc } = useUpdateDocs()
+
+  function handleSubtractAmount(e: FormEvent) {
+    e.preventDefault()
+    if (!title || !amount) return
+    handleUpdateDoc({
+      id: category?.id!,
+      collectionName: 'categories',
+      updatedFields: {
+        amount: category?.amount! - amount,
+      },
+    })
+    setTitle('')
+    setAmount(0)
+    dispatch(toggleSubtractAmount(null))
+  }
 
   return (
     <Modal
@@ -17,7 +37,7 @@ export function SubtractAmount() {
       title="Descontar"
     >
       <div>
-        <form>
+        <form onSubmit={handleSubtractAmount}>
           <div className={styles['label-input']}>
             <label htmlFor="title" className="p">
               Título
@@ -27,6 +47,8 @@ export function SubtractAmount() {
               id="title"
               name="title"
               placeholder="Ex: gasolina do carro"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className={styles['label-input']}>
@@ -34,11 +56,13 @@ export function SubtractAmount() {
               Valor
             </label>
             <input
-              type="text"
+              type="number"
               id="amount"
               name="amount"
               placeholder="R$"
               className="max-width"
+              value={amount}
+              onChange={(e) => setAmount(e.target.valueAsNumber)}
             />
           </div>
           <div className={styles.buttons}>

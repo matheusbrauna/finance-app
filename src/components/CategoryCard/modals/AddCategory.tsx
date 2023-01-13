@@ -1,12 +1,33 @@
+import { FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAddDocs } from '../../../hooks/useAddDocs'
 import { RootState } from '../../../store'
 import { toggleAddCategory } from '../../../store/slices/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function AddCategory() {
+  const [title, setTitle] = useState('')
+  const [percentage, setPercentage] = useState(0)
   const { isVisible } = useSelector((state: RootState) => state.ui.addCategory)
   const dispatch = useDispatch()
+  const { handleAddDocs } = useAddDocs()
+
+  function handleAddCategory(e: FormEvent) {
+    e.preventDefault()
+    if (!title || !percentage) return
+    handleAddDocs({
+      collectionName: 'categories',
+      fields: {
+        title,
+        percentage,
+        amount: 0,
+      },
+    })
+    setPercentage(0)
+    setTitle('')
+    dispatch(toggleAddCategory(null))
+  }
 
   return (
     <Modal
@@ -15,7 +36,7 @@ export function AddCategory() {
       title="Nova Categoria"
     >
       <div>
-        <form>
+        <form onSubmit={handleAddCategory}>
           <div className={styles['label-input']}>
             <label htmlFor="title" className="p">
               Título
@@ -25,6 +46,8 @@ export function AddCategory() {
               id="title"
               name="title"
               placeholder="Essencial"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </div>
           <div className={styles['label-input']}>
@@ -32,11 +55,13 @@ export function AddCategory() {
               Porcentagem Alocada
             </label>
             <input
-              type="text"
+              type="number"
               id="percentage"
               name="percentage"
               placeholder="%"
               className="max-width"
+              value={percentage}
+              onChange={(e) => setPercentage(e.target.valueAsNumber)}
             />
           </div>
           <div className={styles.buttons}>

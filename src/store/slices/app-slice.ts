@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { AppSlice } from '../@types/AppSlice'
 
-const initialState = {
+const initialState: AppSlice = {
   categories: [],
 }
 

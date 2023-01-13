@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { UISliceProps } from '../@types/UISlice'
 
-const initialState = {
+const initialState: UISliceProps = {
   addAmount: {
     isVisible: false,
     category: null,
