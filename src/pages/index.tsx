@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { AllCards } from '../components/CategoryCard/AllCards'
+import { Charts } from '../components/Charts/Charts'
 import { Header } from '../components/Header/Header'
 import { Transactions } from '../components/Transactions/Transactions'
 import { useGetDocs } from '../hooks/useGetDocs'
@@ -15,6 +16,7 @@ export default function Home() {
     <main className={styles.main}>
       <Header />
       <AllCards />
+      <Charts />
       <Transactions />
     </main>
   )

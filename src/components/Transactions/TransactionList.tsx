@@ -15,8 +15,6 @@ export function TransactionList({ title, type }: TransactionListProps) {
     .slice(0, 8)
     .map((el) => <TransactionCard key={el.id} transaction={el} />)
 
-  console.log(transactions)
-
   return (
     <div className={styles.transactions}>
       <h2>{title}</h2>
