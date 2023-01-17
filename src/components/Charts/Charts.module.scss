@@ -5,6 +5,9 @@
   grid-template-columns: 2fr 1fr;
   margin-bottom: 5rem;
   gap: 3rem;
+  background-color: $gray600;
+  padding: 1.6rem;
+  border-radius: 0.8rem;
 
   @include device("tablet") {
     grid-template-columns: 1fr;

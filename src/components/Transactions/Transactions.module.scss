@@ -3,6 +3,9 @@
 .section {
   display: flex;
   gap: 5rem;
+  background-color: $gray600;
+  padding: 1.6rem;
+  border-radius: 0.8rem;
 
   @include device("tablet") {
     flex-direction: column;

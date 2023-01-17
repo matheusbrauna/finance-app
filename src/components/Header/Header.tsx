@@ -12,7 +12,7 @@ export function Header() {
       <AddSalary />
       <section className={styles.header}>
         <div className={styles.message}>
-          <h1>Olá, senti saudades 😄!</h1>
+          <h1>Olá Matheus, senti saudades 😄!</h1>
           <h2>Sua carteira está esperando por você</h2>
         </div>
         <div className={styles.avatar}>

@@ -1,7 +1,7 @@
 @import '../../styles/variables.scss';
 
 .no-card {
-  border: 1px solid $income;
+  border: 1px solid $green500;
   padding: 2rem;
   border-radius: 1rem;
   display: grid;
@@ -9,17 +9,17 @@
   cursor: pointer;
 
   svg {
-    color: rgba($income, 0.6);
+    color: rgba($green500, 0.6);
     width: 6.2rem;
     height: 6.2rem;
     transition: color 0.2s;
   }
 
   &:hover {
-    border-color: rgba($income, 0.8);
+    border-color: rgba($green500, 0.8);
 
     svg {
-      color: rgba($income, 0.8);
+      color: rgba($green500, 0.8);
     }
   }
 }

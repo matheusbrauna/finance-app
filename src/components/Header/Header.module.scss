@@ -1,8 +1,16 @@
+@import "../../styles/variables.scss";
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 6rem;
+
+  .message {
+    h2 {
+      color: $gray300;
+    }
+  }
 
   .avatar {
     width: 4.8rem;

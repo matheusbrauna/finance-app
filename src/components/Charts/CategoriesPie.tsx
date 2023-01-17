@@ -29,7 +29,7 @@ export function CategoriesPie() {
         label: 'Valor acumulado',
         data: amount,
         backgroundColor: [
-          '#FD7477',
+          '#f75a68',
           '#359EE5',
           '#FF9F40',
           '#4BC0C0',

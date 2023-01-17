@@ -59,12 +59,12 @@ export function Balance() {
       {
         label: 'Entradas',
         data: incomes,
-        backgroundColor: '#7F60F3',
+        backgroundColor: '#00b37e',
       },
       {
         label: 'Despesas',
         data: expenses,
-        backgroundColor: '#FD7477',
+        backgroundColor: '#f75a68',
       },
     ],
   }
