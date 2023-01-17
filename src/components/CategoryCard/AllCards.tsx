@@ -9,16 +9,9 @@ import { SubtractAmount } from './modals/SubtractAmount'
 import { TransferAmount } from './modals/TransferAmount'
 import { NoCard } from './NoCard'
 
-interface Categories {
-  id: string
-  title: string
-  amount: number
-  percentage: number
-}
-
 export function AllCards() {
   const { categories } = useSelector((state: RootState) => state.app)
-  const cards = categories.map((category: Categories) => (
+  const cards = categories?.map((category) => (
     <CategoryCard key={category.id} data={category} />
   ))
 

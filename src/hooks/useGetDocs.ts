@@ -6,11 +6,7 @@ import {
 } from '@firebase/firestore'
 import { db } from '../services/firebase'
 
-interface UseGetDocsProps {
-  collectionName: string
-}
-
-export function useGetDocs({ collectionName }: UseGetDocsProps) {
+export function useGetDocs(collectionName: string) {
   const [documents, setDocuments] = useState<DocumentData[]>([])
   const collection = getCollection(db, collectionName)
   useEffect(() => {
@@ -28,7 +24,5 @@ export function useGetDocs({ collectionName }: UseGetDocsProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  return {
-    documents,
-  }
+  return documents
 }

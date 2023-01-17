@@ -1,5 +1,7 @@
+import { serverTimestamp } from '@firebase/firestore'
 import { FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAddDocs } from '../../../hooks/useAddDocs'
 import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
 import { RootState } from '../../../store'
 import { toggleAddSalary } from '../../../store/slices/ui-slice'
@@ -12,6 +14,7 @@ export function AddSalary() {
   const { categories } = useSelector((state: RootState) => state.app)
   const dispatch = useDispatch()
   const { handleUpdateDoc } = useUpdateDocs()
+  const { handleAddDocs } = useAddDocs()
 
   function handleAddSalary(e: FormEvent) {
     e.preventDefault()
@@ -23,6 +26,15 @@ export function AddSalary() {
         collectionName: 'categories',
         updatedFields: {
           amount: category?.amount + totalAmount,
+        },
+      })
+      handleAddDocs({
+        collectionName: 'transactions',
+        fields: {
+          amount,
+          title: `Salário em ${category.title}`,
+          type: 'income',
+          date: serverTimestamp(),
         },
       })
     })

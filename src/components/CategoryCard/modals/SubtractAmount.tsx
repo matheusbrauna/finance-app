@@ -1,5 +1,7 @@
+import { serverTimestamp } from '@firebase/firestore'
 import { FormEvent, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useAddDocs } from '../../../hooks/useAddDocs'
 import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
 import { RootState } from '../../../store'
 import { toggleSubtractAmount } from '../../../store/slices/ui-slice'
@@ -14,6 +16,7 @@ export function SubtractAmount() {
   )
   const dispatch = useDispatch()
   const { handleUpdateDoc } = useUpdateDocs()
+  const { handleAddDocs } = useAddDocs()
 
   function handleSubtractAmount(e: FormEvent) {
     e.preventDefault()
@@ -23,6 +26,15 @@ export function SubtractAmount() {
       collectionName: 'categories',
       updatedFields: {
         amount: category?.amount! - amount,
+      },
+    })
+    handleAddDocs({
+      collectionName: 'transactions',
+      fields: {
+        amount,
+        title,
+        type: 'expense',
+        date: serverTimestamp(),
       },
     })
     setTitle('')
