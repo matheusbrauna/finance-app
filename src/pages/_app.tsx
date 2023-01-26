@@ -1,12 +1,12 @@
 import '../styles/global.scss'
 import type { AppProps } from 'next/app'
-import { Provider } from 'react-redux'
-import { store } from '../store'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '../services/queryClient'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <Component {...pageProps} />
-    </Provider>
+    </QueryClientProvider>
   )
 }

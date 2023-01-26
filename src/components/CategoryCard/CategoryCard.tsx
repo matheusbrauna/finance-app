@@ -3,19 +3,16 @@ import { TbPencil } from 'react-icons/tb'
 import { useGetCurrency } from '../../hooks/useGetCurrency'
 import { CategoryMenu } from './CategoryMenu'
 import { useMenu } from '../../hooks/useMenu'
+import { Category } from '@prisma/client'
 
 interface CategoryCardProps {
-  data: {
-    title: string
-    amount: number
-    percentage: number
-  }
+  data: Category
 }
 
 export function CategoryCard({ data }: CategoryCardProps) {
   const { title, amount, percentage } = data
   const { isMenuVisible, handleToggleMenu } = useMenu()
-  const { currency } = useGetCurrency(amount)
+  const { currency } = useGetCurrency(amount ?? 0)
 
   return (
     <div className={styles.card}>

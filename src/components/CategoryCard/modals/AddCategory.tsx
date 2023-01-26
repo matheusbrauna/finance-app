@@ -1,38 +1,35 @@
 import { FormEvent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAddDocs } from '../../../hooks/useAddDocs'
-import { RootState } from '../../../store'
-import { toggleAddCategory } from '../../../store/slices/ui-slice'
+import { useCreateCategory } from '../../../hooks/useCreateCategory'
+import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function AddCategory() {
   const [title, setTitle] = useState('')
   const [percentage, setPercentage] = useState(0)
-  const { isVisible } = useSelector((state: RootState) => state.ui.addCategory)
-  const dispatch = useDispatch()
-  const { handleAddDocs } = useAddDocs()
+  const { mutateAsync } = useCreateCategory()
+  const {
+    toggleAddCategory,
+    addCategory: { isVisible },
+  } = useUiSlice()
 
-  function handleAddCategory(e: FormEvent) {
+  async function handleAddCategory(e: FormEvent) {
     e.preventDefault()
     if (!title || !percentage) return
-    handleAddDocs({
-      collectionName: 'categories',
-      fields: {
-        title,
-        percentage,
-        amount: 0,
-      },
+    await mutateAsync({
+      title,
+      percentage,
+      amount: 0,
     })
     setPercentage(0)
     setTitle('')
-    dispatch(toggleAddCategory(null))
+    toggleAddCategory(null)
   }
 
   return (
     <Modal
       isOpen={isVisible}
-      onClose={() => dispatch(toggleAddCategory(null))}
+      onClose={() => toggleAddCategory(null)}
       title="Nova Categoria"
     >
       <div>
@@ -61,7 +58,7 @@ export function AddCategory() {
               placeholder="%"
               className="max-width"
               value={percentage}
-              onChange={(e) => setPercentage(e.target.valueAsNumber)}
+              onChange={(e) => setPercentage(Number(e.target.value))}
             />
           </div>
           <div className={styles.buttons}>

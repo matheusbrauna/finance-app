@@ -1,10 +1,9 @@
-export function useGetDate(timestamp: any) {
-  if (!timestamp) return
+export function useGetDate(date: Date) {
   const formattedDate = new Intl.DateTimeFormat('pt-BR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  }).format(timestamp.toDate())
+  }).format(date)
 
   return formattedDate
 }

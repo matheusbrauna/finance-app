@@ -5,7 +5,7 @@ export function Transactions() {
   return (
     <section className={styles.section}>
       <TransactionList title="Entradas" type="income" />
-      <TransactionList title="Despesas" type="expense" />
+      <TransactionList title="Despesas" type="outcome" />
     </section>
   )
 }

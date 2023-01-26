@@ -1,16 +1,15 @@
 import React from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { useGetCategories } from '../../hooks/useGetCategories'
 
 export function CategoriesPie() {
-  const { categories } = useSelector((state: RootState) => state.app)
+  const categories = useGetCategories()
   ChartJS.register(ArcElement, Tooltip, Legend)
 
-  const labels = categories.map((category) => category.title)
-  const amount = labels.map(
-    (label) => categories.find((category) => category.title === label)?.amount,
+  const labels = categories?.map((category) => category.title)
+  const amount = labels?.map(
+    (label) => categories?.find((category) => category.title === label)?.amount,
   )
 
   const options = {

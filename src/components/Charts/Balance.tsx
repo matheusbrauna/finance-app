@@ -8,12 +8,11 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
-import { Transaction } from '../../store/@types/AppSlice'
+import { useGetTransactions } from '../../hooks/useGetTransactions'
+import { Transaction } from '@prisma/client'
 
 export function Balance() {
-  const { transactions } = useSelector((state: RootState) => state.app)
+  const transactions = useGetTransactions()
   ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
   const options = {
@@ -25,8 +24,8 @@ export function Balance() {
     },
   }
 
-  function getMonth(date: any) {
-    return date?.toDate().toLocaleString('pt-BR', { month: 'long' })
+  function getMonth(date: Date) {
+    return date.toLocaleString('pt-BR', { month: 'long' })
   }
 
   function getBalance(
@@ -44,14 +43,14 @@ export function Balance() {
 
   const labels = [
     ...new Set(
-      [...transactions]
-        .sort((a, b) => a.date?.toDate() - b.date?.toDate())
-        .map((transaction) => getMonth(transaction.date)),
+      [...(transactions ?? [])].map((transaction) =>
+        getMonth(transaction.date),
+      ),
     ),
   ]
 
-  const incomes = getBalance(labels, 'income', transactions)
-  const expenses = getBalance(labels, 'expense', transactions)
+  const incomes = getBalance(labels, 'income', transactions!)
+  const expenses = getBalance(labels, 'outcome', transactions!)
 
   const data = {
     labels,

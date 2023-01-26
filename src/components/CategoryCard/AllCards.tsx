@@ -1,5 +1,4 @@
-import { useSelector } from 'react-redux'
-import { RootState } from '../../store'
+import { useGetCategories } from '../../hooks/useGetCategories'
 import styles from './AllCards.module.scss'
 import { CategoryCard } from './CategoryCard'
 import { AddAmount } from './modals/AddAmount'
@@ -10,10 +9,7 @@ import { TransferAmount } from './modals/TransferAmount'
 import { NoCard } from './NoCard'
 
 export function AllCards() {
-  const { categories } = useSelector((state: RootState) => state.app)
-  const cards = categories?.map((category) => (
-    <CategoryCard key={category.id} data={category} />
-  ))
+  const categories = useGetCategories()
 
   return (
     <>
@@ -23,7 +19,9 @@ export function AllCards() {
       <EditCategory />
       <AddCategory />
       <section className={styles.section}>
-        {cards}
+        {categories?.map((category) => (
+          <CategoryCard key={category.id} data={category} />
+        ))}
         <NoCard />
       </section>
     </>

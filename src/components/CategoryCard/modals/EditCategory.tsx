@@ -1,52 +1,45 @@
 import { FormEvent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useDeleteDocs } from '../../../hooks/useDeleleDocs'
-import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
-import { RootState } from '../../../store'
-import { toggleEditCategory } from '../../../store/slices/ui-slice'
+import { useDeleteCategory } from '../../../hooks/useDeleteCategory'
+import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
+import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function EditCategory() {
   const [title, setTitle] = useState('')
   const [percentage, setPercentage] = useState(0)
-  const { isVisible, category } = useSelector(
-    (state: RootState) => state.ui.editCategory,
-  )
-  const dispatch = useDispatch()
-  const { handleUpdateDoc } = useUpdateDocs()
-  const { handleDeleteDocs } = useDeleteDocs()
+  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
+  const { mutateAsync: deleteMutateAsync } = useDeleteCategory()
+  const {
+    editCategory: { category, isVisible },
+    toggleEditCategory,
+  } = useUiSlice()
 
   function handleEditCategory(e: FormEvent) {
     e.preventDefault()
     if (!title || !percentage) return
-    handleUpdateDoc({
-      id: category?.id!,
-      collectionName: 'categories',
-      updatedFields: {
-        title,
-        percentage,
-      },
+    updateMutateAsync({
+      id: category?.id,
+      amount: category?.amount,
+      percentage: category?.percentage,
+      title: category?.title,
     })
     setTitle('')
     setPercentage(0)
-    dispatch(toggleEditCategory(null))
+    toggleEditCategory(null)
   }
 
   function handleRemoveCategory() {
-    handleDeleteDocs({
-      id: category?.id!,
-      collectionName: 'categories',
-    })
+    deleteMutateAsync(category?.id ?? '')
     setTitle('')
     setPercentage(0)
-    dispatch(toggleEditCategory(null))
+    toggleEditCategory(null)
   }
 
   return (
     <Modal
       isOpen={isVisible}
-      onClose={() => dispatch(toggleEditCategory(null))}
+      onClose={() => toggleEditCategory(null)}
       title="Editar"
     >
       <div>
@@ -74,7 +67,7 @@ export function EditCategory() {
               placeholder="%"
               className="max-width"
               value={percentage}
-              onChange={(e) => setPercentage(e.target.valueAsNumber)}
+              onChange={(e) => setPercentage(Number(e.target.value))}
             />
           </div>
           <div className={styles.buttons}>

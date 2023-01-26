@@ -1,16 +1,12 @@
 import { TbPlus } from 'react-icons/tb'
-import { useDispatch } from 'react-redux'
-import { toggleAddCategory } from '../../store/slices/ui-slice'
+import { useUiSlice } from '../../stores/ui-slice'
 import styles from './NoCard.module.scss'
 
 export function NoCard() {
-  const dispatch = useDispatch()
+  const { toggleAddCategory } = useUiSlice()
 
   return (
-    <div
-      className={styles['no-card']}
-      onClick={() => dispatch(toggleAddCategory(null))}
-    >
+    <div className={styles['no-card']} onClick={() => toggleAddCategory(null)}>
       <TbPlus className="icon" />
     </div>
   )

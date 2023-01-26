@@ -1,51 +1,41 @@
-import { serverTimestamp } from '@firebase/firestore'
 import { FormEvent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAddDocs } from '../../../hooks/useAddDocs'
-import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
-import { RootState } from '../../../store'
-import { toggleAddAmount } from '../../../store/slices/ui-slice'
+import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
+import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
+import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function AddAmount() {
   const [title, setTitle] = useState('')
   const [amount, setAmount] = useState(0)
-  const { isVisible, category } = useSelector(
-    (state: RootState) => state.ui.addAmount,
-  )
-  const dispatch = useDispatch()
-  const { handleUpdateDoc } = useUpdateDocs()
-  const { handleAddDocs } = useAddDocs()
+  const {
+    addAmount: { category, isVisible },
+    toggleAddAmount,
+  } = useUiSlice()
+  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
+  const { mutateAsync: createMutateAsync } = useCreateTransaction()
 
   function handleAddAmount(e: FormEvent) {
     e.preventDefault()
     if (!title || !amount) return
-    handleUpdateDoc({
+    updateMutateAsync({
       id: category?.id!,
-      collectionName: 'categories',
-      updatedFields: {
-        amount: category?.amount! + amount,
-      },
+      amount: category?.amount! + amount,
     })
-    handleAddDocs({
-      collectionName: 'transactions',
-      fields: {
-        amount,
-        title,
-        type: 'income',
-        date: serverTimestamp(),
-      },
+    createMutateAsync({
+      amount,
+      title,
+      type: 'income',
     })
     setTitle('')
     setAmount(0)
-    dispatch(toggleAddAmount(null))
+    toggleAddAmount(null)
   }
 
   return (
     <Modal
       isOpen={isVisible}
-      onClose={() => dispatch(toggleAddAmount(null))}
+      onClose={() => toggleAddAmount(null)}
       title="Adicionar"
     >
       <div>
@@ -74,7 +64,7 @@ export function AddAmount() {
               placeholder="R$"
               className="max-width"
               value={amount}
-              onChange={(e) => setAmount(e.target.valueAsNumber)}
+              onChange={(e) => setAmount(Number(e.target.value))}
             />
           </div>
           <div className={styles.buttons}>

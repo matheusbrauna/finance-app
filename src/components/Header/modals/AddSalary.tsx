@@ -1,51 +1,44 @@
-import { serverTimestamp } from '@firebase/firestore'
 import { FormEvent, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useAddDocs } from '../../../hooks/useAddDocs'
-import { useUpdateDocs } from '../../../hooks/useUpdateDocs'
-import { RootState } from '../../../store'
-import { toggleAddSalary } from '../../../store/slices/ui-slice'
+import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
+import { useGetCategories } from '../../../hooks/useGetCategories'
+import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
+import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
 import styles from '../../UI/Modal.module.scss'
 
 export function AddSalary() {
   const [amount, setAmount] = useState(0)
-  const { isVisible } = useSelector((state: RootState) => state.ui.addSalary)
-  const { categories } = useSelector((state: RootState) => state.app)
-  const dispatch = useDispatch()
-  const { handleUpdateDoc } = useUpdateDocs()
-  const { handleAddDocs } = useAddDocs()
+  const {
+    addSalary: { isVisible },
+    toggleAddSalary,
+  } = useUiSlice()
+  const categories = useGetCategories()
+  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
+  const { mutateAsync: createMutateAsync } = useCreateTransaction()
 
   function handleAddSalary(e: FormEvent) {
     e.preventDefault()
     if (!amount) return
     categories?.forEach((category) => {
       const totalAmount = (amount * category.percentage) / 100
-      handleUpdateDoc({
-        id: category?.id!,
-        collectionName: 'categories',
-        updatedFields: {
-          amount: category?.amount + totalAmount,
-        },
+      updateMutateAsync({
+        id: category?.id,
+        amount: category?.amount ?? 0 + totalAmount,
       })
-      handleAddDocs({
-        collectionName: 'transactions',
-        fields: {
-          amount,
-          title: `Salário em ${category.title}`,
-          type: 'income',
-          date: serverTimestamp(),
-        },
+      createMutateAsync({
+        amount,
+        title: `Salário em ${category.title}`,
+        type: 'income',
       })
     })
     setAmount(0)
-    dispatch(toggleAddSalary(null))
+    toggleAddSalary(null)
   }
 
   return (
     <Modal
       isOpen={isVisible}
-      onClose={() => dispatch(toggleAddSalary(null))}
+      onClose={() => toggleAddSalary(null)}
       title="Adicionar salário"
     >
       <div>
@@ -61,7 +54,7 @@ export function AddSalary() {
               placeholder="R$"
               className="max-width"
               value={amount}
-              onChange={(e) => setAmount(e.target.valueAsNumber)}
+              onChange={(e) => setAmount(Number(e.target.value))}
             />
           </div>
           <div className={styles.buttons}>
