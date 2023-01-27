@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { prisma } from '../../../services/prisma'
+import { getSession } from 'next-auth/react'
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,16 +8,16 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     const { amount, title, type } = req.body
-
-    const transactionAlreadyExists = await prisma.transaction.findFirst({
+    const session = await getSession({ req })
+    const user = await prisma.user.findUnique({
       where: {
-        title,
+        email: session?.user?.email ?? '',
       },
     })
 
-    if (transactionAlreadyExists) {
+    if (!user) {
       return res.status(400).json({
-        message: 'transaction already exists!',
+        message: 'User not found!',
       })
     }
 
@@ -25,14 +26,36 @@ export default async function handler(
         amount,
         title,
         type,
+        user: {
+          connect: {
+            email: user.email ?? '',
+          },
+        },
       },
     })
 
     return res.status(201).end()
   } else if (req.method === 'GET') {
-    const categories = await prisma.transaction.findMany()
+    const session = await getSession({ req })
+    const user = await prisma.user.findUnique({
+      where: {
+        email: session?.user?.email ?? '',
+      },
+    })
 
-    return res.status(200).json(categories)
+    if (!user) {
+      return res.status(400).json({
+        message: 'User not found!',
+      })
+    }
+
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        user,
+      },
+    })
+
+    return res.status(200).json(transactions)
   }
 
   return res.status(405).json({

@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react'
 import { useCloseMenu } from '../../hooks/useCloseMenu'
 import { useUiSlice } from '../../stores/ui-slice'
 import { CardMenu } from '../UI/CardMenu'
@@ -15,6 +16,16 @@ export function HeaderMenu({ onHandleToggleMenu }: HeaderMenuProps) {
   return (
     <CardMenu ref={menuRef}>
       <li onClick={() => toggleAddSalary(null)}>Adicionar salário</li>
+      <li
+        onClick={() =>
+          signOut({
+            redirect: true,
+            callbackUrl: '/login',
+          })
+        }
+      >
+        Fazer logout
+      </li>
     </CardMenu>
   )
 }

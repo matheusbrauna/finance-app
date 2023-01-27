@@ -22,6 +22,7 @@ export function TransferAmount() {
       .filter((title) => title !== category?.title)
 
     if (!options) return
+
     setOptions(options)
     setDestination(options[0])
   }, [categories, category?.title])
@@ -34,11 +35,11 @@ export function TransferAmount() {
     )
     mutateAsync({
       id: category?.id!,
-      amount: category?.amount ?? 0 - amount,
+      amount: category?.amount! - amount,
     })
     mutateAsync({
       id: destinationCategory?.id!,
-      amount: category?.amount ?? 0 + amount,
+      amount: category?.amount! + amount,
     })
     setAmount(0)
     toggleTransferAmount(null)
