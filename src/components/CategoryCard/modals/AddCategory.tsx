@@ -19,7 +19,6 @@ export function AddCategory() {
     await mutateAsync({
       title,
       percentage,
-      amount: 0,
     })
     setPercentage(0)
     setTitle('')

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { api } from '../services/api'
-import { queryClient } from '../services/queryClient'
+import { api } from '../lib/api'
+import { queryClient } from '../lib/queryClient'
 
 async function deleteCategory(id: string) {
   await api.delete(`/categories/${id}`)

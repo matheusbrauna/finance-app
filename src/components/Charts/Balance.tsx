@@ -10,6 +10,7 @@ import {
 import { Bar } from 'react-chartjs-2'
 import { useGetTransactions } from '../../hooks/useGetTransactions'
 import { Transaction } from '@prisma/client'
+import dayjs from 'dayjs'
 
 export function Balance() {
   const transactions = useGetTransactions()
@@ -25,7 +26,7 @@ export function Balance() {
   }
 
   function getMonth(date: Date) {
-    return date.toLocaleString('pt-BR', { month: 'long' })
+    return dayjs(date).format('DD/MM/YYYY HH:mm')
   }
 
   function getBalance(

@@ -1,15 +1,17 @@
-import { Prisma } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
-import { api } from '../services/api'
-import { queryClient } from '../services/queryClient'
+import { api } from '../lib/api'
+import { queryClient } from '../lib/queryClient'
+import { z } from 'zod'
 
-async function createCategory({
-  amount,
-  percentage,
-  title,
-}: Prisma.CategoryCreateInput) {
+const createCategoryBodyInput = z.object({
+  percentage: z.number(),
+  title: z.string(),
+})
+
+type CreateCategoryInput = z.input<typeof createCategoryBodyInput>
+
+async function createCategory({ percentage, title }: CreateCategoryInput) {
   await api.post('/categories', {
-    amount,
     percentage,
     title,
   })
@@ -18,7 +20,8 @@ async function createCategory({
 export function useCreateCategory() {
   const { mutate, mutateAsync } = useMutation(
     ['CreateCategory'],
-    (createInput: Prisma.CategoryCreateInput) => createCategory(createInput),
+    (createCategoryInput: CreateCategoryInput) =>
+      createCategory(createCategoryInput),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['GetCategories'])

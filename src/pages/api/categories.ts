@@ -1,6 +1,7 @@
+/* eslint-disable no-case-declarations */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import prisma from '../../../lib/prisma'
+import prisma from '../../lib/prisma'
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,27 +18,29 @@ export default async function handler(
     return res.redirect(400, '/login')
   }
 
-  if (req.method === 'DELETE') {
-    const categoryId = String(req.query.id)
-    await prisma.category.delete({
+  const { percentage, title } = req.body
+
+  if (req.method === 'GET') {
+    const categories = await prisma.category.findMany({
       where: {
-        id: categoryId,
+        user_id: user.userId,
+      },
+      orderBy: {
+        amount: 'desc',
       },
     })
 
-    return res.status(200).end()
-  } else if (req.method === 'PUT') {
-    const categoryId = String(req.query.id)
-    const { amount, title, percentage } = req.body
-
-    await prisma.category.updateMany({
-      where: {
-        id: categoryId,
-      },
+    return res.status(200).json(categories)
+  } else if (req.method === 'POST') {
+    await prisma.category.create({
       data: {
-        amount,
-        title,
         percentage,
+        title,
+        user: {
+          connect: {
+            id: user.userId,
+          },
+        },
       },
     })
 

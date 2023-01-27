@@ -1,7 +1,8 @@
+import '../lib/dayjs'
 import '../styles/global.scss'
 import type { AppProps } from 'next/app'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '../services/queryClient'
+import { queryClient } from '../lib/queryClient'
 import { SessionProvider } from 'next-auth/react'
 
 export default function App({

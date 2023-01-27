@@ -1,9 +1,8 @@
+import dayjs from 'dayjs'
+
 export function useGetDate(date: Date) {
-  const formattedDate = new Intl.DateTimeFormat('pt-BR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  }).format(date)
+  const dateFormat = 'DD [de] MMMM [de] YYYY'
+  const formattedDate = dayjs(date).format(dateFormat)
 
   return formattedDate
 }

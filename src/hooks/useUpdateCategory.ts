@@ -1,25 +1,35 @@
-import { Prisma } from '@prisma/client'
 import { useMutation } from '@tanstack/react-query'
-import { api } from '../services/api'
-import { queryClient } from '../services/queryClient'
+import { api } from '../lib/api'
+import { queryClient } from '../lib/queryClient'
+import { z } from 'zod'
+
+const updateCategoryBodyInput = z.object({
+  id: z.string(),
+  amount: z.number().optional(),
+  title: z.string().optional(),
+  percentage: z.number().optional(),
+})
+
+type UpdateCategoryInput = z.input<typeof updateCategoryBodyInput>
 
 async function updateCategory({
   id,
   amount,
   percentage,
   title,
-}: Prisma.CategoryUpdateInput) {
+}: UpdateCategoryInput) {
   await api.put(`/categories/${id}`, {
-    title,
     amount,
     percentage,
+    title,
   })
 }
 
 export function useUpdateCategory() {
   const { mutate, mutateAsync } = useMutation(
     ['UpdateCategory'],
-    (updateInput: Prisma.CategoryUpdateInput) => updateCategory(updateInput),
+    (updateCategoryInput: UpdateCategoryInput) =>
+      updateCategory(updateCategoryInput),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['GetCategories'])

@@ -15,22 +15,21 @@ export function EditCategory() {
     toggleEditCategory,
   } = useUiSlice()
 
-  function handleEditCategory(e: FormEvent) {
+  async function handleEditCategory(e: FormEvent) {
     e.preventDefault()
     if (!title || !percentage) return
-    updateMutateAsync({
-      id: category?.id,
-      amount: category?.amount,
-      percentage: category?.percentage,
-      title: category?.title,
+    await updateMutateAsync({
+      id: category?.id!,
+      percentage,
+      title,
     })
     setTitle('')
     setPercentage(0)
     toggleEditCategory(null)
   }
 
-  function handleRemoveCategory() {
-    deleteMutateAsync(category?.id ?? '')
+  async function handleRemoveCategory() {
+    await deleteMutateAsync(category?.id!)
     setTitle('')
     setPercentage(0)
     toggleEditCategory(null)

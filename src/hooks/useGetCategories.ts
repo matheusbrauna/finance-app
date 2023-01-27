@@ -1,6 +1,6 @@
 import { Category } from '@prisma/client'
 import { useQuery } from '@tanstack/react-query'
-import { api } from '../services/api'
+import { api } from '../lib/api'
 
 async function getCategories() {
   const { data } = await api.get<Category[]>('/categories')
