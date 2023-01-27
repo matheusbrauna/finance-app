@@ -5,6 +5,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: { domains: ['lh3.googleusercontent.com'] },
+  basePath: '/login',
 }
 
 module.exports = nextConfig
