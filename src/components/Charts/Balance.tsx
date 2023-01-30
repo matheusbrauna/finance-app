@@ -11,6 +11,7 @@ import { Bar } from 'react-chartjs-2'
 import { useGetTransactions } from '../../hooks/useGetTransactions'
 import { Transaction } from '@prisma/client'
 import dayjs from 'dayjs'
+import { Center, Spinner } from '@chakra-ui/react'
 
 export function Balance() {
   const transactions = useGetTransactions()
@@ -71,6 +72,11 @@ export function Balance() {
 
   return (
     <div>
+      {!data && (
+        <Center h="100vh">
+          <Spinner />
+        </Center>
+      )}
       <Bar options={options} data={data} />
     </div>
   )

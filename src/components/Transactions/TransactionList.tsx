@@ -1,4 +1,4 @@
-import { Box, Heading, List } from '@chakra-ui/react'
+import { Box, Center, Heading, List, Spinner } from '@chakra-ui/react'
 import { useGetTransactions } from '../../hooks/useGetTransactions'
 import { TransactionCard } from './TransactionCard'
 
@@ -19,7 +19,14 @@ export function TransactionList({ title, type }: TransactionListProps) {
       <Heading fontSize="2xl" mb="8">
         {title}
       </Heading>
-      <List>{transactionsData}</List>
+      <List>
+        {!transactionsData && (
+          <Center h="100vh">
+            <Spinner />
+          </Center>
+        )}
+        {transactionsData}
+      </List>
     </Box>
   )
 }

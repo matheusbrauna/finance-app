@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@chakra-ui/react'
+import { Center, SimpleGrid, Spinner } from '@chakra-ui/react'
 import { useGetCategories } from '../../hooks/useGetCategories'
 import { CategoryCard } from './CategoryCard'
 import { AddAmount } from './modals/AddAmount'
@@ -14,6 +14,11 @@ export function AllCards() {
   return (
     <>
       <SimpleGrid minChildWidth="20rem" gap={5}>
+        {!categories && (
+          <Center h="100vh">
+            <Spinner />
+          </Center>
+        )}
         {categories?.map((category) => (
           <CategoryCard key={category.id} data={category} />
         ))}

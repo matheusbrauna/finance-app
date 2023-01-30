@@ -5,7 +5,7 @@ import { Header } from '../components/Header/Header'
 import { Transactions } from '../components/Transactions/Transactions'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { VStack } from '@chakra-ui/react'
+import { VStack, Spinner, Center } from '@chakra-ui/react'
 
 export default function Home() {
   const { status } = useSession()
@@ -19,6 +19,11 @@ export default function Home() {
 
   return (
     <>
+      {status === 'loading' && (
+        <Center h="100vh">
+          <Spinner />
+        </Center>
+      )}
       {status === 'authenticated' && (
         <VStack p={4} spacing={10} align="stretch">
           <Header />
