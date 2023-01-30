@@ -1,9 +1,20 @@
-import styles from './CategoryCard.module.scss'
-import { TbPencil } from 'react-icons/tb'
 import { useGetCurrency } from '../../hooks/useGetCurrency'
-import { CategoryMenu } from './CategoryMenu'
-import { useMenu } from '../../hooks/useMenu'
 import { Category } from '@prisma/client'
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Heading,
+  Text,
+  MenuButton,
+  Menu,
+  MenuItem,
+  MenuList,
+  Icon,
+  VStack,
+} from '@chakra-ui/react'
+import { useUiSlice } from '../../stores/ui-slice'
+import { TbPencil } from 'react-icons/tb'
 
 interface CategoryCardProps {
   data: Category
@@ -11,20 +22,50 @@ interface CategoryCardProps {
 
 export function CategoryCard({ data }: CategoryCardProps) {
   const { title, amount, percentage } = data
-  const { isMenuVisible, handleToggleMenu } = useMenu()
   const { currency } = useGetCurrency(amount ?? 0)
+  const {
+    toggleEditCategory,
+    toggleAddAmount,
+    toggleSubtractAmount,
+    toggleTransferAmount,
+  } = useUiSlice()
 
   return (
-    <div className={styles.card}>
-      <div className={styles.edit}>
-        <TbPencil className="icon hover" onClick={handleToggleMenu} />
-        {isMenuVisible && (
-          <CategoryMenu onHandleToggleMenu={handleToggleMenu} data={data} />
-        )}
-      </div>
-      <h2>{title}</h2>
-      <h3>{currency}</h3>
-      <h4>Alocado: {percentage}%</h4>
-    </div>
+    <Card size="md" dropShadow="2xl">
+      <CardHeader
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Heading fontSize="2xl">{title}</Heading>
+        <Menu strategy="fixed" placement="bottom-end">
+          <MenuButton>
+            <Icon as={TbPencil} color="gray.500" fontSize="2xl" />
+          </MenuButton>
+          <MenuList as={VStack}>
+            <MenuItem onClick={() => toggleEditCategory(data)}>Editar</MenuItem>
+            <MenuItem onClick={() => toggleAddAmount(data)}>Adicionar</MenuItem>
+            <MenuItem onClick={() => toggleSubtractAmount(data)}>
+              Descontar
+            </MenuItem>
+            <MenuItem onClick={() => toggleTransferAmount(data)}>
+              Transferir
+            </MenuItem>
+          </MenuList>
+        </Menu>
+      </CardHeader>
+      <CardBody
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Heading fontSize="lg" color="gray.100">
+          {currency}
+        </Heading>
+        <Text fontSize="xs" color="gray.400">
+          Alocado: {percentage}%
+        </Text>
+      </CardBody>
+    </Card>
   )
 }

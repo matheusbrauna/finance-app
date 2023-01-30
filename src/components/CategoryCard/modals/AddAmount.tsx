@@ -1,9 +1,18 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
 import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function AddAmount() {
   const [title, setTitle] = useState('')
@@ -38,42 +47,33 @@ export function AddAmount() {
       onClose={() => toggleAddAmount(null)}
       title="Adicionar"
     >
-      <div>
-        <form onSubmit={handleAddAmount}>
-          <div className={styles['label-input']}>
-            <label htmlFor="title" className="p">
-              Título
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="Ex: venda do teclado"
+      <Box as="form" onSubmit={handleAddAmount}>
+        <ModalBody as={VStack} spacing={2}>
+          <FormControl>
+            <FormLabel fontSize="md">Título</FormLabel>
+            <Input
+              size="lg"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              color="gray.800"
             />
-          </div>
-          <div className={styles['label-input']}>
-            <label htmlFor="amount" className="p">
-              Valor
-            </label>
-            <input
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="md">Valor</FormLabel>
+            <Input
               type="number"
-              id="amount"
-              name="amount"
-              placeholder="R$"
-              className="max-width"
+              size="lg"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Adicionar
-            </button>
-          </div>
-        </form>
-      </div>
+          </FormControl>
+        </ModalBody>
+        <ModalFooter>
+          <Button type="submit" size="lg" colorScheme="green">
+            Adicionar
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }

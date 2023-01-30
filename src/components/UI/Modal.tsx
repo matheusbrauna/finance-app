@@ -1,48 +1,39 @@
-import styles from './Modal.module.scss'
-import { ReactNode, useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
-import { MdClose } from 'react-icons/md'
+import {
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  Modal as ChakraModal,
+  useBreakpointValue,
+} from '@chakra-ui/react'
+import { ReactNode } from 'react'
 
 interface ModalProps {
-  children: ReactNode
-  title: string
   isOpen: boolean
   onClose: () => void
+  children: ReactNode
+  title: string
 }
 
-export function Modal({
-  children,
-  isOpen = false,
-  onClose,
-  title = 'Título do modal',
-}: ModalProps) {
-  const [isClient, setIsClient] = useState(false)
+export function Modal({ isOpen, onClose, title, children }: ModalProps) {
+  const isMobile = useBreakpointValue({
+    base: true,
+    lg: false,
+  })
 
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  const modalWrapper = isOpen && (
-    <>
-      <div className={styles.modal}>
-        <div className={styles.heading}>
-          <h2>{title}</h2>
-          <button type="button" onClick={onClose}>
-            <MdClose className="icon hover" />
-          </button>
-        </div>
-        <p>{children}</p>
-      </div>
-      <div className={styles.overlay} onClick={onClose} />
-    </>
+  return (
+    <ChakraModal
+      size={isMobile ? 'lg' : 'xl'}
+      isOpen={isOpen}
+      onClose={onClose}
+      isCentered
+    >
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader fontSize="xl">{title}</ModalHeader>
+        <ModalCloseButton />
+        {children}
+      </ModalContent>
+    </ChakraModal>
   )
-
-  if (isClient) {
-    return ReactDOM.createPortal(
-      modalWrapper,
-      document.getElementById('modal-root')!,
-    )
-  } else {
-    return null
-  }
 }

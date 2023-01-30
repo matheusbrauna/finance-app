@@ -1,8 +1,17 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
 import { useCreateCategory } from '../../../hooks/useCreateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function AddCategory() {
   const [title, setTitle] = useState('')
@@ -31,42 +40,34 @@ export function AddCategory() {
       onClose={() => toggleAddCategory(null)}
       title="Nova Categoria"
     >
-      <div>
-        <form onSubmit={handleAddCategory}>
-          <div className={styles['label-input']}>
-            <label htmlFor="title" className="p">
-              Título
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
+      <Box as="form" onSubmit={handleAddCategory}>
+        <ModalBody as={VStack} spacing={2}>
+          <FormControl>
+            <FormLabel fontSize="md">Título</FormLabel>
+            <Input
+              size="lg"
               placeholder="Essencial"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          <div className={styles['label-input']}>
-            <label htmlFor="percentage" className="p">
-              Porcentagem Alocada
-            </label>
-            <input
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="md">Porcentagem Alocada</FormLabel>
+            <Input
+              size="lg"
               type="number"
-              id="percentage"
-              name="percentage"
               placeholder="%"
-              className="max-width"
               value={percentage}
               onChange={(e) => setPercentage(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Salvar
-            </button>
-          </div>
-        </form>
-      </div>
+          </FormControl>
+        </ModalBody>
+        <ModalFooter>
+          <Button type="submit" size="lg" colorScheme="green">
+            Salvar
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }

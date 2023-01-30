@@ -1,10 +1,19 @@
+import {
+  ModalBody,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalFooter,
+  Button,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
 import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 import { useGetCategories } from '../../../hooks/useGetCategories'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function AddSalary() {
   const [amount, setAmount] = useState(0)
@@ -41,29 +50,25 @@ export function AddSalary() {
       onClose={() => toggleAddSalary(null)}
       title="Adicionar salário"
     >
-      <div>
-        <form onSubmit={handleAddSalary}>
-          <div className={styles['label-input']}>
-            <label htmlFor="amount" className="p">
-              Valor
-            </label>
-            <input
+      <Box as="form" onSubmit={handleAddSalary}>
+        <ModalBody as={VStack} spacing={2}>
+          <FormControl>
+            <FormLabel fontSize="xl">Salário</FormLabel>
+            <Input
               type="number"
-              id="amount"
-              name="amount"
-              placeholder="R$"
-              className="max-width"
+              size="lg"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Adicionar
-            </button>
-          </div>
-        </form>
-      </div>
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button type="submit" colorScheme="green" size="lg">
+            Adicionar
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }

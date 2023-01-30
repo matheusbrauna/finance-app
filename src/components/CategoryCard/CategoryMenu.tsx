@@ -1,15 +1,12 @@
+import { Menu, MenuItem, MenuList } from '@chakra-ui/react'
 import { Category } from '@prisma/client'
-import { useCloseMenu } from '../../hooks/useCloseMenu'
 import { useUiSlice } from '../../stores/ui-slice'
-import { CardMenu } from '../UI/CardMenu'
 
 interface CategoryMenuProps {
-  onHandleToggleMenu: () => void
   data: Category
 }
 
-export function CategoryMenu({ onHandleToggleMenu, data }: CategoryMenuProps) {
-  const { menuRef } = useCloseMenu({ onHandleToggleMenu })
+export function CategoryMenu({ data }: CategoryMenuProps) {
   const {
     toggleEditCategory,
     toggleAddAmount,
@@ -18,11 +15,17 @@ export function CategoryMenu({ onHandleToggleMenu, data }: CategoryMenuProps) {
   } = useUiSlice()
 
   return (
-    <CardMenu ref={menuRef}>
-      <li onClick={() => toggleEditCategory(data)}>Editar</li>
-      <li onClick={() => toggleAddAmount(data)}>Adicionar</li>
-      <li onClick={() => toggleSubtractAmount(data)}>Descontar</li>
-      <li onClick={() => toggleTransferAmount(data)}>Transferir</li>
-    </CardMenu>
+    <Menu>
+      <MenuList>
+        <MenuItem onClick={() => toggleEditCategory(data)}>Editar</MenuItem>
+        <MenuItem onClick={() => toggleAddAmount(data)}>Adicionar</MenuItem>
+        <MenuItem onClick={() => toggleSubtractAmount(data)}>
+          Descontar
+        </MenuItem>
+        <MenuItem onClick={() => toggleTransferAmount(data)}>
+          Transferir
+        </MenuItem>
+      </MenuList>
+    </Menu>
   )
 }

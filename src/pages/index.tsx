@@ -3,9 +3,9 @@ import { AllCards } from '../components/CategoryCard/AllCards'
 import { Charts } from '../components/Charts/Charts'
 import { Header } from '../components/Header/Header'
 import { Transactions } from '../components/Transactions/Transactions'
-import styles from '../styles/initial.module.scss'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { VStack } from '@chakra-ui/react'
 
 export default function Home() {
   const { status } = useSession()
@@ -20,12 +20,12 @@ export default function Home() {
   return (
     <>
       {status === 'authenticated' && (
-        <main className={styles.main}>
+        <VStack p={4} spacing={10} align="stretch">
           <Header />
           <AllCards />
           <Charts />
           <Transactions />
-        </main>
+        </VStack>
       )}
     </>
   )

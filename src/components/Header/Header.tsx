@@ -1,34 +1,23 @@
-import Image from 'next/image'
-import { useMenu } from '../../hooks/useMenu'
-import styles from './Header.module.scss'
-import { HeaderMenu } from './HeaderMenu'
 import { AddSalary } from './modals/AddSalary'
 import { useSession } from 'next-auth/react'
+import { Box, Flex, Heading, Text } from '@chakra-ui/react'
+import { HeaderMenu } from './HeaderMenu'
 
 export function Header() {
-  const { handleToggleMenu, isMenuVisible } = useMenu()
   const { data } = useSession()
 
   return (
     <>
+      <Flex align="center" justify="space-between">
+        <Box>
+          <Heading fontSize="2xl">
+            Olá {data?.user?.name}, senti saudades 😄!
+          </Heading>
+          <Text fontWeight="medium">Sua carteira está esperando por você</Text>
+        </Box>
+        <HeaderMenu />
+      </Flex>
       <AddSalary />
-      <section className={styles.header}>
-        <div className={styles.message}>
-          <h1>Olá {data?.user?.name}, senti saudades 😄!</h1>
-          <h2>Sua carteira está esperando por você</h2>
-        </div>
-        <div className={styles.avatar}>
-          <Image
-            src={data?.user?.image ?? ''}
-            alt="avatar"
-            fill
-            onClick={handleToggleMenu}
-          />
-          {isMenuVisible && (
-            <HeaderMenu onHandleToggleMenu={handleToggleMenu} />
-          )}
-        </div>
-      </section>
     </>
   )
 }

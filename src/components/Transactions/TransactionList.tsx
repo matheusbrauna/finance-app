@@ -1,6 +1,6 @@
+import { Box, Heading, List } from '@chakra-ui/react'
 import { useGetTransactions } from '../../hooks/useGetTransactions'
 import { TransactionCard } from './TransactionCard'
-import styles from './TransactionList.module.scss'
 
 interface TransactionListProps {
   title: string
@@ -15,11 +15,11 @@ export function TransactionList({ title, type }: TransactionListProps) {
     .map((el) => <TransactionCard key={el.id} transaction={el} />)
 
   return (
-    <div className={styles.transactions}>
-      <h2>{title}</h2>
-      <div>
-        <ul className={styles.list}>{transactionsData}</ul>
-      </div>
-    </div>
+    <Box w="full">
+      <Heading fontSize="2xl" mb="8">
+        {title}
+      </Heading>
+      <List>{transactionsData}</List>
+    </Box>
   )
 }

@@ -1,9 +1,18 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
 import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function SubtractAmount() {
   const [title, setTitle] = useState('')
@@ -38,42 +47,35 @@ export function SubtractAmount() {
       onClose={() => toggleSubtractAmount(null)}
       title="Descontar"
     >
-      <div>
-        <form onSubmit={handleSubtractAmount}>
-          <div className={styles['label-input']}>
-            <label htmlFor="title" className="p">
-              Título
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
+      <Box as="form" onSubmit={handleSubtractAmount}>
+        <ModalBody as={VStack} spacing={2}>
+          <FormControl>
+            <FormLabel fontSize="md">Título</FormLabel>
+            <Input
+              size="lg"
               placeholder="Ex: gasolina do carro"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          <div className={styles['label-input']}>
-            <label htmlFor="amount" className="p">
-              Valor
-            </label>
-            <input
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="md">Valor</FormLabel>
+            <Input
+              size="lg"
               type="number"
-              id="amount"
-              name="amount"
               placeholder="R$"
-              className="max-width"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Descontar
-            </button>
-          </div>
-        </form>
-      </div>
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button type="submit" size="lg" colorScheme="green">
+            Descontar
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }

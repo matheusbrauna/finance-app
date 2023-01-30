@@ -1,9 +1,19 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  ModalBody,
+  ModalFooter,
+  Select,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useEffect, useState } from 'react'
 import { useGetCategories } from '../../../hooks/useGetCategories'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function TransferAmount() {
   const [destination, setDestination] = useState('')
@@ -49,20 +59,13 @@ export function TransferAmount() {
     <Modal
       isOpen={isVisible}
       onClose={() => toggleTransferAmount(null)}
-      title="Transferir"
+      title={`Transferir de ${category?.title ?? 'Não encontrado'}`}
     >
-      <div>
-        <form onSubmit={handleTransferAmount}>
-          <div className={styles['label-input']}>
-            <p>De</p>
-            <p className="caption">{category?.title ?? 'Não encontrado'}</p>
-          </div>
-          <div className={styles['label-input']}>
-            <label htmlFor="destination">Para</label>
-            <select
-              name="destination"
-              id="destination"
-              className="max-width"
+      <Box as="form" onSubmit={handleTransferAmount}>
+        <ModalBody as={VStack} spacing={2} alignItems="flex-start">
+          <FormControl>
+            <FormLabel fontSize="md">Para</FormLabel>
+            <Select
               value={destination}
               onChange={(e) => setDestination(e.target.value)}
             >
@@ -71,27 +74,26 @@ export function TransferAmount() {
                   {option}
                 </option>
               ))}
-            </select>
-          </div>
-          <div className={styles['label-input']}>
-            <label className="p">Valor</label>
-            <input
+            </Select>
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="md">Valor</FormLabel>
+            <Input
+              size="lg"
               type="number"
-              id="amount"
-              name="amount"
               placeholder="R$"
-              className="max-width"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Transferir
-            </button>
-          </div>
-        </form>
-      </div>
+          </FormControl>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button type="submit" size="lg" colorScheme="green">
+            Transferir
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }

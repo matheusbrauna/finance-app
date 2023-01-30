@@ -1,31 +1,53 @@
-import { signOut } from 'next-auth/react'
-import { useCloseMenu } from '../../hooks/useCloseMenu'
+import {
+  Avatar,
+  Button,
+  Popover,
+  PopoverArrow,
+  PopoverContent,
+  PopoverTrigger,
+  Portal,
+} from '@chakra-ui/react'
+import { signOut, useSession } from 'next-auth/react'
 import { useUiSlice } from '../../stores/ui-slice'
-import { CardMenu } from '../UI/CardMenu'
 
-interface HeaderMenuProps {
-  onHandleToggleMenu: () => void
-}
-
-export function HeaderMenu({ onHandleToggleMenu }: HeaderMenuProps) {
-  const { menuRef } = useCloseMenu({
-    onHandleToggleMenu,
-  })
+export function HeaderMenu() {
   const { toggleAddSalary } = useUiSlice()
+  const { data } = useSession()
 
   return (
-    <CardMenu ref={menuRef}>
-      <li onClick={() => toggleAddSalary(null)}>Adicionar salário</li>
-      <li
-        onClick={() =>
-          signOut({
-            redirect: true,
-            callbackUrl: '/login',
-          })
-        }
-      >
-        Fazer logout
-      </li>
-    </CardMenu>
+    <Popover placement="bottom-start">
+      <PopoverTrigger>
+        <Avatar
+          name={data?.user.name}
+          size="lg"
+          cursor="pointer"
+          src={data?.user?.image ?? ''}
+        />
+      </PopoverTrigger>
+      <Portal>
+        <PopoverContent>
+          <PopoverArrow />
+          <Button
+            variant="ghost"
+            onClick={() => toggleAddSalary(null)}
+            colorScheme="blue"
+          >
+            Adicionar salário
+          </Button>
+          <Button
+            variant="ghost"
+            colorScheme="blue"
+            onClick={() =>
+              signOut({
+                redirect: true,
+                callbackUrl: '/login',
+              })
+            }
+          >
+            Fazer logout
+          </Button>
+        </PopoverContent>
+      </Portal>
+    </Popover>
   )
 }

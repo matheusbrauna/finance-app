@@ -1,5 +1,5 @@
+import { SimpleGrid } from '@chakra-ui/react'
 import { useGetCategories } from '../../hooks/useGetCategories'
-import styles from './AllCards.module.scss'
 import { CategoryCard } from './CategoryCard'
 import { AddAmount } from './modals/AddAmount'
 import { AddCategory } from './modals/AddCategory'
@@ -13,17 +13,17 @@ export function AllCards() {
 
   return (
     <>
+      <SimpleGrid minChildWidth="20rem" gap={5}>
+        {categories?.map((category) => (
+          <CategoryCard key={category.id} data={category} />
+        ))}
+        <NoCard />
+      </SimpleGrid>
       <AddAmount />
       <SubtractAmount />
       <TransferAmount />
       <EditCategory />
       <AddCategory />
-      <section className={styles.section}>
-        {categories?.map((category) => (
-          <CategoryCard key={category.id} data={category} />
-        ))}
-        <NoCard />
-      </section>
     </>
   )
 }

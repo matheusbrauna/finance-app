@@ -1,9 +1,19 @@
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+  ModalBody,
+  ModalFooter,
+  VStack,
+} from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
 import { useDeleteCategory } from '../../../hooks/useDeleteCategory'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
-import styles from '../../UI/Modal.module.scss'
 
 export function EditCategory() {
   const [title, setTitle] = useState('')
@@ -41,49 +51,44 @@ export function EditCategory() {
       onClose={() => toggleEditCategory(null)}
       title="Editar"
     >
-      <div>
-        <form onSubmit={handleEditCategory}>
-          <div className={styles['label-input']}>
-            <label htmlFor="title" className="p">
-              Título
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
+      <Box as="form" onSubmit={handleEditCategory}>
+        <ModalBody as={VStack} spacing={2}>
+          <FormControl>
+            <FormLabel fontSize="md">Título</FormLabel>
+            <Input
+              size="lg"
               value={title}
+              placeholder={category?.title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
-          <div className={styles['label-input']}>
-            <label htmlFor="percentage" className="p">
-              Porcentagem Alocada
-            </label>
-            <input
+          </FormControl>
+          <FormControl>
+            <FormLabel fontSize="md">Porcentagem Alocada</FormLabel>
+            <Input
               type="number"
-              id="percentage"
-              name="percentage"
+              size="lg"
               placeholder="%"
-              className="max-width"
               value={percentage}
               onChange={(e) => setPercentage(Number(e.target.value))}
             />
-          </div>
-          <div className={styles.buttons}>
-            <button type="submit" className="btn btn-primary">
-              Salvar
-            </button>
+          </FormControl>
+        </ModalBody>
+        <ModalFooter as={HStack} spacing={2}>
+          <Button type="submit" size="lg" colorScheme="green">
+            Salvar
+          </Button>
 
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={handleRemoveCategory}
-            >
-              Excluir
-            </button>
-          </div>
-        </form>
-      </div>
+          <Button
+            type="button"
+            size="lg"
+            colorScheme="red"
+            variant="outline"
+            onClick={handleRemoveCategory}
+          >
+            Excluir
+          </Button>
+        </ModalFooter>
+      </Box>
     </Modal>
   )
 }
