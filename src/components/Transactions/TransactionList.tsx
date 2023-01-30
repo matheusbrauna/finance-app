@@ -16,7 +16,7 @@ export function TransactionList({ title, type }: TransactionListProps) {
 
   return (
     <Box w="full">
-      <Heading fontSize="2xl" mb="8">
+      <Heading fontSize={['xl', '2xl']} mb="8">
         {title}
       </Heading>
       <List>

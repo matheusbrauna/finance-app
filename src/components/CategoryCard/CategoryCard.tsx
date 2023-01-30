@@ -31,16 +31,16 @@ export function CategoryCard({ data }: CategoryCardProps) {
   } = useUiSlice()
 
   return (
-    <Card size="md" dropShadow="2xl">
+    <Card size={['sm', 'md']} dropShadow="2xl">
       <CardHeader
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Heading fontSize="2xl">{title}</Heading>
+        <Heading fontSize={['xl', '2xl']}>{title}</Heading>
         <Menu strategy="fixed" placement="bottom-end">
           <MenuButton>
-            <Icon as={TbPencil} color="gray.500" fontSize="2xl" />
+            <Icon as={TbPencil} color="gray.500" fontSize={['xl', '2xl']} />
           </MenuButton>
           <MenuList as={VStack}>
             <MenuItem onClick={() => toggleEditCategory(data)}>Editar</MenuItem>

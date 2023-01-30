@@ -1,11 +1,12 @@
 import { TransactionList } from './TransactionList'
-import { HStack } from '@chakra-ui/react'
+import { Stack } from '@chakra-ui/react'
 
 export function Transactions() {
   return (
-    <HStack
+    <Stack
+      direction={['column', 'column', 'row']}
       align="stretch"
-      spacing="12"
+      spacing="10"
       bg="gray.700"
       p="4"
       rounded="lg"
@@ -13,6 +14,6 @@ export function Transactions() {
     >
       <TransactionList title="Entradas" type="income" />
       <TransactionList title="Despesas" type="outcome" />
-    </HStack>
+    </Stack>
   )
 }

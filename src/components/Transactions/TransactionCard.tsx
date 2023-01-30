@@ -27,7 +27,7 @@ export function TransactionCard({ transaction }: TransactionCardProps) {
         borderColor: 'gray.600',
       }}
     >
-      <HStack align="center" spacing={4}>
+      <HStack align="center" spacing={[2, 4]}>
         <Center
           bg={`${transactionTypeColor[transaction.type]}.400`}
           w="12"
@@ -37,14 +37,19 @@ export function TransactionCard({ transaction }: TransactionCardProps) {
           <Icon as={TbCurrencyDollar} color="white" fontSize="2xl" />
         </Center>
         <Box>
-          <Text fontWeight="medium">{transaction.title}</Text>
-          <Text color="gray.300">{formattedDate}</Text>
+          <Text fontWeight="medium" fontSize={['sm', 'base']}>
+            {transaction.title}
+          </Text>
+          <Text color="gray.300" fontSize={['xs', 'base']}>
+            {formattedDate}
+          </Text>
         </Box>
       </HStack>
       <Box>
         <Text
           color={`${transactionTypeColor[transaction.type]}.400`}
           fontWeight="semibold"
+          fontSize={['sm', 'base']}
         >
           {currency}
         </Text>

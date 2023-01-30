@@ -4,7 +4,6 @@ import {
   ModalHeader,
   ModalCloseButton,
   Modal as ChakraModal,
-  useBreakpointValue,
 } from '@chakra-ui/react'
 import { ReactNode } from 'react'
 
@@ -16,14 +15,9 @@ interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
-  const isMobile = useBreakpointValue({
-    base: true,
-    lg: false,
-  })
-
   return (
     <ChakraModal
-      size={isMobile ? 'lg' : 'xl'}
+      size={['sm', 'xl']}
       isOpen={isOpen}
       onClose={onClose}
       isCentered

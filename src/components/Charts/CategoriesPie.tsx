@@ -2,7 +2,7 @@ import React from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 import { useGetCategories } from '../../hooks/useGetCategories'
-import { Center, Spinner } from '@chakra-ui/react'
+import { Box, Center, Spinner } from '@chakra-ui/react'
 
 export function CategoriesPie() {
   const categories = useGetCategories()
@@ -40,13 +40,13 @@ export function CategoriesPie() {
   }
 
   return (
-    <div>
+    <Box>
       {!data && (
         <Center h="100vh">
           <Spinner />
         </Center>
       )}
       <Doughnut options={options} data={data} />
-    </div>
+    </Box>
   )
 }

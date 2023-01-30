@@ -19,7 +19,7 @@ export function HeaderMenu() {
       <PopoverTrigger>
         <Avatar
           name={data?.user.name}
-          size="lg"
+          size={['md', 'lg']}
           cursor="pointer"
           src={data?.user?.image ?? ''}
         />

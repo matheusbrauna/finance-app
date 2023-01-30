@@ -13,7 +13,7 @@ export function AllCards() {
 
   return (
     <>
-      <SimpleGrid minChildWidth="20rem" gap={5}>
+      <SimpleGrid minChildWidth={['full', '20rem']} gap={5}>
         {!categories && (
           <Center h="100vh">
             <Spinner />

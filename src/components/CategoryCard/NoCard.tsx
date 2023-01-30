@@ -19,7 +19,7 @@ export function NoCard() {
       border="1px solid"
       borderColor="green.500"
       minH="full"
-      h="36"
+      h={['32', '36']}
     >
       <Icon as={TbPlus} fontSize="6xl" color="green.500" />
     </Card>
