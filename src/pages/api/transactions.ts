@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import prisma from '../../lib/prisma'
@@ -37,11 +36,7 @@ export default async function handler(
         amount,
         title,
         type,
-        user: {
-          connect: {
-            id: user.userId,
-          },
-        },
+        user_id: user.userId,
       },
     })
 

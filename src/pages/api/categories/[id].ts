@@ -33,6 +33,9 @@ export default async function handler(
     await prisma.category.updateMany({
       where: {
         id: categoryId,
+        AND: {
+          user_id: user.userId,
+        },
       },
       data: {
         amount,

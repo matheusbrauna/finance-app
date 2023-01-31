@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
 import prisma from '../../lib/prisma'
@@ -10,7 +9,7 @@ export default async function handler(
   const session = await getSession()
   const user = await prisma.session.findFirst({
     where: {
-      userId: session?.user?.id!,
+      userId: session?.user.id,
     },
   })
 
@@ -32,15 +31,26 @@ export default async function handler(
 
     return res.status(200).json(categories)
   } else if (req.method === 'POST') {
+    const categoryAlreadyExists = await prisma.category.findFirst({
+      where: {
+        user_id: user.userId,
+        AND: {
+          title,
+        },
+      },
+    })
+
+    if (categoryAlreadyExists) {
+      return res.status(400).json({
+        message: 'Category Already exists',
+      })
+    }
+
     await prisma.category.create({
       data: {
         percentage,
         title,
-        user: {
-          connect: {
-            id: user.userId,
-          },
-        },
+        user_id: user.userId,
       },
     })
 
