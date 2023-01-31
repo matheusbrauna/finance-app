@@ -7,16 +7,28 @@ import {
   ModalFooter,
   Button,
   VStack,
+  FormErrorMessage,
 } from '@chakra-ui/react'
-import { FormEvent, useState } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 import { useGetCategories } from '../../../hooks/useGetCategories'
 import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
 
+const addSalaryFormSchema = z.object({
+  amount: z
+    .number({
+      invalid_type_error: 'Campo obrigatório',
+    })
+    .min(1, { message: 'Valor precisar ser maior que 0' }),
+})
+
+type AddSalaryFormData = z.infer<typeof addSalaryFormSchema>
+
 export function AddSalary() {
-  const [amount, setAmount] = useState(0)
   const {
     addSalary: { isVisible },
     toggleAddSalary,
@@ -24,10 +36,16 @@ export function AddSalary() {
   const categories = useGetCategories()
   const { mutateAsync: updateMutateAsync } = useUpdateCategory()
   const { mutateAsync: createMutateAsync } = useCreateTransaction()
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<AddSalaryFormData>({
+    resolver: zodResolver(addSalaryFormSchema),
+  })
 
-  function handleAddSalary(e: FormEvent) {
-    e.preventDefault()
-    if (!amount) return
+  function handleAddSalary({ amount }: AddSalaryFormData) {
     categories?.forEach((category) => {
       const totalAmount = (amount * category.percentage) / 100
       updateMutateAsync({
@@ -40,7 +58,7 @@ export function AddSalary() {
         type: 'income',
       })
     })
-    setAmount(0)
+    reset()
     toggleAddSalary(null)
   }
 
@@ -50,21 +68,28 @@ export function AddSalary() {
       onClose={() => toggleAddSalary(null)}
       title="Adicionar salário"
     >
-      <Box as="form" onSubmit={handleAddSalary}>
+      <Box as="form" onSubmit={handleSubmit(handleAddSalary)}>
         <ModalBody as={VStack} spacing={2}>
-          <FormControl>
+          <FormControl isInvalid={!!errors.amount}>
             <FormLabel fontSize="xl">Salário</FormLabel>
             <Input
               type="number"
               size="lg"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              {...register('amount', { valueAsNumber: true, value: 0 })}
             />
+            <FormErrorMessage>
+              {errors.amount && errors.amount?.message}
+            </FormErrorMessage>
           </FormControl>
         </ModalBody>
 
         <ModalFooter>
-          <Button type="submit" colorScheme="green" size="lg">
+          <Button
+            type="submit"
+            colorScheme="green"
+            size="lg"
+            disabled={isSubmitting}
+          >
             Adicionar
           </Button>
         </ModalFooter>

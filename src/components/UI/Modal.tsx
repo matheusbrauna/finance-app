@@ -17,7 +17,7 @@ interface ModalProps {
 export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   return (
     <ChakraModal
-      size={['sm', 'xl']}
+      size={['xs', 'xl']}
       isOpen={isOpen}
       onClose={onClose}
       isCentered
