@@ -7,6 +7,7 @@ CREATE TABLE `transactions` (
     `date` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `type` ENUM('income', 'outcome') NOT NULL,
 
+    INDEX `transactions_user_id_idx`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -18,6 +19,7 @@ CREATE TABLE `categories` (
     `amount` INTEGER NULL DEFAULT 0,
     `percentage` INTEGER NOT NULL,
 
+    INDEX `categories_user_id_idx`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -36,6 +38,7 @@ CREATE TABLE `accounts` (
     `id_token` TEXT NULL,
     `session_state` VARCHAR(191) NULL,
 
+    INDEX `accounts_user_id_idx`(`user_id`),
     UNIQUE INDEX `accounts_provider_provider_account_id_key`(`provider`, `provider_account_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -48,6 +51,7 @@ CREATE TABLE `sessions` (
     `expires` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `sessions_session_token_key`(`session_token`),
+    INDEX `sessions_user_id_idx`(`user_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -72,15 +76,3 @@ CREATE TABLE `verificationtokens` (
     UNIQUE INDEX `verificationtokens_token_key`(`token`),
     UNIQUE INDEX `verificationtokens_identifier_token_key`(`identifier`, `token`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `transactions` ADD CONSTRAINT `transactions_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `categories` ADD CONSTRAINT `categories_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `accounts` ADD CONSTRAINT `accounts_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `sessions` ADD CONSTRAINT `sessions_user_id_fkey` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
