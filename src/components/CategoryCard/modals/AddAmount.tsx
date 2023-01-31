@@ -55,7 +55,6 @@ export function AddAmount() {
               size="lg"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              color="gray.800"
             />
           </FormControl>
           <FormControl>

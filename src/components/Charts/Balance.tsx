@@ -71,7 +71,7 @@ export function Balance() {
   }
 
   return (
-    <Box overflowY="scroll">
+    <Box>
       {!data && (
         <Center h="100vh">
           <Spinner />

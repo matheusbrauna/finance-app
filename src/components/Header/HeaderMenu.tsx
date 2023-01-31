@@ -30,13 +30,13 @@ export function HeaderMenu() {
           <Button
             variant="ghost"
             onClick={() => toggleAddSalary(null)}
-            colorScheme="blue"
+            colorScheme="green"
           >
             Adicionar salário
           </Button>
           <Button
             variant="ghost"
-            colorScheme="blue"
+            colorScheme="red"
             onClick={() =>
               signOut({
                 redirect: true,

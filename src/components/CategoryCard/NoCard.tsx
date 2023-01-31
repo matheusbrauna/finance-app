@@ -17,11 +17,11 @@ export function NoCard() {
       }}
       dropShadow="2xl"
       border="1px solid"
-      borderColor="green.500"
+      borderColor="green.300"
       minH="full"
       h={['32', '36']}
     >
-      <Icon as={TbPlus} fontSize="6xl" color="green.500" />
+      <Icon as={TbPlus} fontSize="6xl" color="green.300" />
     </Card>
   )
 }

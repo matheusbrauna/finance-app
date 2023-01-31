@@ -6,7 +6,7 @@ export function Charts() {
   return (
     <Grid
       gridTemplateColumns={[
-        'repeat(1, minmax(0, 1fr))',
+        'repeat(1, minmax(0, 2fr 1fr))',
         'repeat(2, minmax(0, 1fr))',
       ]}
       bg="gray.700"
