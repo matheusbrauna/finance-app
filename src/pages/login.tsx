@@ -1,21 +1,20 @@
-import { signIn, useSession } from 'next-auth/react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Button, Center, Container, Heading, Icon } from '@chakra-ui/react'
+import { useCallback } from 'react'
 import { TbBrandGoogle } from 'react-icons/tb'
 
 export default function Login() {
-  const session = useSession()
-  const { push } = useRouter()
+  const router = useRouter()
 
-  async function handleLogin() {
-    await signIn('google')
-  }
-
-  const isSignedIn = session.status === 'authenticated'
-
-  if (isSignedIn) {
-    push(`/`)
-  }
+  const handleLogin = useCallback(() => {
+    if (router.isReady) {
+      const callbackUrl: string = router.query.callbackUrl as string
+      signIn('google', {
+        callbackUrl: callbackUrl ?? '/',
+      })
+    }
+  }, [router.isReady, router.query.callbackUrl])
 
   return (
     <Container>
@@ -26,7 +25,6 @@ export default function Login() {
         <Button
           type="button"
           onClick={handleLogin}
-          disabled={isSignedIn || session.status === 'loading'}
           rightIcon={<Icon as={TbBrandGoogle} />}
           colorScheme="green"
         >

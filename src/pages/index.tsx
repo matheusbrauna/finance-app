@@ -9,9 +9,19 @@ import { GetServerSideProps } from 'next'
 import { getCategories } from '../hooks/useGetCategories'
 import { getTransactions } from '../hooks/useGetTransactions'
 import { queryClient } from '../lib/queryClient'
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 export default function Home() {
   const { status } = useSession()
+
+  const { push } = useRouter()
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      push('/login')
+    }
+  }, [push, status])
 
   return (
     <>
