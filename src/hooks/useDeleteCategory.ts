@@ -7,7 +7,7 @@ export async function deleteCategory(id: string) {
 
 export function useDeleteCategory() {
   const queryClient = useQueryClient()
-  const { mutate, mutateAsync } = useMutation(
+  const { mutate, mutateAsync, isLoading } = useMutation(
     ['DeleteCategory'],
     (id: string) => deleteCategory(id),
     {
@@ -20,5 +20,6 @@ export function useDeleteCategory() {
   return {
     mutate,
     mutateAsync,
+    isLoading,
   }
 }

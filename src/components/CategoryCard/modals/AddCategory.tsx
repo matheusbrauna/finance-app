@@ -83,7 +83,7 @@ export function AddCategory() {
             type="submit"
             size="lg"
             colorScheme="green"
-            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Salvar
           </Button>

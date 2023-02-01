@@ -88,7 +88,7 @@ export function AddSalary() {
             type="submit"
             colorScheme="green"
             size="lg"
-            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Adicionar
           </Button>

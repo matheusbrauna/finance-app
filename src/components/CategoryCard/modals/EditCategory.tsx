@@ -39,7 +39,7 @@ type EditCategoryFormData = z.infer<typeof editCategoryFormSchema>
 
 export function EditCategory() {
   const { mutateAsync: updateMutateAsync } = useUpdateCategory()
-  const { mutateAsync: deleteMutateAsync } = useDeleteCategory()
+  const { mutateAsync: deleteMutateAsync, isLoading } = useDeleteCategory()
   const {
     editCategory: { category, isVisible },
     toggleEditCategory,
@@ -114,6 +114,7 @@ export function EditCategory() {
               colorScheme="red"
               variant="outline"
               onClick={onOpen}
+              isLoading={isLoading}
             >
               Excluir
             </Button>
@@ -121,7 +122,7 @@ export function EditCategory() {
               type="submit"
               size="lg"
               colorScheme="green"
-              disabled={isSubmitting}
+              isLoading={isSubmitting}
             >
               Salvar
             </Button>

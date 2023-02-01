@@ -82,7 +82,7 @@ export function AddAmount() {
             type="submit"
             size="lg"
             colorScheme="green"
-            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Adicionar
           </Button>

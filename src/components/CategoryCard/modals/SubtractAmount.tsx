@@ -103,7 +103,7 @@ export function SubtractAmount() {
             type="submit"
             size="lg"
             colorScheme="green"
-            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Descontar
           </Button>

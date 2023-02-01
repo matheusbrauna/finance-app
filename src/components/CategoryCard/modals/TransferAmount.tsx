@@ -118,7 +118,7 @@ export function TransferAmount() {
             type="submit"
             size="lg"
             colorScheme="green"
-            disabled={isSubmitting}
+            isLoading={isSubmitting}
           >
             Transferir
           </Button>

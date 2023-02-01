@@ -59,7 +59,7 @@ export function CategoryCard({ data }: CategoryCardProps) {
         alignItems="center"
       >
         <Heading fontSize="lg" color="gray.100">
-          {currency}
+          {currency ?? 'atualizando...'}
         </Heading>
         <Text fontSize="xs" color="gray.400">
           Alocado: {percentage}%
