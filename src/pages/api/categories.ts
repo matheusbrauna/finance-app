@@ -25,7 +25,7 @@ export default async function handler(
         user_id: user.userId,
       },
       orderBy: {
-        amount: 'desc',
+        title: 'asc',
       },
     })
 

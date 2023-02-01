@@ -1,6 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../lib/api'
-import { queryClient } from '../lib/queryClient'
 import { z } from 'zod'
 
 const createCategoryBodyInput = z.object({
@@ -10,7 +9,10 @@ const createCategoryBodyInput = z.object({
 
 type CreateCategoryInput = z.input<typeof createCategoryBodyInput>
 
-async function createCategory({ percentage, title }: CreateCategoryInput) {
+export async function createCategory({
+  percentage,
+  title,
+}: CreateCategoryInput) {
   await api.post('/categories', {
     percentage,
     title,
@@ -18,6 +20,7 @@ async function createCategory({ percentage, title }: CreateCategoryInput) {
 }
 
 export function useCreateCategory() {
+  const queryClient = useQueryClient()
   const { mutate, mutateAsync } = useMutation(
     ['CreateCategory'],
     (createCategoryInput: CreateCategoryInput) =>

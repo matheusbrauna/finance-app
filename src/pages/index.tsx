@@ -3,19 +3,15 @@ import { AllCards } from '../components/CategoryCard/AllCards'
 import { Charts } from '../components/Charts/Charts'
 import { Header } from '../components/Header/Header'
 import { Transactions } from '../components/Transactions/Transactions'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { VStack, Spinner, Center } from '@chakra-ui/react'
+import { dehydrate } from '@tanstack/react-query'
+import { GetServerSideProps } from 'next'
+import { getCategories } from '../hooks/useGetCategories'
+import { getTransactions } from '../hooks/useGetTransactions'
+import { queryClient } from '../lib/queryClient'
 
 export default function Home() {
   const { status } = useSession()
-  const { push } = useRouter()
-
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      push('/login')
-    }
-  }, [push, status])
 
   return (
     <>
@@ -34,4 +30,21 @@ export default function Home() {
       )}
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  await Promise.all([
+    queryClient.prefetchQuery(['GetCategories'], getCategories, {
+      staleTime: 0,
+    }),
+    queryClient.prefetchQuery(['GetTransactions'], getTransactions, {
+      staleTime: 0,
+    }),
+  ])
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  }
 }

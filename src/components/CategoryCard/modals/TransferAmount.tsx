@@ -25,14 +25,13 @@ const transferAmountFormSchema = z.object({
       invalid_type_error: 'Campo obrigatório',
     })
     .min(1, { message: 'Valor precisar ser maior que 0' }),
-  destination: z.string().min(1, {
-    message: 'Você não possui outras categorias ou nenhuma foi selecionada!',
-  }),
+  destination: z.string(),
 })
 
 type TransferAmountFormData = z.infer<typeof transferAmountFormSchema>
 
 export function TransferAmount() {
+  const [destination, setDestination] = useState('')
   const [options, setOptions] = useState([''])
   const {
     transferAmount: { isVisible, category },
@@ -47,6 +46,9 @@ export function TransferAmount() {
     formState: { errors, isSubmitting },
   } = useForm<TransferAmountFormData>({
     resolver: zodResolver(transferAmountFormSchema),
+    defaultValues: {
+      destination: options[0],
+    },
   })
 
   useEffect(() => {
@@ -56,13 +58,11 @@ export function TransferAmount() {
 
     if (!options) return
 
-    setOptions(options)
+    setOptions(options!)
+    setDestination(options[0])
   }, [categories, category?.title])
 
-  function handleTransferAmount({
-    amount,
-    destination,
-  }: TransferAmountFormData) {
+  function handleTransferAmount({ amount }: TransferAmountFormData) {
     const destinationCategory = categories?.find(
       (category) => category.title === destination,
     )
@@ -72,7 +72,7 @@ export function TransferAmount() {
     })
     mutateAsync({
       id: destinationCategory?.id!,
-      amount: category?.amount! + amount,
+      amount: destinationCategory?.amount! + amount,
     })
     reset()
     toggleTransferAmount(null)
@@ -88,7 +88,7 @@ export function TransferAmount() {
         <ModalBody as={VStack} spacing={2} alignItems="flex-start">
           <FormControl isInvalid={!!errors.destination}>
             <FormLabel fontSize="md">Para</FormLabel>
-            <Select {...register('destination', { value: options[0] ?? '' })}>
+            <Select {...register('destination')}>
               {options.map((option, i) => (
                 <option key={i} value={option}>
                   {option}

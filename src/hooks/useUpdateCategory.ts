@@ -1,6 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../lib/api'
-import { queryClient } from '../lib/queryClient'
 import { z } from 'zod'
 
 const updateCategoryBodyInput = z.object({
@@ -12,7 +11,7 @@ const updateCategoryBodyInput = z.object({
 
 type UpdateCategoryInput = z.input<typeof updateCategoryBodyInput>
 
-async function updateCategory({
+export async function updateCategory({
   id,
   amount,
   percentage,
@@ -26,6 +25,7 @@ async function updateCategory({
 }
 
 export function useUpdateCategory() {
+  const queryClient = useQueryClient()
   const { mutate, mutateAsync } = useMutation(
     ['UpdateCategory'],
     (updateCategoryInput: UpdateCategoryInput) =>

@@ -1,12 +1,12 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../lib/api'
-import { queryClient } from '../lib/queryClient'
 
-async function deleteCategory(id: string) {
+export async function deleteCategory(id: string) {
   await api.delete(`/categories/${id}`)
 }
 
 export function useDeleteCategory() {
+  const queryClient = useQueryClient()
   const { mutate, mutateAsync } = useMutation(
     ['DeleteCategory'],
     (id: string) => deleteCategory(id),

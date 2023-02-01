@@ -1,6 +1,5 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../lib/api'
-import { queryClient } from '../lib/queryClient'
 import { z } from 'zod'
 
 const createTransactionBodyInput = z.object({
@@ -9,13 +8,13 @@ const createTransactionBodyInput = z.object({
   amount: z.number(),
 })
 
-type createTransactionInput = z.input<typeof createTransactionBodyInput>
+type CreateTransactionInput = z.input<typeof createTransactionBodyInput>
 
-async function createTransaction({
+export async function createTransaction({
   amount,
   type,
   title,
-}: createTransactionInput) {
+}: CreateTransactionInput) {
   await api.post('/transactions', {
     amount,
     type,
@@ -24,9 +23,10 @@ async function createTransaction({
 }
 
 export function useCreateTransaction() {
+  const queryClient = useQueryClient()
   const { mutate, mutateAsync } = useMutation(
     ['CreateTransaction'],
-    (createTransactionInput: createTransactionInput) =>
+    (createTransactionInput: CreateTransactionInput) =>
       createTransaction(createTransactionInput),
     {
       onSuccess: () => {

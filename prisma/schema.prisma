@@ -26,11 +26,12 @@ model Transaction {
 }
 
 model Category {
-  id         String  @id @default(uuid())
+  id         String   @id @default(uuid())
   user_id    String?
   title      String
-  amount     Int?    @default(0)
+  amount     Int?     @default(0)
   percentage Int
+  createdAt  DateTime @default(now())
 
   user User? @relation(fields: [user_id], references: [id])
 
