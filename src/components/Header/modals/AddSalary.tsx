@@ -46,13 +46,13 @@ export function AddSalary() {
   })
 
   function handleAddSalary({ amount }: AddSalaryFormData) {
-    categories?.forEach((category) => {
+    categories?.forEach(async (category) => {
       const totalAmount = (amount * category.percentage) / 100
-      updateMutateAsync({
+      await updateMutateAsync({
         id: category?.id,
         amount: category?.amount! + totalAmount,
       })
-      createMutateAsync({
+      await createMutateAsync({
         amount,
         title: `Salário em ${category.title}`,
         type: 'income',
@@ -70,7 +70,7 @@ export function AddSalary() {
     >
       <Box as="form" onSubmit={handleSubmit(handleAddSalary)}>
         <ModalBody as={VStack} spacing={2}>
-          <FormControl isInvalid={!!errors.amount}>
+          <FormControl>
             <FormLabel fontSize="xl">Salário</FormLabel>
             <Input
               type="number"

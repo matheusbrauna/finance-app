@@ -37,8 +37,8 @@ export function HeaderMenu() {
           <Button
             variant="ghost"
             colorScheme="red"
-            onClick={() =>
-              signOut({
+            onClick={async () =>
+              await signOut({
                 redirect: true,
                 callbackUrl: '/login',
               })

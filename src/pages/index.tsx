@@ -10,18 +10,22 @@ import { getCategories } from '../hooks/useGetCategories'
 import { getTransactions } from '../hooks/useGetTransactions'
 import { queryClient } from '../lib/queryClient'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export default function Home() {
   const { status } = useSession()
 
   const { push } = useRouter()
 
-  useEffect(() => {
+  const redirectToLoginPage = useCallback(async () => {
     if (status === 'unauthenticated') {
-      push('/login')
+      await push('/login')
     }
   }, [push, status])
+
+  useEffect(() => {
+    redirectToLoginPage()
+  }, [redirectToLoginPage])
 
   return (
     <>

@@ -13,7 +13,6 @@ export default function MyDocument() {
       </Head>
       <body>
         <Main />
-        <div id="modal-root" />
         <NextScript />
       </body>
     </Html>

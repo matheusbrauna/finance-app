@@ -48,12 +48,15 @@ export function SubtractAmount() {
     resolver: zodResolver(subtractAmountFormSchema),
   })
 
-  function handleSubtractAmount({ amount, title }: SubtractAmountFormData) {
-    updateMutateAsync({
+  async function handleSubtractAmount({
+    amount,
+    title,
+  }: SubtractAmountFormData) {
+    await updateMutateAsync({
       id: category?.id!,
       amount: category?.amount! - amount,
     })
-    createMutateAsync({
+    await createMutateAsync({
       amount,
       title,
       type: 'outcome',

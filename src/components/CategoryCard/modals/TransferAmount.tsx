@@ -62,15 +62,15 @@ export function TransferAmount() {
     setDestination(options[0])
   }, [categories, category?.title])
 
-  function handleTransferAmount({ amount }: TransferAmountFormData) {
+  async function handleTransferAmount({ amount }: TransferAmountFormData) {
     const destinationCategory = categories?.find(
       (category) => category.title === destination,
     )
-    mutateAsync({
+    await mutateAsync({
       id: category?.id!,
       amount: category?.amount! - amount,
     })
-    mutateAsync({
+    await mutateAsync({
       id: destinationCategory?.id!,
       amount: destinationCategory?.amount! + amount,
     })

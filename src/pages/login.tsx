@@ -7,10 +7,10 @@ import { TbBrandGoogle } from 'react-icons/tb'
 export default function Login() {
   const router = useRouter()
 
-  const handleLogin = useCallback(() => {
+  const handleLogin = useCallback(async () => {
     if (router.isReady) {
       const callbackUrl: string = router.query.callbackUrl as string
-      signIn('google', {
+      await signIn('google', {
         callbackUrl: callbackUrl ?? '/',
       })
     }

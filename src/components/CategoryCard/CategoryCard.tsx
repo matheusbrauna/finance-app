@@ -11,7 +11,6 @@ import {
   MenuItem,
   MenuList,
   Icon,
-  VStack,
 } from '@chakra-ui/react'
 import { useUiSlice } from '../../stores/ui-slice'
 import { TbPencil } from 'react-icons/tb'
@@ -42,7 +41,7 @@ export function CategoryCard({ data }: CategoryCardProps) {
           <MenuButton>
             <Icon as={TbPencil} color="gray.500" fontSize={['xl', '2xl']} />
           </MenuButton>
-          <MenuList as={VStack}>
+          <MenuList>
             <MenuItem onClick={() => toggleEditCategory(data)}>Editar</MenuItem>
             <MenuItem onClick={() => toggleAddAmount(data)}>Adicionar</MenuItem>
             <MenuItem onClick={() => toggleSubtractAmount(data)}>

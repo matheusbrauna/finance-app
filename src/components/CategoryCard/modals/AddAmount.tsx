@@ -40,12 +40,12 @@ export function AddAmount() {
     resolver: zodResolver(addAmountFormSchema),
   })
 
-  function handleAddAmount({ amount, title }: AddAmountFormData) {
-    updateMutateAsync({
+  async function handleAddAmount({ amount, title }: AddAmountFormData) {
+    await updateMutateAsync({
       id: category?.id!,
       amount: category?.amount! + amount,
     })
-    createMutateAsync({
+    await createMutateAsync({
       amount,
       title,
       type: 'income',
@@ -62,7 +62,7 @@ export function AddAmount() {
     >
       <Box as="form" onSubmit={handleSubmit(handleAddAmount)}>
         <ModalBody as={VStack} spacing={2}>
-          <FormControl>
+          <FormControl isInvalid={!!errors.title}>
             <FormLabel fontSize="md">Título</FormLabel>
             <Input size="lg" {...register('title')} />
             <FormErrorMessage>{errors.title?.message}</FormErrorMessage>
