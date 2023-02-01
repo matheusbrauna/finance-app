@@ -1,19 +1,21 @@
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { Center, Container, Heading } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { Button, Center, Container, Heading, Icon } from '@chakra-ui/react'
+import { TbBrandGoogle } from 'react-icons/tb'
 
 export default function Login() {
-  const router = useRouter()
+  const session = useSession()
+  const { push } = useRouter()
 
-  useEffect(() => {
-    if (router.isReady) {
-      const callbackUrl: string = router.query.callbackUrl as string
-      signIn('google', {
-        callbackUrl: callbackUrl ?? '/',
-      })
-    }
-  }, [router.isReady, router.query.callbackUrl])
+  async function handleLogin() {
+    await signIn('google')
+  }
+
+  const isSignedIn = session.status === 'authenticated'
+
+  if (isSignedIn) {
+    push(`/`)
+  }
 
   return (
     <Container>
@@ -21,6 +23,15 @@ export default function Login() {
         <Heading fontSize="xl" textAlign="center">
           Conecte sua conta do Google e comece a usar!
         </Heading>
+        <Button
+          type="button"
+          onClick={handleLogin}
+          disabled={isSignedIn || session.status === 'loading'}
+          rightIcon={<Icon as={TbBrandGoogle} />}
+          colorScheme="green"
+        >
+          Conectar
+        </Button>
       </Center>
     </Container>
   )
