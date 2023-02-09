@@ -8,10 +8,10 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { useGetTransactions } from '../../hooks/useGetTransactions'
 import { Transaction } from '@prisma/client'
 import dayjs from 'dayjs'
 import { Box, Center, Spinner } from '@chakra-ui/react'
+import { useGetTransactions } from '../../hooks/useGetTransactions'
 
 export function Balance() {
   const transactions = useGetTransactions()
@@ -46,13 +46,13 @@ export function Balance() {
   const labels = [
     ...new Set(
       [...(transactions ?? [])].map((transaction) =>
-        getMonth(transaction.date),
+        getMonth(new Date(transaction.date)),
       ),
     ),
   ]
 
-  const incomes = getBalance(labels, 'income', transactions!)
-  const expenses = getBalance(labels, 'outcome', transactions!)
+  const incomes = getBalance(labels, 'income', transactions ?? [])
+  const expenses = getBalance(labels, 'outcome', transactions ?? [])
 
   const data = {
     labels,

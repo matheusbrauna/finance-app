@@ -1,36 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '../lib/api'
-import { z } from 'zod'
-
-const createCategoryBodyInput = z.object({
-  percentage: z.number(),
-  title: z.string(),
-})
-
-type CreateCategoryInput = z.input<typeof createCategoryBodyInput>
-
-export async function createCategory({
-  percentage,
-  title,
-}: CreateCategoryInput) {
-  await api.post('/categories', {
-    percentage,
-    title,
-  })
-}
+import { trpc } from '../utils/trpc'
 
 export function useCreateCategory() {
-  const queryClient = useQueryClient()
-  const { mutate, mutateAsync } = useMutation(
-    ['CreateCategory'],
-    (createCategoryInput: CreateCategoryInput) =>
-      createCategory(createCategoryInput),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['GetCategories'])
-      },
-    },
-  )
+  const utils = trpc.useContext()
+  const { mutate, mutateAsync } = trpc.category.create.useMutation({
+    onSuccess: () => utils.category.list.invalidate(),
+  })
 
   return {
     mutate,

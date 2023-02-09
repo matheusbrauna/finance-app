@@ -1,21 +1,10 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { api } from '../lib/api'
-
-export async function deleteCategory(id: string) {
-  await api.delete(`/categories/${id}`)
-}
+import { trpc } from '../utils/trpc'
 
 export function useDeleteCategory() {
-  const queryClient = useQueryClient()
-  const { mutate, mutateAsync, isLoading } = useMutation(
-    ['DeleteCategory'],
-    (id: string) => deleteCategory(id),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['GetCategories'])
-      },
-    },
-  )
+  const utils = trpc.useContext()
+  const { mutate, mutateAsync, isLoading } = trpc.category.delete.useMutation({
+    onSuccess: () => utils.category.list.invalidate(),
+  })
 
   return {
     mutate,

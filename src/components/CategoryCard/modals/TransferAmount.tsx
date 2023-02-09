@@ -68,11 +68,15 @@ export function TransferAmount() {
     )
     await mutateAsync({
       id: category?.id!,
-      amount: category?.amount! - amount,
+      updateFields: {
+        amount: category?.amount! - amount,
+      },
     })
     await mutateAsync({
       id: destinationCategory?.id!,
-      amount: destinationCategory?.amount! + amount,
+      updateFields: {
+        amount: destinationCategory?.amount! + amount,
+      },
     })
     reset()
     toggleTransferAmount(null)

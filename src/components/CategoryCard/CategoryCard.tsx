@@ -1,5 +1,4 @@
 import { useGetCurrency } from '../../hooks/useGetCurrency'
-import { Category } from '@prisma/client'
 import {
   Card,
   CardBody,
@@ -14,9 +13,10 @@ import {
 } from '@chakra-ui/react'
 import { useUiSlice } from '../../stores/ui-slice'
 import { TbPencil } from 'react-icons/tb'
+import { Category } from '@prisma/client'
 
 interface CategoryCardProps {
-  data: Category
+  data: Omit<Category, 'createdAt'>
 }
 
 export function CategoryCard({ data }: CategoryCardProps) {

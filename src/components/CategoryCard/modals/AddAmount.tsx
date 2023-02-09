@@ -12,10 +12,10 @@ import {
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
 import { Modal } from '../../UI/Modal'
+import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
+import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 
 const addAmountFormSchema = z.object({
   amount: z.number(),
@@ -43,7 +43,9 @@ export function AddAmount() {
   async function handleAddAmount({ amount, title }: AddAmountFormData) {
     await updateMutateAsync({
       id: category?.id!,
-      amount: category?.amount! + amount,
+      updateFields: {
+        amount: category?.amount! + amount,
+      },
     })
     await createMutateAsync({
       amount,

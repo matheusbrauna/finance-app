@@ -50,7 +50,9 @@ export function AddSalary() {
       const totalAmount = (amount * category.percentage) / 100
       await updateMutateAsync({
         id: category?.id,
-        amount: category?.amount! + totalAmount,
+        updateFields: {
+          amount: category?.amount! + totalAmount,
+        },
       })
       await createMutateAsync({
         amount,

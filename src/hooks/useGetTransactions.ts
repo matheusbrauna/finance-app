@@ -1,15 +1,19 @@
-import { useQuery } from '@tanstack/react-query'
-import { api } from '../lib/api'
 import { Transaction } from '@prisma/client'
-
-export async function getTransactions() {
-  const { data } = await api.get<Transaction[]>('/transactions')
-
-  return data
-}
+import { trpc } from '../utils/trpc'
 
 export function useGetTransactions() {
-  const { data } = useQuery(['GetTransactions'], getTransactions)
+  const { data } = trpc.transaction.list.useQuery()
 
-  return data
+  const transactions: Transaction[] | undefined = data?.transactions.map(
+    (transaction) => ({
+      id: transaction.id,
+      title: transaction.title,
+      date: new Date(transaction.date),
+      amount: transaction.amount,
+      type: transaction.type,
+      user_id: transaction.user_id,
+    }),
+  )
+
+  return transactions
 }

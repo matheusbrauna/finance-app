@@ -54,7 +54,9 @@ export function SubtractAmount() {
   }: SubtractAmountFormData) {
     await updateMutateAsync({
       id: category?.id!,
-      amount: category?.amount! - amount,
+      updateFields: {
+        amount: category?.amount! - amount,
+      },
     })
     await createMutateAsync({
       amount,

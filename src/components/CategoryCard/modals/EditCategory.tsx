@@ -61,15 +61,19 @@ export function EditCategory() {
   }: EditCategoryFormData) {
     await updateMutateAsync({
       id: category?.id!,
-      percentage,
-      title,
+      updateFields: {
+        percentage,
+        title,
+      },
     })
     reset()
     toggleEditCategory(null)
   }
 
   async function handleRemoveCategory() {
-    await deleteMutateAsync(category?.id!)
+    await deleteMutateAsync({
+      id: category?.id!,
+    })
     toggleEditCategory(null)
     onClose()
   }

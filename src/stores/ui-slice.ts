@@ -4,34 +4,34 @@ import { create } from 'zustand'
 interface UISliceProps {
   addAmount: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
   subtractAmount: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
   transferAmount: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
   editCategory: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
   addCategory: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
   addSalary: {
     isVisible: boolean
-    category: Category | null
+    category: Omit<Category, 'createdAt'> | null
   }
-  toggleAddAmount: (category: Category | null) => void
-  toggleSubtractAmount: (category: Category | null) => void
-  toggleTransferAmount: (category: Category | null) => void
-  toggleEditCategory: (category: Category | null) => void
-  toggleAddCategory: (category: Category | null) => void
-  toggleAddSalary: (category: Category | null) => void
+  toggleAddAmount: (category: Omit<Category, 'createdAt'> | null) => void
+  toggleSubtractAmount: (category: Omit<Category, 'createdAt'> | null) => void
+  toggleTransferAmount: (category: Omit<Category, 'createdAt'> | null) => void
+  toggleEditCategory: (category: Omit<Category, 'createdAt'> | null) => void
+  toggleAddCategory: (category: Omit<Category, 'createdAt'> | null) => void
+  toggleAddSalary: (category: Omit<Category, 'createdAt'> | null) => void
 }
 
 const initialState = {
@@ -63,7 +63,7 @@ const initialState = {
 
 export const useUiSlice = create<UISliceProps>((set) => ({
   ...initialState,
-  toggleAddAmount: (category: Category | null) =>
+  toggleAddAmount: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       addAmount: {
@@ -71,7 +71,7 @@ export const useUiSlice = create<UISliceProps>((set) => ({
         category,
       },
     })),
-  toggleSubtractAmount: (category: Category | null) =>
+  toggleSubtractAmount: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       subtractAmount: {
@@ -79,7 +79,7 @@ export const useUiSlice = create<UISliceProps>((set) => ({
         category,
       },
     })),
-  toggleTransferAmount: (category: Category | null) =>
+  toggleTransferAmount: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       transferAmount: {
@@ -87,7 +87,7 @@ export const useUiSlice = create<UISliceProps>((set) => ({
         category,
       },
     })),
-  toggleEditCategory: (category: Category | null) =>
+  toggleEditCategory: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       editCategory: {
@@ -95,7 +95,7 @@ export const useUiSlice = create<UISliceProps>((set) => ({
         category,
       },
     })),
-  toggleAddCategory: (category: Category | null) =>
+  toggleAddCategory: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       addCategory: {
@@ -103,7 +103,7 @@ export const useUiSlice = create<UISliceProps>((set) => ({
         category,
       },
     })),
-  toggleAddSalary: (category: Category | null) =>
+  toggleAddSalary: (category: Omit<Category, 'createdAt'> | null) =>
     set((state) => ({
       ...state,
       addSalary: {

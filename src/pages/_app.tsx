@@ -1,32 +1,22 @@
 import '../lib/dayjs'
 import type { AppProps } from 'next/app'
-import {
-  Hydrate,
-  HydrateProps,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
 import { Session } from 'next-auth'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../styles/theme'
-import { useState } from 'react'
+import { trpc } from '../utils/trpc'
 
-export default function App({
+function App({
   Component,
-  pageProps: { session, dehydratedState, ...pageProps },
-}: AppProps<{ session: Session; dehydratedState: HydrateProps['state'] }>) {
-  const [queryClient] = useState(() => new QueryClient())
-
+  pageProps: { session, ...pageProps },
+}: AppProps<{ session: Session }>) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={dehydratedState}>
-        <SessionProvider session={session}>
-          <ChakraProvider theme={theme}>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </SessionProvider>
-      </Hydrate>
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </SessionProvider>
   )
 }
+
+export default trpc.withTRPC(App)

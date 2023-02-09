@@ -1,18 +1,19 @@
 import { Category } from '@prisma/client'
-import { useQuery } from '@tanstack/react-query'
-import { api } from '../lib/api'
-
-export async function getCategories() {
-  const { data } = await api.get<Category[]>('/categories')
-
-  return data
-}
+import { trpc } from '../utils/trpc'
 
 export function useGetCategories() {
-  const { data } = useQuery({
-    queryKey: ['GetCategories'],
-    queryFn: getCategories,
-  })
+  const { data } = trpc.category.list.useQuery()
 
-  return data
+  const categories: Category[] | undefined = data?.categories.map(
+    (category) => ({
+      id: category.id,
+      title: category.title,
+      amount: category.amount,
+      createdAt: new Date(category.createdAt),
+      percentage: category.percentage,
+      user_id: category.user_id,
+    }),
+  )
+
+  return categories
 }
