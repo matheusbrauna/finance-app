@@ -1,10 +1,15 @@
-import { inferAsyncReturnType } from '@trpc/server'
-import { prisma } from '../utils/prisma'
+import * as trpc from '@trpc/server'
+import * as trpcNext from '@trpc/server/adapters/next'
+import { getSession } from 'next-auth/react'
 
-export async function createContext() {
+export const createContext = async (
+  opts: trpcNext.CreateNextContextOptions,
+) => {
+  const session = await getSession(opts)
+
   return {
-    prisma,
+    session,
   }
 }
 
-export type Context = inferAsyncReturnType<typeof createContext>
+export type Context = trpc.inferAsyncReturnType<typeof createContext>

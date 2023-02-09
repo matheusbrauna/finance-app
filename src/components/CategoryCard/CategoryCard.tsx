@@ -16,18 +16,14 @@ import { TbPencil } from 'react-icons/tb'
 import { Category } from '@prisma/client'
 
 interface CategoryCardProps {
-  data: Omit<Category, 'createdAt'>
+  data: Category
 }
 
 export function CategoryCard({ data }: CategoryCardProps) {
   const { title, amount, percentage } = data
   const { currency } = useGetCurrency(amount ?? 0)
-  const {
-    toggleEditCategory,
-    toggleAddAmount,
-    toggleSubtractAmount,
-    toggleTransferAmount,
-  } = useUiSlice()
+  const { toggleEditCategory, toggleAddAmount, toggleSubtractAmount } =
+    useUiSlice()
 
   return (
     <Card size={['sm', 'md']} dropShadow="2xl">
@@ -46,9 +42,6 @@ export function CategoryCard({ data }: CategoryCardProps) {
             <MenuItem onClick={() => toggleAddAmount(data)}>Adicionar</MenuItem>
             <MenuItem onClick={() => toggleSubtractAmount(data)}>
               Descontar
-            </MenuItem>
-            <MenuItem onClick={() => toggleTransferAmount(data)}>
-              Transferir
             </MenuItem>
           </MenuList>
         </Menu>

@@ -1,27 +1,13 @@
 import { TRPCError } from '@trpc/server'
-import { getSession } from 'next-auth/react'
 import { z } from 'zod'
-import { procedure, router } from '../trpc'
+import { prisma } from '../../utils/prisma'
+import { authedProcedure, router } from '../trpc'
 
 export const categoryRouter = router({
-  list: procedure.query(async ({ ctx }) => {
-    const session = await getSession()
-    const user = await ctx.prisma.account.findFirst({
+  list: authedProcedure.query(async ({ ctx }) => {
+    const categories = await prisma.category.findMany({
       where: {
-        userId: session?.user?.id!,
-      },
-    })
-
-    if (!user) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'User not found!',
-      })
-    }
-
-    const categories = await ctx.prisma.category.findMany({
-      where: {
-        user_id: user.userId,
+        user_id: ctx.user.id,
       },
       orderBy: {
         title: 'asc',
@@ -30,7 +16,7 @@ export const categoryRouter = router({
 
     return { categories }
   }),
-  create: procedure
+  create: authedProcedure
     .input(
       z.object({
         percentage: z.number(),
@@ -38,23 +24,9 @@ export const categoryRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const session = await getSession()
-      const user = await ctx.prisma.account.findFirst({
+      const categoryAlreadyExists = await prisma.category.findFirst({
         where: {
-          userId: session?.user?.id!,
-        },
-      })
-
-      if (!user) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'User not found!',
-        })
-      }
-
-      const categoryAlreadyExists = await ctx.prisma.category.findFirst({
-        where: {
-          user_id: user.userId,
+          user_id: ctx.user.id,
           AND: {
             title: input.title,
           },
@@ -68,16 +40,20 @@ export const categoryRouter = router({
         })
       }
 
-      await ctx.prisma.category.create({
+      await prisma.category.create({
         data: {
           percentage: input.percentage,
           title: input.title,
-          user_id: user.userId,
+          user: {
+            connect: {
+              id: ctx.user.id,
+            },
+          },
         },
       })
     }),
 
-  update: procedure
+  update: authedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -88,29 +64,12 @@ export const categoryRouter = router({
         }),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
-      const session = await getSession()
-      const user = await ctx.prisma.account.findFirst({
-        where: {
-          userId: session?.user?.id!,
-        },
-      })
-
-      if (!user) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'User not found!',
-        })
-      }
-
+    .mutation(async ({ input }) => {
       const { amount, title, percentage } = input.updateFields
 
-      await ctx.prisma.category.updateMany({
+      await prisma.category.updateMany({
         where: {
           id: input.id,
-          AND: {
-            user_id: user.userId,
-          },
         },
         data: {
           amount,
@@ -119,14 +78,14 @@ export const categoryRouter = router({
         },
       })
     }),
-  delete: procedure
+  delete: authedProcedure
     .input(
       z.object({
         id: z.string(),
       }),
     )
-    .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.category.delete({
+    .mutation(async ({ input }) => {
+      await prisma.category.delete({
         where: {
           id: input.id,
         },

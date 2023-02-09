@@ -1,27 +1,12 @@
-import { TRPCError } from '@trpc/server'
-import { getSession } from 'next-auth/react'
 import { z } from 'zod'
-import { procedure, router } from '../trpc'
+import { prisma } from '../../utils/prisma'
+import { authedProcedure, router } from '../trpc'
 
 export const transactionRouter = router({
-  list: procedure.query(async ({ ctx }) => {
-    const session = await getSession()
-    const user = await ctx.prisma.account.findFirst({
+  list: authedProcedure.query(async ({ ctx }) => {
+    const transactions = await prisma.transaction.findMany({
       where: {
-        userId: session?.user?.id!,
-      },
-    })
-
-    if (!user) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'User not found!',
-      })
-    }
-
-    const transactions = await ctx.prisma.transaction.findMany({
-      where: {
-        user_id: user.userId,
+        user_id: ctx.user.id,
       },
       orderBy: {
         date: 'desc',
@@ -30,7 +15,7 @@ export const transactionRouter = router({
 
     return { transactions }
   }),
-  create: procedure
+  create: authedProcedure
     .input(
       z.object({
         amount: z.number(),
@@ -39,26 +24,16 @@ export const transactionRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const session = await getSession()
-      const user = await ctx.prisma.account.findFirst({
-        where: {
-          userId: session?.user?.id!,
-        },
-      })
-
-      if (!user) {
-        throw new TRPCError({
-          code: 'BAD_REQUEST',
-          message: 'User not found!',
-        })
-      }
-
-      await ctx.prisma.transaction.create({
+      await prisma.transaction.create({
         data: {
           amount: input.amount,
           title: input.title,
           type: input.type,
-          user_id: user.userId,
+          user: {
+            connect: {
+              id: ctx.user.id,
+            },
+          },
         },
       })
     }),

@@ -51,6 +51,7 @@ export function TransferAmount() {
     },
   })
 
+  // Not Working yet
   useEffect(() => {
     const options = categories
       ?.map((category) => category.title)
