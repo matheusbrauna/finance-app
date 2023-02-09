@@ -6,7 +6,7 @@ import { procedure, router } from '../trpc'
 export const categoryRouter = router({
   list: procedure.query(async ({ ctx }) => {
     const session = await getSession()
-    const user = await ctx.prisma.session.findFirst({
+    const user = await ctx.prisma.account.findFirst({
       where: {
         userId: session?.user?.id!,
       },
@@ -39,7 +39,7 @@ export const categoryRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const session = await getSession()
-      const user = await ctx.prisma.session.findFirst({
+      const user = await ctx.prisma.account.findFirst({
         where: {
           userId: session?.user?.id!,
         },
@@ -90,7 +90,7 @@ export const categoryRouter = router({
     )
     .mutation(async ({ input, ctx }) => {
       const session = await getSession()
-      const user = await ctx.prisma.session.findFirst({
+      const user = await ctx.prisma.account.findFirst({
         where: {
           userId: session?.user?.id!,
         },
