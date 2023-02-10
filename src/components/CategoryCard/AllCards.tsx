@@ -5,6 +5,7 @@ import { AddAmount } from './modals/AddAmount'
 import { AddCategory } from './modals/AddCategory'
 import { EditCategory } from './modals/EditCategory'
 import { SubtractAmount } from './modals/SubtractAmount'
+import { TransferAmount } from './modals/TransferAmount'
 import { NoCard } from './NoCard'
 
 export function AllCards() {
@@ -27,6 +28,7 @@ export function AllCards() {
       <SubtractAmount />
       <EditCategory />
       <AddCategory />
+      <TransferAmount />
     </>
   )
 }

@@ -51,7 +51,6 @@ export function TransferAmount() {
     },
   })
 
-  // Not Working yet
   useEffect(() => {
     const options = categories
       ?.map((category) => category.title)
@@ -61,7 +60,7 @@ export function TransferAmount() {
 
     setOptions(options!)
     setDestination(options[0])
-  }, [categories, category?.title])
+  }, [category?.title])
 
   async function handleTransferAmount({ amount }: TransferAmountFormData) {
     const destinationCategory = categories?.find(
