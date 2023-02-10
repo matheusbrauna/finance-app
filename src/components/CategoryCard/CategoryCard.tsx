@@ -22,8 +22,12 @@ interface CategoryCardProps {
 export function CategoryCard({ data }: CategoryCardProps) {
   const { title, amount, percentage } = data
   const { currency } = useGetCurrency(amount ?? 0)
-  const { toggleEditCategory, toggleAddAmount, toggleSubtractAmount } =
-    useUiSlice()
+  const {
+    toggleEditCategory,
+    toggleAddAmount,
+    toggleSubtractAmount,
+    toggleTransferAmount,
+  } = useUiSlice()
 
   return (
     <Card size={['sm', 'md']} dropShadow="2xl">
@@ -42,6 +46,9 @@ export function CategoryCard({ data }: CategoryCardProps) {
             <MenuItem onClick={() => toggleAddAmount(data)}>Adicionar</MenuItem>
             <MenuItem onClick={() => toggleSubtractAmount(data)}>
               Descontar
+            </MenuItem>
+            <MenuItem onClick={() => toggleTransferAmount(data)}>
+              Transferir
             </MenuItem>
           </MenuList>
         </Menu>
