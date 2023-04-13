@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { createTRPCRouter, privateProcedure } from '../trpc'
+import { createTRPCRouter, protectedProcedure } from '../trpc'
 
 export const categoriesRouter = createTRPCRouter({
-  getAll: privateProcedure.query(async ({ ctx }) =>
+  getAll: protectedProcedure.query(async ({ ctx }) =>
     ctx.prisma.category.findMany({
       where: {
-        user_id: ctx.userId,
+        user_id: ctx.auth.userId,
       },
       orderBy: [
         {
@@ -14,7 +14,7 @@ export const categoriesRouter = createTRPCRouter({
       ],
     }),
   ),
-  update: privateProcedure
+  update: protectedProcedure
     .input(
       z.object({
         categoryId: z.string(),
@@ -37,7 +37,7 @@ export const categoriesRouter = createTRPCRouter({
         },
       }),
     ),
-  remove: privateProcedure
+  remove: protectedProcedure
     .input(
       z.object({
         categoryId: z.string(),
@@ -50,7 +50,7 @@ export const categoriesRouter = createTRPCRouter({
         },
       }),
     ),
-  create: privateProcedure
+  create: protectedProcedure
     .input(
       z.object({
         title: z.string(),
@@ -62,7 +62,7 @@ export const categoriesRouter = createTRPCRouter({
         data: {
           title: input.title,
           percentage: input.percentage,
-          user_id: ctx.userId,
+          user_id: ctx.auth.userId,
         },
       }),
     ),

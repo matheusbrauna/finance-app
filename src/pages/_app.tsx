@@ -1,3 +1,4 @@
+import '~/lib/dayjs'
 import { ChakraProvider } from '@chakra-ui/react'
 import {
   ClerkProvider,
@@ -10,8 +11,9 @@ import { useRouter } from 'next/router'
 import { theme } from '~/styles/theme'
 
 import { api } from '~/utils/api'
+import { Toaster } from 'react-hot-toast'
 
-const publicPages = ['/sign-in/[[...index]]', '/sign-up/[[...index]]']
+const publicPages = ['/sign-in/[[...index]]']
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   const { pathname } = useRouter()
@@ -32,6 +34,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
             </SignedOut>
           </>
         )}
+        <Toaster position="top-right" />
       </ChakraProvider>
     </ClerkProvider>
   )

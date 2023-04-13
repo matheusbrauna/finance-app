@@ -19,6 +19,13 @@ import { api } from '~/utils/api'
 
 export function Balance() {
   const { data: transactions } = api.transactions.getAll.useQuery()
+  if (!transactions) {
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
   ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
   const options = {
@@ -49,14 +56,14 @@ export function Balance() {
 
   const labels = [
     ...new Set(
-      [...(transactions ?? [])].map((transaction) =>
+      [...transactions].map((transaction) =>
         getMonth(new Date(transaction.createdAt)),
       ),
     ),
   ]
 
-  const incomes = getBalance(labels, 'income', transactions ?? [])
-  const expenses = getBalance(labels, 'outcome', transactions ?? [])
+  const incomes = getBalance(labels, 'income', transactions)
+  const expenses = getBalance(labels, 'outcome', transactions)
 
   const data = {
     labels,
@@ -76,11 +83,6 @@ export function Balance() {
 
   return (
     <Box>
-      {!data && (
-        <Center h="100vh">
-          <Spinner />
-        </Center>
-      )}
       <Bar options={options} data={data} />
     </Box>
   )

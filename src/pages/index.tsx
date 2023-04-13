@@ -1,10 +1,33 @@
 import { VStack } from '@chakra-ui/react'
-import { type NextPage } from 'next'
+import { type GetServerSideProps, type NextPage } from 'next'
 import Head from 'next/head'
 import { AllCards } from '~/components/CategoryCard/AllCards'
 import { Charts } from '~/components/Charts/Charts'
 import { Header } from '~/components/Header/Header'
 import { Transactions } from '~/components/Transactions/Transactions'
+import { createProxySSGHelpers } from '@trpc/react-query/ssg'
+import { appRouter } from '~/server/api/root'
+import { prisma } from '~/server/db'
+import { getAuth } from '@clerk/nextjs/server'
+import SuperJSON from 'superjson'
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const auth = getAuth(req)
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: { prisma, auth },
+    transformer: SuperJSON,
+  })
+
+  await ssg.categories.getAll.prefetch()
+  await ssg.transactions.getAll.prefetch()
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  }
+}
 
 const Home: NextPage = () => {
   return (

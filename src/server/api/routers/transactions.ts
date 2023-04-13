@@ -1,11 +1,11 @@
 import { z } from 'zod'
-import { createTRPCRouter, privateProcedure } from '../trpc'
+import { createTRPCRouter, protectedProcedure } from '../trpc'
 
 export const transactionsRouter = createTRPCRouter({
-  getAll: privateProcedure.query(async ({ ctx }) =>
+  getAll: protectedProcedure.query(async ({ ctx }) =>
     ctx.prisma.transaction.findMany({
       where: {
-        user_id: ctx.userId,
+        user_id: ctx.auth.userId,
       },
       orderBy: [
         {
@@ -14,7 +14,7 @@ export const transactionsRouter = createTRPCRouter({
       ],
     }),
   ),
-  create: privateProcedure
+  create: protectedProcedure
     .input(
       z.object({
         title: z.string(),
@@ -28,7 +28,7 @@ export const transactionsRouter = createTRPCRouter({
           title: input.title,
           type: input.type,
           amount: input.amount,
-          user_id: ctx.userId,
+          user_id: ctx.auth.userId,
         },
       }),
     ),

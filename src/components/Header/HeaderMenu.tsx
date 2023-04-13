@@ -7,21 +7,25 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react'
-import { SignOutButton, useUser } from '@clerk/nextjs'
+import { SignOutButton } from '@clerk/nextjs'
 import { useUiSlice } from '~/stores/ui-slice'
 
-export function HeaderMenu() {
+interface HeaderMenuProps {
+  fullName: string
+  profileImageUrl: string
+}
+
+export function HeaderMenu({ fullName, profileImageUrl }: HeaderMenuProps) {
   const { toggleAddSalary } = useUiSlice()
-  const { user } = useUser()
 
   return (
     <Popover placement="bottom-start">
       <PopoverTrigger>
         <Avatar
-          name={user?.fullName ?? ''}
+          name={fullName}
           size={['md', 'lg']}
           cursor="pointer"
-          src={user?.profileImageUrl}
+          src={profileImageUrl}
         />
       </PopoverTrigger>
       <Portal>

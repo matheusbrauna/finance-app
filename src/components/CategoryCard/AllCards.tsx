@@ -1,4 +1,4 @@
-import { SimpleGrid } from '@chakra-ui/react'
+import { Center, SimpleGrid, Spinner } from '@chakra-ui/react'
 import { CategoryCard } from './CategoryCard'
 import { NoCard } from './NoCard'
 import { api } from '~/utils/api'
@@ -11,12 +11,17 @@ import { TransferAmount } from './modals/TransferAmount'
 export function AllCards() {
   const { data } = api.categories.getAll.useQuery()
 
-  if (!data) return <div>...</div>
+  if (!data)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    )
 
   return (
     <>
       <SimpleGrid minChildWidth={['full', '20rem']} gap={5}>
-        {data?.map((category) => (
+        {data.map((category) => (
           <CategoryCard key={category.id} data={category} />
         ))}
         <NoCard />

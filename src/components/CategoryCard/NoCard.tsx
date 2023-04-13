@@ -1,4 +1,4 @@
-import { Card, Heading, Icon, VStack } from '@chakra-ui/react'
+import { Card, Center, Heading, Icon, Spinner, VStack } from '@chakra-ui/react'
 import { TbPlus } from 'react-icons/tb'
 import { useUiSlice } from '../../stores/ui-slice'
 import { api } from '~/utils/api'
@@ -7,7 +7,12 @@ export function NoCard() {
   const { toggleAddCategory } = useUiSlice()
   const { data } = api.categories.getAll.useQuery()
 
-  if (!data) return <div>...</div>
+  if (!data)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    )
 
   return (
     <VStack align="stretch" justify="center" spacing={4}>

@@ -9,8 +9,15 @@ interface TransactionListProps {
 
 export function TransactionList({ title, type }: TransactionListProps) {
   const { data: transactions } = api.transactions.getAll.useQuery()
+  if (!transactions) {
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
   const transactionsData = transactions
-    ?.filter((transaction) => transaction.type.toLowerCase() === type)
+    .filter((transaction) => transaction.type.toLowerCase() === type)
     .slice(0, 8)
     .map((el) => <TransactionCard key={el.id} transaction={el} />)
 
@@ -19,14 +26,7 @@ export function TransactionList({ title, type }: TransactionListProps) {
       <Heading fontSize={['xl', '2xl']} mb="8">
         {title}
       </Heading>
-      <List>
-        {!transactionsData && (
-          <Center h="100vh">
-            <Spinner />
-          </Center>
-        )}
-        {transactionsData}
-      </List>
+      <List>{transactionsData}</List>
     </Box>
   )
 }
