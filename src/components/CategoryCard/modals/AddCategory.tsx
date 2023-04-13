@@ -43,10 +43,19 @@ export function AddCategory() {
   })
 
   async function handleAddCategory({ title, percentage }: AddCategoryFormData) {
-    await mutateAsync({
-      title,
-      percentage,
-    })
+    const ctx = api.useContext()
+    await mutateAsync(
+      {
+        title,
+        percentage,
+      },
+      {
+        onSuccess: () => {
+          // eslint-disable-next-line no-void
+          void ctx.categories.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleAddCategory(null)
   }
