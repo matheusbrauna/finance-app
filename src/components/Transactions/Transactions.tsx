@@ -1,5 +1,5 @@
-import { TransactionList } from './TransactionList'
 import { Stack } from '@chakra-ui/react'
+import { TransactionList } from './TransactionsList'
 
 export function Transactions() {
   return (

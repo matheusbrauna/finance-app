@@ -12,10 +12,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
-import { useGetCategories } from '../../../hooks/useGetCategories'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
 
 const addSalaryFormSchema = z.object({
@@ -33,9 +31,10 @@ export function AddSalary() {
     addSalary: { isVisible },
     toggleAddSalary,
   } = useUiSlice()
-  const categories = useGetCategories()
-  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
-  const { mutateAsync: createMutateAsync } = useCreateTransaction()
+  const { data } = api.categories.getAll.useQuery()
+  const { mutateAsync: updateMutateAsync } = api.categories.update.useMutation()
+  const { mutateAsync: createMutateAsync } =
+    api.transactions.create.useMutation()
   const {
     handleSubmit,
     register,
@@ -46,12 +45,12 @@ export function AddSalary() {
   })
 
   function handleAddSalary({ amount }: AddSalaryFormData) {
-    categories?.forEach(async (category) => {
+    data?.forEach(async (category) => {
       const totalAmount = (amount * category.percentage) / 100
       await updateMutateAsync({
-        id: category?.id,
-        updateFields: {
-          amount: category?.amount! + totalAmount,
+        categoryId: category?.id,
+        fields: {
+          amount: (category?.amount ?? 0) + totalAmount,
         },
       })
       await createMutateAsync({

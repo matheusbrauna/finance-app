@@ -12,9 +12,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
 
 const subtractAmountFormSchema = z.object({
@@ -33,12 +32,14 @@ const subtractAmountFormSchema = z.object({
 type SubtractAmountFormData = z.infer<typeof subtractAmountFormSchema>
 
 export function SubtractAmount() {
+  const ctx = api.useContext()
   const {
     subtractAmount: { category, isVisible },
     toggleSubtractAmount,
   } = useUiSlice()
-  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
-  const { mutateAsync: createMutateAsync } = useCreateTransaction()
+  const { mutateAsync: updateMutateAsync } = api.categories.update.useMutation()
+  const { mutateAsync: createMutateAsync } =
+    api.transactions.create.useMutation()
   const {
     handleSubmit,
     reset,
@@ -52,17 +53,32 @@ export function SubtractAmount() {
     amount,
     title,
   }: SubtractAmountFormData) {
-    await updateMutateAsync({
-      id: category?.id!,
-      updateFields: {
-        amount: category?.amount! - amount,
+    if (!category) return
+    await updateMutateAsync(
+      {
+        categoryId: category?.id,
+        fields: {
+          amount: category.amount! - amount,
+        },
       },
-    })
-    await createMutateAsync({
-      amount,
-      title,
-      type: 'outcome',
-    })
+      {
+        onSuccess: () => {
+          ctx.categories.getAll.invalidate()
+        },
+      },
+    )
+    await createMutateAsync(
+      {
+        amount,
+        title,
+        type: 'outcome',
+      },
+      {
+        onSuccess: () => {
+          ctx.transactions.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleSubtractAmount(null)
   }

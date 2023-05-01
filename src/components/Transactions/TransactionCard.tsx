@@ -1,16 +1,16 @@
-import { Transaction } from '@prisma/client'
+import { type Transaction } from '@prisma/client'
 import { TbCurrencyDollar } from 'react-icons/tb'
-import { useGetCurrency } from '../../hooks/useGetCurrency'
-import { useGetDate } from '../../hooks/useGetDate'
 import { ListItem, Icon, Center, HStack, Box, Text } from '@chakra-ui/react'
+import { formatCurrency } from '../../functions/formatCurrency'
+import { formatDate } from '../../functions/formatDate'
 
 interface TransactionCardProps {
   transaction: Transaction
 }
 
 export function TransactionCard({ transaction }: TransactionCardProps) {
-  const { currency } = useGetCurrency(transaction.amount)
-  const formattedDate = useGetDate(transaction.date)
+  const { currency } = formatCurrency(transaction.amount)
+  const { formattedDate } = formatDate(transaction.createdAt)
   const transactionTypeColor = {
     income: 'green',
     outcome: 'red',

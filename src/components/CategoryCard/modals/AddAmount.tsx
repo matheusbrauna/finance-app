@@ -13,9 +13,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
-import { useCreateTransaction } from '../../../hooks/useCreateTransaction'
 
 const addAmountFormSchema = z.object({
   amount: z.number(),
@@ -25,12 +24,11 @@ const addAmountFormSchema = z.object({
 type AddAmountFormData = z.infer<typeof addAmountFormSchema>
 
 export function AddAmount() {
+  const ctx = api.useContext()
   const {
     addAmount: { category, isVisible },
     toggleAddAmount,
   } = useUiSlice()
-  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
-  const { mutateAsync: createMutateAsync } = useCreateTransaction()
   const {
     handleSubmit,
     reset,
@@ -39,19 +37,36 @@ export function AddAmount() {
   } = useForm<AddAmountFormData>({
     resolver: zodResolver(addAmountFormSchema),
   })
+  const { mutateAsync: updateMutate } = api.categories.update.useMutation()
+  const { mutateAsync: createMutate } = api.transactions.create.useMutation()
 
   async function handleAddAmount({ amount, title }: AddAmountFormData) {
-    await updateMutateAsync({
-      id: category?.id!,
-      updateFields: {
-        amount: category?.amount! + amount,
+    if (!category) return
+    await updateMutate(
+      {
+        categoryId: category.id,
+        fields: {
+          amount: (category.amount ?? 0) + amount,
+        },
       },
-    })
-    await createMutateAsync({
-      amount,
-      title,
-      type: 'income',
-    })
+      {
+        onSuccess: () => {
+          ctx.categories.getAll.invalidate()
+        },
+      },
+    )
+    await createMutate(
+      {
+        amount,
+        title,
+        type: 'income',
+      },
+      {
+        onSuccess: () => {
+          ctx.transactions.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleAddAmount(null)
   }

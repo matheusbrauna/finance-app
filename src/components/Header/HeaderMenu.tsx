@@ -7,21 +7,25 @@ import {
   PopoverTrigger,
   Portal,
 } from '@chakra-ui/react'
-import { signOut, useSession } from 'next-auth/react'
+import { SignOutButton } from '@clerk/nextjs'
 import { useUiSlice } from '../../stores/ui-slice'
 
-export function HeaderMenu() {
+interface HeaderMenuProps {
+  fullName: string
+  profileImageUrl: string
+}
+
+export function HeaderMenu({ fullName, profileImageUrl }: HeaderMenuProps) {
   const { toggleAddSalary } = useUiSlice()
-  const { data } = useSession()
 
   return (
     <Popover placement="bottom-start">
       <PopoverTrigger>
         <Avatar
-          name={data?.user.name}
+          name={fullName}
           size={['md', 'lg']}
           cursor="pointer"
-          src={data?.user?.image ?? ''}
+          src={profileImageUrl}
         />
       </PopoverTrigger>
       <Portal>
@@ -34,18 +38,11 @@ export function HeaderMenu() {
           >
             Adicionar salário
           </Button>
-          <Button
-            variant="ghost"
-            colorScheme="red"
-            onClick={async () =>
-              await signOut({
-                redirect: true,
-                callbackUrl: '/login',
-              })
-            }
-          >
-            Fazer logout
-          </Button>
+          <SignOutButton>
+            <Button variant="ghost" colorScheme="red">
+              Fazer Logout
+            </Button>
+          </SignOutButton>
         </PopoverContent>
       </Portal>
     </Popover>

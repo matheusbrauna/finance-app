@@ -12,8 +12,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useCreateCategory } from '../../../hooks/useCreateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
 
 const addCategoryFormSchema = z.object({
@@ -27,7 +27,8 @@ const addCategoryFormSchema = z.object({
 type AddCategoryFormData = z.infer<typeof addCategoryFormSchema>
 
 export function AddCategory() {
-  const { mutateAsync } = useCreateCategory()
+  const ctx = api.useContext()
+  const { mutateAsync } = api.categories.create.useMutation()
   const {
     toggleAddCategory,
     addCategory: { isVisible },
@@ -42,10 +43,17 @@ export function AddCategory() {
   })
 
   async function handleAddCategory({ title, percentage }: AddCategoryFormData) {
-    await mutateAsync({
-      title,
-      percentage,
-    })
+    await mutateAsync(
+      {
+        title,
+        percentage,
+      },
+      {
+        onSuccess: () => {
+          ctx.categories.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleAddCategory(null)
   }

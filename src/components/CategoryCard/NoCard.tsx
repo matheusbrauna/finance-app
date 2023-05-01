@@ -1,15 +1,22 @@
-import { Card, Heading, Icon, VStack } from '@chakra-ui/react'
+import { Card, Center, Heading, Icon, Spinner, VStack } from '@chakra-ui/react'
 import { TbPlus } from 'react-icons/tb'
-import { useGetCategories } from '../../hooks/useGetCategories'
 import { useUiSlice } from '../../stores/ui-slice'
+import { api } from '../../utils/api'
 
 export function NoCard() {
   const { toggleAddCategory } = useUiSlice()
-  const categories = useGetCategories()
+  const { data } = api.categories.getAll.useQuery()
+
+  if (!data)
+    return (
+      <Center>
+        <Spinner />
+      </Center>
+    )
 
   return (
     <VStack align="stretch" justify="center" spacing={4}>
-      {categories?.length! < 1 && (
+      {data.length < 1 && (
         <Heading fontSize="lg" textAlign="center" color="gray.200">
           Clique para adicionar uma nova categoria!
         </Heading>

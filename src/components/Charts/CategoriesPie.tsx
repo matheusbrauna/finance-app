@@ -1,16 +1,24 @@
 import React from 'react'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
-import { useGetCategories } from '../../hooks/useGetCategories'
 import { Box, Center, Spinner } from '@chakra-ui/react'
+import { api } from '../../utils/api'
 
 export function CategoriesPie() {
-  const categories = useGetCategories()
+  const { data: categories } = api.categories.getAll.useQuery()
+  if (!categories) {
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
   ChartJS.register(ArcElement, Tooltip, Legend)
 
-  const labels = categories?.map((category) => category.title)
-  const amount = labels?.map(
-    (label) => categories?.find((category) => category.title === label)?.amount,
+  const labels = categories.map((category) => category.title)
+  const amount = labels.map(
+    (label) =>
+      categories.find((category) => category.title === label)?.amount ?? 0,
   )
 
   const options = {
@@ -41,11 +49,6 @@ export function CategoriesPie() {
 
   return (
     <Box>
-      {!data && (
-        <Center h="100vh">
-          <Spinner />
-        </Center>
-      )}
       <Doughnut options={options} data={data} />
     </Box>
   )

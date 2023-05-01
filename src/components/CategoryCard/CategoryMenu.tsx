@@ -1,5 +1,5 @@
 import { Menu, MenuItem, MenuList } from '@chakra-ui/react'
-import { Category } from '@prisma/client'
+import { type Category } from '@prisma/client'
 import { useUiSlice } from '../../stores/ui-slice'
 
 interface CategoryMenuProps {

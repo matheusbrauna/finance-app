@@ -1,22 +1,42 @@
 import '../lib/dayjs'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
-import { Session } from 'next-auth'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from '../styles/theme'
-import { trpc } from '../utils/trpc'
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from '@clerk/nextjs'
+import { api } from '../utils/api'
+import { useRouter } from 'next/router'
+import { Toaster } from 'react-hot-toast'
 
-function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}: AppProps<{ session: Session }>) {
+const publicPages = ['/sign-in/[[...index]]']
+
+function App({ Component, pageProps }: AppProps) {
+  const { pathname } = useRouter()
+  const isPublicPage = publicPages.includes(pathname)
+
   return (
-    <SessionProvider session={session}>
-      <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+    <ClerkProvider {...pageProps}>
+      <ChakraProvider theme={theme} resetCSS>
+        {isPublicPage ? (
+          <Component {...pageProps} />
+        ) : (
+          <>
+            <SignedIn>
+              <Component {...pageProps} />
+            </SignedIn>
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+          </>
+        )}
+        <Toaster position="top-right" />
       </ChakraProvider>
-    </SessionProvider>
+    </ClerkProvider>
   )
 }
 
-export default trpc.withTRPC(App)
+export default api.withTRPC(App)

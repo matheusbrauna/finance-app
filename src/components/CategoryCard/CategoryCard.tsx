@@ -1,4 +1,3 @@
-import { useGetCurrency } from '../../hooks/useGetCurrency'
 import {
   Card,
   CardBody,
@@ -13,7 +12,8 @@ import {
 } from '@chakra-ui/react'
 import { useUiSlice } from '../../stores/ui-slice'
 import { TbPencil } from 'react-icons/tb'
-import { Category } from '@prisma/client'
+import { type Category } from '@prisma/client'
+import { formatCurrency } from '../../functions/formatCurrency'
 
 interface CategoryCardProps {
   data: Category
@@ -21,7 +21,7 @@ interface CategoryCardProps {
 
 export function CategoryCard({ data }: CategoryCardProps) {
   const { title, amount, percentage } = data
-  const { currency } = useGetCurrency(amount ?? 0)
+  const { currency } = formatCurrency(amount ?? 0)
   const {
     toggleEditCategory,
     toggleAddAmount,

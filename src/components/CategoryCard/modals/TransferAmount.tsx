@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import {
   Box,
   Button,
@@ -14,9 +15,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useGetCategories } from '../../../hooks/useGetCategories'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
 
 const transferAmountFormSchema = z.object({
@@ -31,14 +31,15 @@ const transferAmountFormSchema = z.object({
 type TransferAmountFormData = z.infer<typeof transferAmountFormSchema>
 
 export function TransferAmount() {
+  const ctx = api.useContext()
   const [destination, setDestination] = useState('')
   const [options, setOptions] = useState([''])
   const {
     transferAmount: { isVisible, category },
     toggleTransferAmount,
   } = useUiSlice()
-  const categories = useGetCategories()
-  const { mutateAsync } = useUpdateCategory()
+  const { data } = api.categories.getAll.useQuery()
+  const { mutateAsync } = api.categories.update.useMutation()
   const {
     handleSubmit,
     register,
@@ -52,32 +53,47 @@ export function TransferAmount() {
   })
 
   useEffect(() => {
-    const options = categories
+    const options = data
       ?.map((category) => category.title)
       .filter((title) => title !== category?.title)
 
     if (!options) return
 
-    setOptions(options!)
-    setDestination(options[0])
-  }, [category?.title])
+    setOptions(options)
+    setDestination(options[0] ?? '')
+  }, [category?.title, data])
 
   async function handleTransferAmount({ amount }: TransferAmountFormData) {
-    const destinationCategory = categories?.find(
+    if (!category) return
+    const destinationCategory = data?.find(
       (category) => category.title === destination,
     )
-    await mutateAsync({
-      id: category?.id!,
-      updateFields: {
-        amount: category?.amount! - amount,
+    await mutateAsync(
+      {
+        categoryId: category?.id,
+        fields: {
+          amount: category.amount! - amount,
+        },
       },
-    })
-    await mutateAsync({
-      id: destinationCategory?.id!,
-      updateFields: {
-        amount: destinationCategory?.amount! + amount,
+      {
+        onSuccess: () => {
+          ctx.categories.getAll.invalidate()
+        },
       },
-    })
+    )
+    await mutateAsync(
+      {
+        categoryId: destinationCategory?.id ?? '',
+        fields: {
+          amount: (destinationCategory?.amount ?? 0) + amount,
+        },
+      },
+      {
+        onSuccess: () => {
+          ctx.transactions.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleTransferAmount(null)
   }

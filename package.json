@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
+    "@clerk/nextjs": "^4.16.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@hookform/resolvers": "^2.9.10",
@@ -38,7 +39,9 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.43.0",
+    "react-hot-toast": "^2.4.1",
     "react-icons": "^4.7.1",
+    "superjson": "^1.12.3",
     "typescript": "4.9.4",
     "zod": "^3.20.2",
     "zustand": "^4.3.2"

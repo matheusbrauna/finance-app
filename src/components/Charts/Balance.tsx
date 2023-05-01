@@ -8,13 +8,20 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
-import { Transaction } from '@prisma/client'
+import { type Transaction } from '@prisma/client'
 import dayjs from 'dayjs'
 import { Box, Center, Spinner } from '@chakra-ui/react'
-import { useGetTransactions } from '../../hooks/useGetTransactions'
+import { api } from '../../utils/api'
 
 export function Balance() {
-  const transactions = useGetTransactions()
+  const { data: transactions } = api.transactions.getAll.useQuery()
+  if (!transactions) {
+    return (
+      <Center h="100vh">
+        <Spinner />
+      </Center>
+    )
+  }
   ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend)
 
   const options = {
@@ -37,7 +44,7 @@ export function Balance() {
   ) {
     return labels.map((label) =>
       transactions
-        .filter((transaction) => getMonth(transaction.date) === label)
+        .filter((transaction) => getMonth(transaction.createdAt) === label)
         .filter((transaction) => transaction.type === type)
         .reduce((acc, item) => acc + item.amount, 0),
     )
@@ -45,14 +52,14 @@ export function Balance() {
 
   const labels = [
     ...new Set(
-      [...(transactions ?? [])].map((transaction) =>
-        getMonth(new Date(transaction.date)),
+      [...transactions].map((transaction) =>
+        getMonth(new Date(transaction.createdAt)),
       ),
     ),
   ]
 
-  const incomes = getBalance(labels, 'income', transactions ?? [])
-  const expenses = getBalance(labels, 'outcome', transactions ?? [])
+  const incomes = getBalance(labels, 'income', transactions)
+  const expenses = getBalance(labels, 'outcome', transactions)
 
   const data = {
     labels,
@@ -72,11 +79,6 @@ export function Balance() {
 
   return (
     <Box>
-      {!data && (
-        <Center h="100vh">
-          <Spinner />
-        </Center>
-      )}
       <Bar options={options} data={data} />
     </Box>
   )

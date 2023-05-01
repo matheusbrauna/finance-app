@@ -20,9 +20,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useDeleteCategory } from '../../../hooks/useDeleteCategory'
-import { useUpdateCategory } from '../../../hooks/useUpdateCategory'
 import { useUiSlice } from '../../../stores/ui-slice'
+import { api } from '../../../utils/api'
 import { Modal } from '../../UI/Modal'
 
 const editCategoryFormSchema = z.object({
@@ -38,8 +37,10 @@ const editCategoryFormSchema = z.object({
 type EditCategoryFormData = z.infer<typeof editCategoryFormSchema>
 
 export function EditCategory() {
-  const { mutateAsync: updateMutateAsync } = useUpdateCategory()
-  const { mutateAsync: deleteMutateAsync, isLoading } = useDeleteCategory()
+  const ctx = api.useContext()
+  const { mutateAsync: updateMutateAsync } = api.categories.update.useMutation()
+  const { mutateAsync: deleteMutateAsync, isLoading } =
+    api.categories.remove.useMutation()
   const {
     editCategory: { category, isVisible },
     toggleEditCategory,
@@ -59,20 +60,29 @@ export function EditCategory() {
     percentage,
     title,
   }: EditCategoryFormData) {
-    await updateMutateAsync({
-      id: category?.id!,
-      updateFields: {
-        percentage,
-        title,
+    if (!category) return
+    await updateMutateAsync(
+      {
+        categoryId: category.id,
+        fields: {
+          percentage,
+          title,
+        },
       },
-    })
+      {
+        onSuccess: () => {
+          ctx.categories.getAll.invalidate()
+        },
+      },
+    )
     reset()
     toggleEditCategory(null)
   }
 
   async function handleRemoveCategory() {
+    if (!category) return
     await deleteMutateAsync({
-      id: category?.id!,
+      categoryId: category.id,
     })
     toggleEditCategory(null)
     onClose()
