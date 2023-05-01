@@ -11,6 +11,7 @@ import {
 import { api } from '../utils/api'
 import { useRouter } from 'next/router'
 import { Toaster } from 'react-hot-toast'
+import { ptBR } from '@clerk/localizations'
 
 const publicPages = ['/sign-in/[[...index]]']
 
@@ -19,7 +20,7 @@ function App({ Component, pageProps }: AppProps) {
   const isPublicPage = publicPages.includes(pathname)
 
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider localization={ptBR} {...pageProps}>
       <ChakraProvider theme={theme} resetCSS>
         {isPublicPage ? (
           <Component {...pageProps} />

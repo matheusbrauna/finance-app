@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.9",
+    "@clerk/localizations": "^1.11.3",
     "@clerk/nextjs": "^4.16.4",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
