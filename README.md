@@ -41,7 +41,7 @@ Além disso, a aplicação permite que você:
 - Zustand
 - React Query
 - API Routes
-- Next-auth
+- Clerk
 - Prisma
 
 ## Autor
