@@ -1,24 +1,31 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
-
-const inter = Inter({ subsets: ['latin'] })
+import { cn } from '@/lib/utils'
+import { fontSans } from '@/lib/fonts'
 
 export const metadata: Metadata = {
   title: 'Finance',
   description: 'Finance',
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
+type Props = Readonly<{
   children: React.ReactNode
-}>) {
+}>
+
+export default function RootLayout({ children }: Props) {
   return (
     <ClerkProvider>
-      <html lang="pt-BR">
-        <body className={inter.className}>{children}</body>
+      <html lang="en" suppressHydrationWarning>
+        <head />
+        <body
+          className={cn(
+            'min-h-screen bg-background font-sans antialiased',
+            fontSans.variable,
+          )}
+        >
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   )
