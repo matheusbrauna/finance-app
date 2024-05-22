@@ -3,17 +3,19 @@ import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
 import { fontSans } from '@/lib/fonts'
+import { QueryProvider } from '@/providers/query-provider'
+import { ReactNode } from 'react'
 
 export const metadata: Metadata = {
   title: 'Finance',
   description: 'Finance',
 }
 
-type Props = Readonly<{
-  children: React.ReactNode
-}>
+type RootLayoutProps = {
+  children: ReactNode
+}
 
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -24,7 +26,7 @@ export default function RootLayout({ children }: Props) {
             fontSans.variable,
           )}
         >
-          {children}
+          <QueryProvider>{children}</QueryProvider>
         </body>
       </html>
     </ClerkProvider>

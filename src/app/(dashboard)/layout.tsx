@@ -1,10 +1,11 @@
 import { Header } from '@/components/layouts/header'
+import { ReactNode } from 'react'
 
-type Props = Readonly<{
-  children: React.ReactNode
-}>
+type DashboardLayoutProps = {
+  children: ReactNode
+}
 
-export default function DashboardLayout({ children }: Props) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <>
       <Header />
