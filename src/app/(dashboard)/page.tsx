@@ -1,3 +1,10 @@
+'use client'
+
+import { Button } from '@/components/ui/button'
+import { useNewAccount } from '@/features/accounts/hooks/use-new-account'
+
 export default function Home() {
-  return <div>Home page</div>
+  const { onOpen } = useNewAccount()
+
+  return <Button onClick={onOpen}>Open modal</Button>
 }

@@ -5,6 +5,8 @@ import { cn } from '@/lib/utils'
 import { fontSans } from '@/lib/fonts'
 import { QueryProvider } from '@/providers/query-provider'
 import { ReactNode } from 'react'
+import { SheetProvider } from '@/providers/sheet-provider'
+import { Toaster } from '@/components/ui/sonner'
 
 export const metadata: Metadata = {
   title: 'Finance',
@@ -26,7 +28,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
             fontSans.variable,
           )}
         >
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <SheetProvider />
+            <Toaster />
+            {children}
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>
