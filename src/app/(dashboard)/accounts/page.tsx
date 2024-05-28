@@ -3,33 +3,33 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useNewAccount } from '@/features/accounts/hooks/use-new-account'
-import { Plus } from 'lucide-react'
-import { Payment, columns } from './columns'
+import { Loader2, Plus } from 'lucide-react'
+import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
-
-const payments: Payment[] = [
-  {
-    id: '728ed52f',
-    amount: 100,
-    status: 'pending',
-    email: 'm@example.com',
-  },
-  {
-    id: 'fdgfdfdfd',
-    amount: 1000,
-    status: 'pending',
-    email: 'm2@example.com',
-  },
-  {
-    id: '728ed52dsf',
-    amount: 4345,
-    status: 'pending',
-    email: 'm3@example.com',
-  },
-]
+import { useGetAccounts } from '@/features/accounts/api/use-get-accounts'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AccountsPage() {
   const onOpen = useNewAccount((state) => state.onOpen)
+  const accountsQuery = useGetAccounts()
+  const accounts = accountsQuery.data || []
+
+  if (accountsQuery.isLoading) {
+    return (
+      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
+        <Card className="border-none drop-shadow-sm">
+          <CardHeader>
+            <Skeleton className="h-8 w-48" />
+          </CardHeader>
+          <CardContent>
+            <div className="flex h-[500px] w-full items-center justify-center">
+              <Loader2 className="size-6 animate-spin text-slate-300" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   return (
     <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
@@ -45,7 +45,7 @@ export default function AccountsPage() {
           <DataTable
             filterKey="email"
             columns={columns}
-            data={payments}
+            data={accounts}
             onDelete={() => {}}
             disabled={false}
           />

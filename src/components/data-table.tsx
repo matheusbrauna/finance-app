@@ -81,6 +81,7 @@ export function DataTable<TData, TValue>({
             size="sm"
             variant="outline"
             className="ml-auto text-xs font-normal"
+            onClick={() => onDelete(table.getFilteredSelectedRowModel().rows)}
           >
             <Trash className="mr-2 size-4" />
             Delete ({table.getFilteredSelectedRowModel().rows.length})
