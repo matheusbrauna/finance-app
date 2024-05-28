@@ -43,7 +43,7 @@ export function useConfirm(
 
   function ConfirmationDialog() {
     return (
-      <Dialog>
+      <Dialog open={promise !== null}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -53,7 +53,9 @@ export function useConfirm(
             <Button onClick={handleCancel} variant="outline">
               Cancel
             </Button>
-            <Button onClick={handleConfirm}>Confirm</Button>
+            <Button onClick={handleConfirm} variant="destructive">
+              Confirm
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
