@@ -163,5 +163,40 @@ const app = new Hono()
       return c.json({ data })
     },
   )
+  .delete(
+    '/:id',
+    clerkMiddleware(),
+    zValidator(
+      'param',
+      z.object({
+        id: z.string().cuid2().optional(),
+      }),
+    ),
+    async (c) => {
+      const auth = getAuth(c)
+      const { id } = c.req.valid('param')
+
+      if (!id) {
+        return c.json({ error: 'Missing id' }, 400)
+      }
+
+      if (!auth?.userId) {
+        return c.json({ error: 'unauthorized' }, 401)
+      }
+
+      const [data] = await db
+        .delete(accounts)
+        .where(and(eq(accounts.userId, auth.userId), eq(accounts.id, id)))
+        .returning({
+          id: accounts.id,
+        })
+
+      if (!data) {
+        return c.json({ error: 'Not found' }, 404)
+      }
+
+      return c.json({ data })
+    },
+  )
 
 export default app
