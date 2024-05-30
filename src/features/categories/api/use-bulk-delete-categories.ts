@@ -4,26 +4,26 @@ import { InferRequestType, InferResponseType } from 'hono'
 import { toast } from 'sonner'
 
 type ResponseType = InferResponseType<
-  (typeof client.api.accounts)['bulk-delete']['$post']
+  (typeof client.api.categories)['bulk-delete']['$post']
 >
 type RequestType = InferRequestType<
-  (typeof client.api.accounts)['bulk-delete']['$post']
+  (typeof client.api.categories)['bulk-delete']['$post']
 >['json']
 
-export const useBulkDeleteAccounts = () => {
+export const useBulkDeleteCategories = () => {
   const queryClient = useQueryClient()
   return useMutation<ResponseType, Error, RequestType>({
     mutationFn: async (json) => {
-      const res = await client.api.accounts['bulk-delete'].$post({ json })
+      const res = await client.api.categories['bulk-delete'].$post({ json })
       return await res.json()
     },
     onSuccess: () => {
-      toast.success('Accounts deleted')
-      queryClient.invalidateQueries({ queryKey: ['accounts'] })
+      toast.success('Categories deleted')
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
       // TODO: Also invalidate summary
     },
     onError: () => {
-      toast.error('Failed to delete accounts')
+      toast.error('Failed to delete categories')
     },
   })
 }
