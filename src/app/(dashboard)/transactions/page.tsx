@@ -5,20 +5,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2, Plus } from 'lucide-react'
 import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
-import { useGetAccounts } from '@/features/accounts/api/use-get-accounts'
-import { useBulkDeleteAccounts } from '@/features/accounts/api/use-bulk-delete-accounts'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNewTransaction } from '@/features/transactions/hooks/use-new-account'
+import { useGetTransactions } from '@/features/transactions/api/use-get-transactions'
+import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-delete-transactions'
+import { useNewTransaction } from '@/features/transactions/hooks/use-new-transaction'
 
 export default function TransactionsPage() {
   const onOpen = useNewTransaction((state) => state.onOpen)
-  const deleteAccounts = useBulkDeleteAccounts()
-  const accountsQuery = useGetAccounts()
-  const accounts = accountsQuery.data || []
+  const deleteTransactions = useBulkDeleteTransactions()
+  const transactionsQuery = useGetTransactions()
+  const transactions = transactionsQuery.data || []
 
-  const isDisable = deleteAccounts.isPending || accountsQuery.isLoading
+  const isDisable = deleteTransactions.isPending || transactionsQuery.isLoading
 
-  if (accountsQuery.isLoading) {
+  if (transactionsQuery.isLoading) {
     return (
       <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
         <Card className="border-none drop-shadow-sm">
@@ -49,12 +49,12 @@ export default function TransactionsPage() {
         </CardHeader>
         <CardContent>
           <DataTable
-            filterKey="name"
+            filterKey="payee"
             columns={columns}
-            data={accounts}
+            data={transactions}
             onDelete={(rows) => {
               const ids = rows.map((row) => row.original.id)
-              deleteAccounts.mutate({ ids })
+              deleteTransactions.mutate({ ids })
             }}
             disabled={isDisable}
           />
