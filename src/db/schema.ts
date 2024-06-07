@@ -5,7 +5,6 @@ import { z } from 'zod'
 
 export const accounts = pgTable('accounts', {
   id: text('id').primaryKey(),
-  plaidId: text('plaid_id'),
   name: text('name').notNull(),
   userId: text('user_id').notNull(),
 })
@@ -18,7 +17,6 @@ export const insertAccountSchema = createInsertSchema(accounts)
 
 export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
-  plaidId: text('plaid_id'),
   name: text('name').notNull(),
   userId: text('user_id').notNull(),
 })
@@ -50,7 +48,7 @@ export const transactionsRelations = relations(transactions, ({ one }) => ({
     fields: [transactions.accountId],
     references: [accounts.id],
   }),
-  category: one(categories, {
+  categories: one(categories, {
     fields: [transactions.categoryId],
     references: [categories.id],
   }),
