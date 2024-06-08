@@ -1,47 +1,12 @@
 {
-  "version": "5",
-  "dialect": "pg",
+  "version": "7",
+  "dialect": "postgresql",
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1716316531920,
-      "tag": "0000_lowly_bucky",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1716324157764,
-      "tag": "0001_past_red_hulk",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1717090531433,
-      "tag": "0002_talented_wonder_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1717162527260,
-      "tag": "0003_conscious_rumiko_fujikawa",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1717284963705,
-      "tag": "0004_cloudy_doctor_doom",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1717735121285,
-      "tag": "0005_sudden_hardball",
+      "version": "7",
+      "when": 1717808047802,
+      "tag": "0000_heavy_rawhide_kid",
       "breakpoints": true
     }
   ]
