@@ -13,7 +13,7 @@ export function DataGrid() {
   const params = useSearchParams()
   const to = params.get('to') ?? undefined
   const from = params.get('from') ?? undefined
-  const _dateRangeLabel = formatDateRange({ to, from })
+  const dateRangeLabel = formatDateRange({ to, from })
 
   if (isLoading) {
     return (
@@ -32,21 +32,21 @@ export function DataGrid() {
         value={data?.remainingAmount}
         percentageChange={data?.remainingChange}
         icon={FaPiggyBank}
-        dateRange={_dateRangeLabel}
+        dateRange={dateRangeLabel}
       />
       <DataCard
         title="Income"
         value={data?.incomeAmount}
         percentageChange={data?.incomeChange}
         icon={FaArrowTrendUp}
-        dateRange={_dateRangeLabel}
+        dateRange={dateRangeLabel}
       />
       <DataCard
         title="Expenses"
         value={data?.expensesAmount}
         percentageChange={data?.expensesChange}
         icon={FaArrowTrendDown}
-        dateRange={_dateRangeLabel}
+        dateRange={dateRangeLabel}
       />
     </div>
   )
