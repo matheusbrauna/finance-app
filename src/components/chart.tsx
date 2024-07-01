@@ -33,28 +33,28 @@ export function Chart({ data = [] }: Props) {
   return (
     <Card className="border-none drop-shadow-sm">
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
-        <CardTitle className="line-clamp-1 text-xl">Transactions</CardTitle>
+        <CardTitle className="line-clamp-1 text-xl">Transações</CardTitle>
         <Select defaultValue={chartType} onValueChange={onTypeChange}>
           <SelectTrigger className="h-9 rounded-md px-3 lg:w-auto">
-            <SelectValue placeholder="Chart type" />
+            <SelectValue placeholder="Tipo de gráfico" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="area">
               <div className="flex items-center">
                 <AreaChart className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Area chart</p>
+                <p className="line-clamp-1">Gráfico de Área</p>
               </div>
             </SelectItem>
             <SelectItem value="line">
               <div className="flex items-center">
                 <LineChart className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Line chart</p>
+                <p className="line-clamp-1">Gráfico de Linha</p>
               </div>
             </SelectItem>
             <SelectItem value="bar">
               <div className="flex items-center">
                 <BarChart3 className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Bar chart</p>
+                <p className="line-clamp-1">Gráfico de Barra</p>
               </div>
             </SelectItem>
           </SelectContent>
@@ -65,7 +65,7 @@ export function Chart({ data = [] }: Props) {
           <div className="flex h-[350px] w-full flex-col items-center justify-center gap-y-4">
             <FileSearch className="size-6 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              No data for this period.
+              Nenhum dado para este período.
             </p>
           </div>
         ) : (

@@ -8,6 +8,7 @@ import {
   XAxis,
 } from 'recharts'
 import { CustomTooltip } from '@/components/custom-tooltip'
+import { ptBR } from 'date-fns/locale'
 
 type AreaVariantProps = {
   data: {
@@ -36,13 +37,21 @@ export const AreaVariant = ({ data }: AreaVariantProps) => {
           axisLine={false}
           tickLine={false}
           dataKey="date"
-          tickFormatter={(value) => format(value, 'dd MMM')}
+          tickFormatter={(value) =>
+            format(value, 'dd MMM', {
+              locale: ptBR,
+            })
+          }
           style={{
             fontSize: '12px',
           }}
           tickMargin={16}
         />
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip
+          content={({ active, payload }) => (
+            <CustomTooltip active={active} payload={payload} />
+          )}
+        />
         <Area
           type="monotone"
           dataKey="income"

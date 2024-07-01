@@ -1,6 +1,7 @@
 'use client'
 
 import { format, subDays } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { ChevronDown } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
@@ -16,6 +17,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { formatDateRange } from '@/lib/utils'
+import { useGetAccounts } from '@/features/accounts/api/use-get-accounts'
+import { useGetSummary } from '@/features/summary/api/use-get-summary'
 
 export const DateFilter = () => {
   const pathname = usePathname()
@@ -25,6 +28,8 @@ export const DateFilter = () => {
   const accountId = searchParams.get('accountId')
   const from = searchParams.get('from') || ''
   const to = searchParams.get('to') || ''
+  const { isLoading: isLoadingAccounts } = useGetAccounts()
+  const { isLoading: isLoadingSummary } = useGetSummary()
 
   const defaultTo = new Date()
   const defaultFrom = subDays(defaultTo, 30)
@@ -63,10 +68,8 @@ export const DateFilter = () => {
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          disabled={false}
-          size="sm"
+          disabled={isLoadingAccounts || isLoadingSummary}
           variant="outline"
-          className="h-9 w-full rounded-md border-none bg-white/10 px-3 font-normal text-white outline-none transition hover:bg-white/30 hover:text-white focus:bg-white/30 focus:ring-transparent focus:ring-offset-0 lg:w-auto"
         >
           <span>{formatDateRange(paramState)}</span>
           <ChevronDown className="ml-2 size-4 opacity-50" />
@@ -81,6 +84,7 @@ export const DateFilter = () => {
           selected={date}
           onSelect={setDate}
           numberOfMonths={2}
+          locale={ptBR}
         />
         <div className="flex w-full items-center gap-x-2 p-4">
           <PopoverClose asChild>
@@ -90,7 +94,7 @@ export const DateFilter = () => {
               className="w-full"
               variant="outline"
             >
-              Reset
+              Redefinir
             </Button>
           </PopoverClose>
           <PopoverClose asChild>
@@ -99,7 +103,7 @@ export const DateFilter = () => {
               disabled={!date?.from || !date?.to}
               className="w-full"
             >
-              Apply
+              Aplicar
             </Button>
           </PopoverClose>
         </div>

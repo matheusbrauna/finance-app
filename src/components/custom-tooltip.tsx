@@ -30,7 +30,7 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
         <div className="flex items-center justify-between gap-x-4">
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-blue-500" aria-hidden />
-            <p className="text-sm text-muted-foreground">Income</p>
+            <p className="text-sm text-muted-foreground">Renda</p>
           </div>
           <p className="text-right text-sm font-medium">
             {formatCurrency(income)}
@@ -39,7 +39,7 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
         <div className="flex items-center justify-between gap-x-4">
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-rose-500" aria-hidden />
-            <p className="text-sm text-muted-foreground">Expenses</p>
+            <p className="text-sm text-muted-foreground">Despesas</p>
           </div>
           <p className="text-right text-sm font-medium">
             {formatCurrency(expenses * -1)}

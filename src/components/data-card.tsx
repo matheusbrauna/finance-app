@@ -72,7 +72,7 @@ export function DataCard({
         </div>
       </CardHeader>
       <CardContent>
-        <h1 className="mb-2 line-clamp-1 break-all text-2xl font-bold">
+        <h3 className="mb-2 line-clamp-1 break-all text-2xl font-bold">
           <CountUp
             preserveValue
             start={0}
@@ -81,7 +81,7 @@ export function DataCard({
             decimalPlaces={2}
             formattingFn={formatCurrency}
           />
-        </h1>
+        </h3>
         <p
           className={cn(
             'line-clamp-1 text-sm text-muted-foreground',
@@ -89,8 +89,8 @@ export function DataCard({
             percentageChange < 0 && 'text-rose-500',
           )}
         >
-          {formatPercentage(percentageChange, { addPrefix: true })} from last
-          period.
+          {formatPercentage(percentageChange, { addPrefix: true })} em relação
+          ao último período.
         </p>
       </CardContent>
     </Card>

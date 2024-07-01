@@ -27,28 +27,28 @@ export function SpendingPie({ data = [] }: Props) {
   return (
     <Card className="border-none drop-shadow-sm">
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
-        <CardTitle className="line-clamp-1 text-xl">Categories</CardTitle>
+        <CardTitle className="line-clamp-1 text-xl">Categorias</CardTitle>
         <Select defaultValue={chartType} onValueChange={onTypeChange}>
           <SelectTrigger className="h-9 rounded-md px-3 lg:w-auto">
-            <SelectValue placeholder="Chart type" />
+            <SelectValue placeholder="Tipo de gráfico" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="pie">
               <div className="flex items-center">
                 <PieChart className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Pie chart</p>
+                <p className="line-clamp-1">Gráfico de Pizza</p>
               </div>
             </SelectItem>
             <SelectItem value="radar">
               <div className="flex items-center">
                 <Radar className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Radar chart</p>
+                <p className="line-clamp-1">Gráfico de Radar</p>
               </div>
             </SelectItem>
             <SelectItem value="radial">
               <div className="flex items-center">
                 <Target className="mr-2 size-4 shrink-0" />
-                <p className="line-clamp-1">Radial chart</p>
+                <p className="line-clamp-1">Gráfico Radial</p>
               </div>
             </SelectItem>
           </SelectContent>
@@ -59,7 +59,7 @@ export function SpendingPie({ data = [] }: Props) {
           <div className="flex h-[350px] w-full flex-col items-center justify-center gap-y-4">
             <FileSearch className="size-6 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">
-              No data for this period.
+              Nenhum dado para este período.
             </p>
           </div>
         ) : (

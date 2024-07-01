@@ -28,25 +28,27 @@ export function DataGrid() {
   return (
     <div className="mb-8 grid grid-cols-1 gap-8 pb-2 lg:grid-cols-3">
       <DataCard
-        title="Remaining"
+        title="Saldo Restante"
         value={data?.remainingAmount}
         percentageChange={data?.remainingChange}
         icon={FaPiggyBank}
         dateRange={dateRangeLabel}
       />
       <DataCard
-        title="Income"
+        title="Renda"
         value={data?.incomeAmount}
         percentageChange={data?.incomeChange}
         icon={FaArrowTrendUp}
         dateRange={dateRangeLabel}
+        variant="success"
       />
       <DataCard
-        title="Expenses"
+        title="Despesas"
         value={data?.expensesAmount}
         percentageChange={data?.expensesChange}
         icon={FaArrowTrendDown}
         dateRange={dateRangeLabel}
+        variant="danger"
       />
     </div>
   )
