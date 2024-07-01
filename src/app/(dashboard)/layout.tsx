@@ -1,4 +1,4 @@
-import { Header } from '@/components/layouts/header'
+import { SiteHeader } from '@/components/layouts/site-header'
 import { ReactNode } from 'react'
 
 type DashboardLayoutProps = {
@@ -7,9 +7,9 @@ type DashboardLayoutProps = {
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
-    <>
-      <Header />
-      <main className="px-3 lg:px-14">{children}</main>
-    </>
+    <div className="flex min-h-screen flex-col">
+      <SiteHeader />
+      <main className="flex-1">{children}</main>
+    </div>
   )
 }

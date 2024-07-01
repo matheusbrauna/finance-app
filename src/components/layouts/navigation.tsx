@@ -3,31 +3,28 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useMedia } from 'react-use'
 import { useState } from 'react'
-import { NavButton } from './nav-button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { Menu } from 'lucide-react'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 const routes = [
   {
     href: '/',
-    label: 'Overview',
+    label: 'Geral',
   },
   {
     href: '/transactions',
-    label: 'Transactions',
+    label: 'Transações',
   },
   {
     href: '/accounts',
-    label: 'Accounts',
+    label: 'Contas',
   },
   {
     href: '/categories',
-    label: 'Categories',
-  },
-  {
-    href: '/settings',
-    label: 'Settings',
+    label: 'Categorias',
   },
 ]
 
@@ -50,7 +47,7 @@ export function Navigation() {
           <Button
             variant="outline"
             size="sm"
-            className="border-none bg-white/10 font-normal text-white outline-none transition hover:bg-white/20 hover:text-white focus:bg-white/30 focus-visible:ring-transparent focus-visible:ring-offset-0"
+            className="font-normal text-foreground outline-none transition focus-visible:ring-offset-0"
           >
             <Menu className="size-4" />
           </Button>
@@ -74,14 +71,18 @@ export function Navigation() {
   }
 
   return (
-    <nav className="hidden items-center gap-x-2 overflow-x-auto lg:flex">
+    <nav className={cn('flex items-center space-x-4 lg:space-x-6')}>
       {routes.map((route) => (
-        <NavButton
+        <Link
           key={route.href}
           href={route.href}
-          label={route.label}
-          isActive={pathname === route.href}
-        />
+          className={cn(
+            'text-sm font-medium transition-colors hover:text-primary',
+            route.href === pathname ? 'text-primary' : 'text-muted-foreground',
+          )}
+        >
+          {route.label}
+        </Link>
       ))}
     </nav>
   )

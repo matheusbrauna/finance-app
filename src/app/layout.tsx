@@ -1,5 +1,6 @@
+import '@/styles/globals.css'
+import { ptBR } from '@clerk/localizations'
 import type { Metadata } from 'next'
-import './globals.css'
 import { ClerkProvider } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
 import { fontSans } from '@/lib/fonts'
@@ -19,8 +20,8 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+    <ClerkProvider localization={ptBR}>
+      <html lang="pt-BR" suppressHydrationWarning>
         <head />
         <body
           className={cn(

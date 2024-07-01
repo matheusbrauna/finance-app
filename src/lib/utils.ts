@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from 'clsx'
 import { eachDayOfInterval, format, isSameDay, subDays } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -15,9 +16,9 @@ export function convertAmountToMiliunits(amount: number) {
 }
 
 export function formatCurrency(value: number) {
-  return Intl.NumberFormat('en-us', {
+  return Intl.NumberFormat('pt-BR', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'BRL',
     minimumFractionDigits: 2,
   }).format(value)
 }
@@ -85,7 +86,9 @@ export function formatDateRange(period?: Period) {
     )}`
   }
 
-  return format(period.from, 'LLL dd, y')
+  return format(period.from, 'LLL dd, y', {
+    locale: ptBR,
+  })
 }
 
 export function formatPercentage(
