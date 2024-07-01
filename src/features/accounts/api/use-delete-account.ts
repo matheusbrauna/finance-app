@@ -17,13 +17,13 @@ export const useDeleteAccount = (id?: string) => {
       return await res.json()
     },
     onSuccess: () => {
-      toast.success('Account deleted')
+      toast.success('Conta excluída.')
       queryClient.invalidateQueries({ queryKey: ['account', { id }] })
       queryClient.invalidateQueries({ queryKey: ['accounts'] })
       queryClient.invalidateQueries({ queryKey: ['summary'] })
     },
     onError: () => {
-      toast.error('Failed to delete account')
+      toast.error('Falha ao excluir conta.')
     },
   })
 }

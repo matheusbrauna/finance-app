@@ -29,7 +29,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Selecionar tudo"
+        aria-label="Selecionar todas"
       />
     ),
     cell: ({ row }) => (

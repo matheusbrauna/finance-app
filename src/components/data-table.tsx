@@ -46,7 +46,7 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const [ConfirmDialog, confirm] = useConfirm(
     'Você tem certeza?',
-    'Você está prestes a excluir essas transações.',
+    'Você está prestes a excluir todos os itens selecionados.',
   )
 
   const [sorting, setSorting] = React.useState<SortingState>([])

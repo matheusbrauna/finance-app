@@ -1,12 +1,10 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Loader2, Plus } from 'lucide-react'
 import { columns } from '@/app/(dashboard)/transactions/columns'
 import { transactions as transactionSchema } from '@/db/schema'
 import { DataTable } from '@/components/data-table'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useGetTransactions } from '@/features/transactions/api/use-get-transactions'
 import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-delete-transactions'
 import { useNewTransaction } from '@/features/transactions/hooks/use-new-transaction'
@@ -75,16 +73,9 @@ export default function TransactionsPage() {
   if (transactionsQuery.isLoading) {
     return (
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <Card className="border-none drop-shadow-sm">
-          <CardHeader>
-            <Skeleton className="h-8 w-48" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex h-[500px] w-full items-center justify-center">
-              <Loader2 className="size-6 animate-spin text-slate-300" />
-            </div>
-          </CardContent>
-        </Card>
+        <div className="flex h-[500px] w-full items-center justify-center">
+          <Loader2 className="size-6 animate-spin text-slate-300" />
+        </div>
       </div>
     )
   }

@@ -5,14 +5,14 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { AccountForm } from './account-form'
+import { AccountForm } from '@/features/accounts/components/account-form'
 import { insertAccountSchema } from '@/db/schema'
 import { z } from 'zod'
 import { useOpenAccount } from '@/features/accounts/hooks/use-open-account'
-import { useGetAccount } from '../api/use-get-account'
+import { useGetAccount } from '@/features/accounts/api/use-get-account'
 import { Loader2 } from 'lucide-react'
-import { useEditAccount } from '../api/use-edit-account'
-import { useDeleteAccount } from '../api/use-delete-account'
+import { useEditAccount } from '@/features/accounts/api/use-edit-account'
+import { useDeleteAccount } from '@/features/accounts/api/use-delete-account'
 import { useConfirm } from '@/hooks/use-confirm'
 
 const formSchema = insertAccountSchema.pick({
@@ -25,8 +25,8 @@ export function EditAccountSheet() {
   const { isOpen, onClose, id } = useOpenAccount()
 
   const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure?',
-    'You are about to delete this account.',
+    'Você tem certeza?',
+    'Você está prestes a excluir essa conta.',
   )
 
   const accountQuery = useGetAccount(id)
@@ -70,8 +70,8 @@ export function EditAccountSheet() {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Edit Account</SheetTitle>
-            <SheetDescription>Edit an existing account</SheetDescription>
+            <SheetTitle>Editar conta</SheetTitle>
+            <SheetDescription>Edite uma conta já existente.</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">

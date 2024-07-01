@@ -10,7 +10,7 @@ export const useGetAccount = (id?: string) => {
         param: { id },
       })
       if (!res.ok) {
-        throw new Error('Failed to fetch account')
+        throw new Error('Falha ao buscar conta.')
       }
       const { data } = await res.json()
       return data
