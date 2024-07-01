@@ -1,7 +1,3 @@
-import { Roboto } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
 
-export const fontSans = Roboto({
-  subsets: ['latin'],
-  weight: ['100', '300', '400', '500', '700', '900'],
-  variable: '--font-sans',
-})
+export const fontSans = GeistSans
