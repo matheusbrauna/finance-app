@@ -1,9 +1,9 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Loader2, Plus } from 'lucide-react'
-import { columns } from './columns'
+import { columns } from '@/app/(dashboard)/transactions/columns'
 import { transactions as transactionSchema } from '@/db/schema'
 import { DataTable } from '@/components/data-table'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -11,8 +11,8 @@ import { useGetTransactions } from '@/features/transactions/api/use-get-transact
 import { useBulkDeleteTransactions } from '@/features/transactions/api/use-bulk-delete-transactions'
 import { useNewTransaction } from '@/features/transactions/hooks/use-new-transaction'
 import { useState } from 'react'
-import { UploadButton } from './upload-button'
-import { ImportCard } from './import-card'
+import { UploadButton } from '@/app/(dashboard)/transactions/upload-button'
+import { ImportCard } from '@/app/(dashboard)/transactions/import-card'
 import { useSelectAccount } from '@/features/accounts/hooks/use-select-account'
 import { toast } from 'sonner'
 import { useBulkCreateTransactions } from '@/features/transactions/api/use-bulk-create-transactions'
@@ -57,7 +57,7 @@ export default function TransactionsPage() {
     const accountId = await confirm()
 
     if (!accountId) {
-      return toast.error('Please select an account to continue.')
+      return toast.error('Por favor, selecione uma conta para continuar')
     }
 
     const data = values.map((value) => ({
@@ -74,7 +74,7 @@ export default function TransactionsPage() {
 
   if (transactionsQuery.isLoading) {
     return (
-      <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
+      <div className="flex-1 space-y-4 p-8 pt-6">
         <Card className="border-none drop-shadow-sm">
           <CardHeader>
             <Skeleton className="h-8 w-48" />
@@ -103,33 +103,35 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-      <Card className="border-none drop-shadow-sm">
-        <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-          <CardTitle className="line-clamp-1 text-xl">
-            Transaction History
-          </CardTitle>
-          <div className="flex flex-col items-center gap-2 lg:flex-row">
-            <Button size="sm" onClick={onOpen} className="w-full lg:w-auto">
-              <Plus className="mr-2 size-4" />
-              Add new
-            </Button>
-            <UploadButton onUpload={onUpload} />
-          </div>
-        </CardHeader>
-        <CardContent>
-          <DataTable
-            filterKey="payee"
-            columns={columns}
-            data={transactions}
-            onDelete={(rows) => {
-              const ids = rows.map((row) => row.original.id)
-              deleteTransactions.mutate({ ids })
-            }}
-            disabled={isDisable}
-          />
-        </CardContent>
-      </Card>
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">
+            Histórico de transações
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Gerencie as suas transações.
+          </p>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Button size="sm" onClick={onOpen} className="w-full lg:w-auto">
+            <Plus className="mr-2 size-4" />
+            Adicionar nova transação
+          </Button>
+          <UploadButton onUpload={onUpload} />
+        </div>
+      </div>
+      <DataTable
+        filterKeyLabel="Buscar destinatário..."
+        filterKey="payee"
+        columns={columns}
+        data={transactions}
+        onDelete={(rows) => {
+          const ids = rows.map((row) => row.original.id)
+          deleteTransactions.mutate({ ids })
+        }}
+        disabled={isDisable}
+      />
     </div>
   )
 }

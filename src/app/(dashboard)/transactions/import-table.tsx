@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { TableHeadSelect } from './table-head-select'
+import { TableHeadSelect } from '@/app/(dashboard)/transactions/table-head-select'
 
 type Props = {
   headers: string[]

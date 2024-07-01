@@ -4,7 +4,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip'
+} from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
 import { Info, MinusCircle, PlusCircle } from 'lucide-react'
 
@@ -46,12 +46,12 @@ export function AmountInput({ value, onChange, disabled, placeholder }: Props) {
             </button>
           </TooltipTrigger>
           <TooltipContent>
-            Use [+] for incomes and [-] for expenses
+            Use [+] para renda e [-] para despesas
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <CurrencyInput
-        prefix="$"
+        prefix="R$ "
         className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
         placeholder={placeholder}
         value={value}
@@ -61,8 +61,8 @@ export function AmountInput({ value, onChange, disabled, placeholder }: Props) {
         disabled={disabled}
       />
       <p className="mt-2 text-xs text-muted-foreground">
-        {isIncome && 'This will count as income'}
-        {isExpense && 'This will count as an expense'}
+        {isIncome && 'Isso irá contar como renda'}
+        {isExpense && 'Isso irá contar como uma despesa'}
       </p>
     </div>
   )

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ImportTable } from './import-table'
 import { convertAmountToMiliunits } from '@/lib/utils'
 import { format, parse } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 
 const dateFormat = 'yyyy-MM-dd HH:mm:ss'
 const outputFormat = 'yyyy-MM-dd'
@@ -83,7 +84,9 @@ export function ImportCard({ data, onCancel, onSubmit }: Props) {
     const formattedData = arrayOfData.map((item) => ({
       ...item,
       amount: convertAmountToMiliunits(parseFloat(item.amount)),
-      date: format(parse(item.date, dateFormat, new Date()), outputFormat),
+      date: format(parse(item.date, dateFormat, new Date()), outputFormat, {
+        locale: ptBR,
+      }),
     }))
 
     onSubmit(formattedData)
@@ -94,11 +97,11 @@ export function ImportCard({ data, onCancel, onSubmit }: Props) {
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
           <CardTitle className="line-clamp-1 text-xl">
-            Import Transaction
+            Importar transações
           </CardTitle>
           <div className="flex flex-col items-center gap-2 lg:flex-row">
             <Button onClick={onCancel} size="sm" className="w-full lg:w-auto">
-              Cancel
+              Cancelar
             </Button>
             <Button
               size="sm"
@@ -106,7 +109,7 @@ export function ImportCard({ data, onCancel, onSubmit }: Props) {
               onClick={handleContinue}
               className="w-full lg:w-auto"
             >
-              Continue ({progress}) / {requireOptions.length}
+              Continuar ({progress}) / {requireOptions.length}
             </Button>
           </div>
         </CardHeader>

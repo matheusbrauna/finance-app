@@ -64,9 +64,9 @@ export function useSelectAccount(): [
       <Dialog open={promise !== null}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select Account</DialogTitle>
+            <DialogTitle>Selecione uma conta</DialogTitle>
             <DialogDescription>
-              Please select an account to continue.
+              Por favor. selecione uma conta para continuar.
             </DialogDescription>
           </DialogHeader>
           <Select
@@ -78,10 +78,10 @@ export function useSelectAccount(): [
           />
           <DialogFooter className="pt-2">
             <Button onClick={handleCancel} variant="outline">
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleConfirm} variant="destructive">
-              Confirm
+              Confirmar
             </Button>
           </DialogFooter>
         </DialogContent>

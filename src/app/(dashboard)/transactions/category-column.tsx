@@ -30,7 +30,7 @@ export function CategoryColumn({ id, category, categoryId }: Props) {
       )}
     >
       {!category && <TriangleAlert className="mr-2 size-4 shrink-0" />}
-      {category || 'Uncategorized'}
+      {category || 'Sem categoria'}
     </div>
   )
 }

@@ -12,9 +12,8 @@ import { formatCurrency } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { AccountColumn } from './account-column'
 import { CategoryColumn } from './category-column'
+import { ptBR } from 'date-fns/locale'
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type ResponseType = InferResponseType<
   typeof client.api.transactions.$get,
   200
@@ -30,14 +29,14 @@ export const columns: ColumnDef<ResponseType>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Selecionar tudo"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Selecionar linha"
       />
     ),
     enableSorting: false,
@@ -51,7 +50,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Date
+          Data
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -59,7 +58,13 @@ export const columns: ColumnDef<ResponseType>[] = [
     cell: ({ row }) => {
       const date = row.getValue('date') as Date
 
-      return <span>{format(date, 'dd MMM, yyyy')}</span>
+      return (
+        <span>
+          {format(date, 'dd MMM, yyyy', {
+            locale: ptBR,
+          })}
+        </span>
+      )
     },
   },
   {
@@ -70,7 +75,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Category
+          Categoria
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -93,7 +98,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Payee
+          Destinatário
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -107,7 +112,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Amount
+          Valor
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -133,7 +138,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Account
+          Conta
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

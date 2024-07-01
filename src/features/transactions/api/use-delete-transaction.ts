@@ -17,13 +17,13 @@ export const useDeleteTransaction = (id?: string) => {
       return await res.json()
     },
     onSuccess: () => {
-      toast.success('Transaction deleted')
+      toast.success('Transação excluída!')
       queryClient.invalidateQueries({ queryKey: ['transaction', { id }] })
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       queryClient.invalidateQueries({ queryKey: ['summary'] })
     },
     onError: () => {
-      toast.error('Failed to delete transaction')
+      toast.error('Falha ao excluir transação.')
     },
   })
 }

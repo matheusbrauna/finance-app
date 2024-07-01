@@ -51,10 +51,10 @@ export function useConfirm(
           </DialogHeader>
           <DialogFooter className="pt-2">
             <Button onClick={handleCancel} variant="outline">
-              Cancel
+              Cancelar
             </Button>
             <Button onClick={handleConfirm} variant="destructive">
-              Confirm
+              Confirmar
             </Button>
           </DialogFooter>
         </DialogContent>

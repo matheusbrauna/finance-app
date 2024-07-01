@@ -29,8 +29,8 @@ export function EditTransactionSheet() {
   const { isOpen, onClose, id } = useOpenTransaction()
 
   const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure?',
-    'You are about to delete this transaction.',
+    'Você tem certeza?',
+    'Você está prestes a excluir essa transação.',
   )
 
   const transactionQuery = useGetTransaction(id)
@@ -119,8 +119,8 @@ export function EditTransactionSheet() {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Edit Transaction</SheetTitle>
-            <SheetDescription>Edit an existing transaction</SheetDescription>
+            <SheetTitle>Editar transação</SheetTitle>
+            <SheetDescription>Edite uma transação existente.</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">

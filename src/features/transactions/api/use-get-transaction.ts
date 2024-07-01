@@ -11,7 +11,7 @@ export const useGetTransaction = (id?: string) => {
         param: { id },
       })
       if (!res.ok) {
-        throw new Error('Failed to fetch transaction')
+        throw new Error('Falha ao buscar transação.')
       }
       const { data } = await res.json()
       return data

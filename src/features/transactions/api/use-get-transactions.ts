@@ -20,7 +20,7 @@ export const useGetTransactions = () => {
         },
       })
       if (!res.ok) {
-        throw new Error('Failed to fetch transactions')
+        throw new Error('Falha ao buscar transações.')
       }
       const { data } = await res.json()
       return data

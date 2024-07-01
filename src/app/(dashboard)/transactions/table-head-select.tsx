@@ -33,22 +33,17 @@ export function TableHeadSelect({
           currentSelection && 'text-blue-500',
         )}
       >
-        <SelectValue placeholder="Skip" />
+        <SelectValue placeholder="Pular" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="skip">Skip</SelectItem>
+        <SelectItem value="skip">Pular</SelectItem>
         {options.map((option, index) => {
           const disabled =
             Object.values(selectedColumns).includes(option) &&
             selectedColumns[`column_${columnIndex}`] !== option
 
           return (
-            <SelectItem
-              key={index}
-              value={option}
-              disabled={disabled}
-              className=""
-            >
+            <SelectItem key={index} value={option} disabled={disabled}>
               {option}
             </SelectItem>
           )

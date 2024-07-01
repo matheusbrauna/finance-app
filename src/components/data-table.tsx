@@ -45,8 +45,8 @@ export function DataTable<TData, TValue>({
   disabled = false,
 }: DataTableProps<TData, TValue>) {
   const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure?',
-    'You are about to perform a bulk delete.',
+    'Você tem certeza?',
+    'Você está prestes a excluir essas transações.',
   )
 
   const [sorting, setSorting] = React.useState<SortingState>([])
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
       <ConfirmDialog />
       <div className="flex items-center py-4">
         <Input
-          placeholder={`Buscar ${filterKeyLabel}...`}
+          placeholder={filterKeyLabel}
           value={(table.getColumn(filterKey)?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn(filterKey)?.setFilterValue(event.target.value)

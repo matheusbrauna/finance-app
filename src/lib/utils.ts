@@ -95,7 +95,7 @@ export function formatPercentage(
   value: number,
   options: { addPrefix?: boolean } = { addPrefix: false },
 ) {
-  const result = new Intl.NumberFormat('en-US', {
+  const result = new Intl.NumberFormat('pt-BR', {
     style: 'percent',
   }).format(value / 100)
 

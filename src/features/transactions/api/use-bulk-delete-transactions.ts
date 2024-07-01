@@ -18,12 +18,12 @@ export const useBulkDeleteTransactions = () => {
       return await res.json()
     },
     onSuccess: () => {
-      toast.success('Transactions deleted')
+      toast.success('Transações excluídas!')
       queryClient.invalidateQueries({ queryKey: ['transactions'] })
       queryClient.invalidateQueries({ queryKey: ['summary'] })
     },
     onError: () => {
-      toast.error('Failed to delete transactions')
+      toast.error('Falha ao excluir transações.')
     },
   })
 }
