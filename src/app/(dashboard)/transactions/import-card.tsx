@@ -16,6 +16,7 @@ interface SelectColumnState {
 type Props = {
   data: string[][]
   onCancel: () => void
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (data: any) => void
 }
 
@@ -70,6 +71,7 @@ export function ImportCard({ data, onCancel, onSubmit }: Props) {
     }
 
     const arrayOfData = mappedData.body.map((row) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return row.reduce((acc: any, cell, index) => {
         const header = mappedData.headers[index]
         if (header !== null) {
