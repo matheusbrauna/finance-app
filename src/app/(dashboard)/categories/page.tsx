@@ -28,14 +28,14 @@ export default function CategoriesPages() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-start">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Categorias</h2>
           <p className="text-sm text-muted-foreground">
             Organize as suas transações.
           </p>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Button size="sm" onClick={onOpen}>
             <Plus className="mr-2 size-4" />
             Adicionar nova categoria

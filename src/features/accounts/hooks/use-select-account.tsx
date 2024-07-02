@@ -70,7 +70,7 @@ export function useSelectAccount(): [
             </DialogDescription>
           </DialogHeader>
           <Select
-            placeholder="Select an account"
+            placeholder="Selecione uma conta"
             options={accountOptions}
             onCreate={onCreateAccount}
             onChange={(value) => (selectValue.current = value)}
@@ -80,9 +80,7 @@ export function useSelectAccount(): [
             <Button onClick={handleCancel} variant="outline">
               Cancelar
             </Button>
-            <Button onClick={handleConfirm} variant="destructive">
-              Confirmar
-            </Button>
+            <Button onClick={handleConfirm}>Confirmar</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

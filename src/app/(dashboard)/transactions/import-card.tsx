@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { ImportTable } from './import-table'
@@ -90,35 +89,41 @@ export function ImportCard({ data, onCancel, onSubmit }: Props) {
   }
 
   return (
-    <div className="mx-auto -mt-24 w-full max-w-screen-2xl pb-10">
-      <Card className="border-none drop-shadow-sm">
-        <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-          <CardTitle className="line-clamp-1 text-xl">
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">
             Importar transações
-          </CardTitle>
-          <div className="flex flex-col items-center gap-2 lg:flex-row">
-            <Button onClick={onCancel} size="sm" className="w-full lg:w-auto">
-              Cancelar
-            </Button>
-            <Button
-              size="sm"
-              disabled={progress < requireOptions.length}
-              onClick={handleContinue}
-              className="w-full lg:w-auto"
-            >
-              Continuar ({progress}) / {requireOptions.length}
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <ImportTable
-            headers={headers}
-            body={body}
-            selectedColumns={selectedColumns}
-            onTableHeadSelectChange={onTableHeadSelectChange}
-          />
-        </CardContent>
-      </Card>
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Importe transações através de um arquivo CSV.
+          </p>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Button
+            onClick={onCancel}
+            variant="outline"
+            size="sm"
+            className="w-full lg:w-auto"
+          >
+            Cancelar
+          </Button>
+          <Button
+            size="sm"
+            disabled={progress < requireOptions.length}
+            onClick={handleContinue}
+            className="w-full lg:w-auto"
+          >
+            Continuar ({progress}) / {requireOptions.length}
+          </Button>
+        </div>
+      </div>
+      <ImportTable
+        headers={headers}
+        body={body}
+        selectedColumns={selectedColumns}
+        onTableHeadSelectChange={onTableHeadSelectChange}
+      />
     </div>
   )
 }

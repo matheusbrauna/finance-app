@@ -95,7 +95,7 @@ export default function TransactionsPage() {
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col justify-between gap-2 lg:flex-row lg:items-start">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">
             Histórico de transações
@@ -104,7 +104,7 @@ export default function TransactionsPage() {
             Gerencie as suas transações.
           </p>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col gap-4 sm:flex-row">
           <Button size="sm" onClick={onOpen} className="w-full lg:w-auto">
             <Plus className="mr-2 size-4" />
             Adicionar nova transação

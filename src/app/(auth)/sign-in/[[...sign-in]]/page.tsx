@@ -1,15 +1,19 @@
 import { SignIn, ClerkLoaded, ClerkLoading } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
-import Image from 'next/image'
 
 export default function Page() {
   return (
-    <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-      <div className="h-full flex-col items-center justify-center px-4 lg:flex">
+    <div className="relative grid min-h-screen place-items-center">
+      <div className="absolute inset-0 z-0 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+        <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#3b82f6,transparent)]"></div>
+      </div>
+      <div className="relative z-10 h-full flex-col items-center justify-center px-4 lg:flex">
         <div className="space-y-4 pt-16 text-center">
-          <h1 className="text-3xl font-bold text-[#2E2A47]">Welcome back</h1>
+          <h1 className="text-3xl font-bold text-[#2E2A47]">
+            Bem vindo de volta
+          </h1>
           <p className="text-base text-[#7E8CA0]">
-            Log in or create account to get back your dashboard!
+            Faça login ou crie uma conta para acessar seu dashboard!
           </p>
         </div>
         <div className="mt-8 flex items-center justify-center">
@@ -20,9 +24,6 @@ export default function Page() {
             <Loader2 className="animate-spin text-muted-foreground" />
           </ClerkLoading>
         </div>
-      </div>
-      <div className="hidden items-center justify-center bg-blue-600 lg:flex">
-        <Image src="/logo.svg" width={100} height={100} alt="Logo" />
       </div>
     </div>
   )

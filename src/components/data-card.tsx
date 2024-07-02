@@ -63,7 +63,7 @@ export function DataCard({
       <CardHeader className="flex flex-row items-center justify-between gap-x-4">
         <div className="space-y-2">
           <CardTitle className="line-clamp-1 text-2xl">{title}</CardTitle>
-          <CardDescription className="line-clamp-1">
+          <CardDescription className="line-clamp-1 capitalize">
             {dateRange}
           </CardDescription>
         </div>

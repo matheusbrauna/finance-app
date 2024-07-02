@@ -47,6 +47,9 @@ export function Select({
       options={options}
       onCreateOption={onCreate}
       isDisabled={disabled}
+      formatCreateLabel={(label) => {
+        return <span>Adicionar {label}</span>
+      }}
     />
   )
 }

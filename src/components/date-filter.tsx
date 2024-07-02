@@ -69,8 +69,9 @@ export const DateFilter = () => {
         <Button
           disabled={isLoadingAccounts || isLoadingSummary}
           variant="outline"
+          className="w-full md:w-auto"
         >
-          <span>{formatDateRange(paramState)}</span>
+          <span className="capitalize">{formatDateRange(paramState)}</span>
           <ChevronDown className="ml-2 size-4 opacity-50" />
         </Button>
       </PopoverTrigger>

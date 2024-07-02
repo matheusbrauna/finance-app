@@ -1,6 +1,6 @@
 import '@/styles/globals.css'
 import { ptBR } from '@clerk/localizations'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import { cn } from '@/lib/utils'
 import { fontSans } from '@/lib/fonts'
@@ -8,10 +8,39 @@ import { QueryProvider } from '@/providers/query-provider'
 import { ReactNode } from 'react'
 import { SheetProvider } from '@/providers/sheet-provider'
 import { Toaster } from '@/components/ui/sonner'
+import { siteConfig } from '@/config/site'
 
 export const metadata: Metadata = {
-  title: 'Finance',
-  description: 'Finance',
+  title: {
+    default: siteConfig.name,
+    template: `%s - ${siteConfig.name}`,
+  },
+  generator: 'Next.js',
+  metadataBase: new URL(siteConfig.url),
+  description: siteConfig.description,
+  keywords: ['Controle de finanças'],
+  authors: [
+    {
+      name: 'Matheus Braúna',
+      url: siteConfig.links.linkedin,
+    },
+  ],
+  creator: 'Matheus Braúna',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: siteConfig.url,
+    title: siteConfig.name,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
+  },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: 'white' },
+    { media: '(prefers-color-scheme: dark)', color: 'black' },
+  ],
 }
 
 type RootLayoutProps = {
@@ -30,9 +59,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <QueryProvider>
-            <SheetProvider />
-            <Toaster />
-            {children}
+            <div vaul-drawer-wrapper="" className="bg-background">
+              <SheetProvider />
+              <Toaster />
+              {children}
+            </div>
           </QueryProvider>
         </body>
       </html>

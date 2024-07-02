@@ -51,7 +51,7 @@ export function AccountFilter() {
       onValueChange={onChange}
       disabled={isLoadingAccounts || isLoadingSummary}
     >
-      <SelectTrigger className="w-auto">
+      <SelectTrigger className="w-full md:w-auto">
         <SelectValue placeholder="Seleciona uma conta" />
       </SelectTrigger>
       <SelectContent>
