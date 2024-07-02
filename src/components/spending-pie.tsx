@@ -25,7 +25,7 @@ export function SpendingPie({ data = [] }: Props) {
   }
 
   return (
-    <Card className="border-none drop-shadow-sm">
+    <Card>
       <CardHeader className="flex justify-between space-y-2 lg:flex-row lg:items-center lg:space-y-0">
         <CardTitle className="line-clamp-1 text-xl">Categorias</CardTitle>
         <Select defaultValue={chartType} onValueChange={onTypeChange}>

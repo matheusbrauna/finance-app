@@ -15,7 +15,12 @@ export function UploadButton({ onUpload }: Props) {
     <CSVReader onUploadAccepted={onUpload}>
       {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
       {({ getRootProps }: any) => (
-        <Button size="sm" className="w-full lg:w-auto" {...getRootProps()}>
+        <Button
+          size="sm"
+          variant="outline"
+          className="w-full lg:w-auto"
+          {...getRootProps()}
+        >
           <Upload className="mr-2 size-4" />
           Importar CSV
         </Button>

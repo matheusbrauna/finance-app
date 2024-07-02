@@ -9,6 +9,7 @@ import { ReactNode } from 'react'
 import { SheetProvider } from '@/providers/sheet-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { siteConfig } from '@/config/site'
+import { ThemeProvider } from '@/providers/theme-provider'
 
 export const metadata: Metadata = {
   title: {
@@ -59,11 +60,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <QueryProvider>
-            <div vaul-drawer-wrapper="" className="bg-background">
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="light"
+              enableSystem
+              disableTransitionOnChange
+            >
               <SheetProvider />
               <Toaster />
               {children}
-            </div>
+            </ThemeProvider>
           </QueryProvider>
         </body>
       </html>

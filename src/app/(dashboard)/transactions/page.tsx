@@ -105,11 +105,11 @@ export default function TransactionsPage() {
           </p>
         </div>
         <div className="flex flex-col gap-4 sm:flex-row">
+          <UploadButton onUpload={onUpload} />
           <Button size="sm" onClick={onOpen} className="w-full lg:w-auto">
             <Plus className="mr-2 size-4" />
             Adicionar nova transação
           </Button>
-          <UploadButton onUpload={onUpload} />
         </div>
       </div>
       <DataTable

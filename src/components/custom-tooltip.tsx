@@ -21,8 +21,8 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
   const expenses = payload[1].value as number
 
   return (
-    <div className="overflow-hidden rounded-sm border bg-white shadow-sm">
-      <div className="bg-muted p-2 px-3 text-sm text-muted-foreground">
+    <div className="overflow-hidden rounded-sm border bg-background shadow-sm">
+      <div className="bg-secondary p-2 px-3 text-sm text-muted-foreground">
         {format(date, 'MMM dd, yyyy')}
       </div>
       <Separator />
@@ -30,7 +30,7 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
         <div className="flex items-center justify-between gap-x-4">
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-blue-500" aria-hidden />
-            <p className="text-sm text-muted-foreground">Renda</p>
+            <p className="text-sm text-foreground">Renda</p>
           </div>
           <p className="text-right text-sm font-medium">
             {formatCurrency(income)}
@@ -39,7 +39,7 @@ export const CustomTooltip = ({ active, payload }: CustomTooltipProps) => {
         <div className="flex items-center justify-between gap-x-4">
           <div className="flex items-center gap-x-2">
             <div className="size-1.5 rounded-full bg-rose-500" aria-hidden />
-            <p className="text-sm text-muted-foreground">Despesas</p>
+            <p className="text-sm text-foreground">Despesas</p>
           </div>
           <p className="text-right text-sm font-medium">
             {formatCurrency(expenses * -1)}

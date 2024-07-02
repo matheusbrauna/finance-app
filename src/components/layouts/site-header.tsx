@@ -1,6 +1,7 @@
 import { ClerkLoaded, ClerkLoading, UserButton } from '@clerk/nextjs'
 import { Loader2 } from 'lucide-react'
 import { Navigation } from '@/components/layouts/navigation'
+import { ModeToggle } from '@/components/mode-toggle'
 
 export function SiteHeader() {
   return (
@@ -11,6 +12,7 @@ export function SiteHeader() {
         </div>
         <div className="ml-auto flex items-center space-x-4">
           <div className="flex items-center space-x-4">
+            <ModeToggle />
             <ClerkLoaded>
               <UserButton afterSignOutUrl="/" />
             </ClerkLoaded>
