@@ -34,9 +34,9 @@ export function NewCategorySheet() {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>New Category</SheetTitle>
+          <SheetTitle>Nova categoria</SheetTitle>
           <SheetDescription>
-            Create a new category to organize your transactions.
+            Crie uma nova categoria para organizar suas transações.
           </SheetDescription>
         </SheetHeader>
         <CategoryForm

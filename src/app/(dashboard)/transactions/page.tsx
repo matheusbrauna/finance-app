@@ -74,7 +74,7 @@ export default function TransactionsPage() {
     return (
       <div className="flex-1 space-y-4 p-8 pt-6">
         <div className="flex h-[500px] w-full items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-slate-300" />
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
         </div>
       </div>
     )

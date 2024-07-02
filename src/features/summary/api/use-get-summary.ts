@@ -20,7 +20,7 @@ export const useGetSummary = () => {
         },
       })
       if (!res.ok) {
-        throw new Error('Failed to fetch summary')
+        throw new Error('Falha ao buscar resumo.')
       }
       const { data } = await res.json()
       return data

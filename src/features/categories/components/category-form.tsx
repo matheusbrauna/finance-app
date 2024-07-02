@@ -58,11 +58,11 @@ export function CategoryForm({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Nome</FormLabel>
               <FormControl>
                 <Input
                   disabled={disabled}
-                  placeholder="e.g Food, Travel, etc."
+                  placeholder="Exemplo: Comida, Viagem, etc."
                   {...field}
                 />
               </FormControl>
@@ -70,7 +70,7 @@ export function CategoryForm({
           )}
         />
         <Button className="w-full" disabled={disabled}>
-          {id ? 'Save changes' : 'Create category'}
+          {id ? 'Salvar mudanças' : 'Criar categoria'}
         </Button>
         {!!id && (
           <Button
@@ -81,7 +81,7 @@ export function CategoryForm({
             variant="outline"
           >
             <Trash className="mr-2 size-4" />
-            Delete category
+            Excluir categoria
           </Button>
         )}
       </form>

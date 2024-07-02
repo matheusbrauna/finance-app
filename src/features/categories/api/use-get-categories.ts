@@ -7,7 +7,7 @@ export const useGetCategories = () => {
     queryFn: async () => {
       const res = await client.api.categories.$get()
       if (!res.ok) {
-        throw new Error('Failed to fetch categories')
+        throw new Error('Falha ao buscar categorias.')
       }
       const { data } = await res.json()
       return data

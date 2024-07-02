@@ -6,10 +6,8 @@ import { client } from '@/lib/hono'
 import { ColumnDef } from '@tanstack/react-table'
 import { InferResponseType } from 'hono'
 import { ArrowUpDown } from 'lucide-react'
-import { Actions } from './actions'
+import { Actions } from '@/app/(dashboard)/categories/actions'
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type ResponseType = InferResponseType<
   typeof client.api.categories.$get,
   200
@@ -25,14 +23,14 @@ export const columns: ColumnDef<ResponseType>[] = [
           (table.getIsSomePageRowsSelected() && 'indeterminate')
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
+        aria-label="Selecionar todas"
       />
     ),
     cell: ({ row }) => (
       <Checkbox
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
+        aria-label="Selecionar linha"
       />
     ),
     enableSorting: false,
@@ -46,7 +44,7 @@ export const columns: ColumnDef<ResponseType>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Name
+          Nome
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )

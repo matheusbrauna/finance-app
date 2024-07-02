@@ -1,7 +1,6 @@
 'use client'
 
 import { format, subDays } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
 import { ChevronDown } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import qs from 'query-string'
@@ -23,11 +22,11 @@ import { useGetSummary } from '@/features/summary/api/use-get-summary'
 export const DateFilter = () => {
   const pathname = usePathname()
   const router = useRouter()
-  const searchParams = useSearchParams()
 
-  const accountId = searchParams.get('accountId')
-  const from = searchParams.get('from') || ''
-  const to = searchParams.get('to') || ''
+  const params = useSearchParams()
+  const accountId = params.get('accountId')
+  const from = params.get('from') || ''
+  const to = params.get('to') || ''
   const { isLoading: isLoadingAccounts } = useGetAccounts()
   const { isLoading: isLoadingSummary } = useGetSummary()
 
@@ -77,14 +76,13 @@ export const DateFilter = () => {
       </PopoverTrigger>
       <PopoverContent className="w-full p-0 lg:w-auto" align="start">
         <Calendar
-          disabled={false}
+          disabled={isLoadingAccounts || isLoadingSummary}
           initialFocus
           mode="range"
           defaultMonth={date?.from}
           selected={date}
           onSelect={setDate}
           numberOfMonths={2}
-          locale={ptBR}
         />
         <div className="flex w-full items-center gap-x-2 p-4">
           <PopoverClose asChild>

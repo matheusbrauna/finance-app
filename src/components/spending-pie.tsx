@@ -83,7 +83,7 @@ export const SpendingPieLoading = () => {
       </CardHeader>
       <CardContent>
         <div className="flex h-[350px] w-full items-center justify-center">
-          <Loader2 className="size-6 animate-spin text-slate-300" />
+          <Loader2 className="size-6 animate-spin text-muted-foreground" />
         </div>
       </CardContent>
     </Card>

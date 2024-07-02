@@ -18,8 +18,8 @@ type ActionsProps = {
 
 export function Actions({ id }: ActionsProps) {
   const [ConfirmDialog, confirm] = useConfirm(
-    'Are you sure?',
-    'You are about to delete this category.',
+    'Você tem certeza?',
+    'Você está prestes a excluir essa categoria.',
   )
 
   const deleteMutation = useDeleteCategory(id)
@@ -48,14 +48,14 @@ export function Actions({ id }: ActionsProps) {
             onClick={() => onOpen(id)}
           >
             <Edit className="mr-2 size-4" />
-            Edit
+            Editar
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={deleteMutation.isPending}
             onClick={handleDelete}
           >
             <Trash className="mr-2 size-4" />
-            Delete
+            Excluir
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

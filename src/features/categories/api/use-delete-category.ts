@@ -17,13 +17,13 @@ export const useDeleteCategory = (id?: string) => {
       return await res.json()
     },
     onSuccess: () => {
-      toast.success('Category deleted')
+      toast.success('Categoria excluída!')
       queryClient.invalidateQueries({ queryKey: ['category', { id }] })
       queryClient.invalidateQueries({ queryKey: ['categories'] })
       queryClient.invalidateQueries({ queryKey: ['summary'] })
     },
     onError: () => {
-      toast.error('Failed to delete category')
+      toast.error('Falha ao excluir categoria.')
     },
   })
 }
