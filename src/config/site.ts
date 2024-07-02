@@ -8,7 +8,8 @@ export const siteConfig = {
   url: 'https://matheusbrauna.dev',
   email: 'contato@matheusbrauna.dev',
   phone: '+5561993260021',
-  description: 'Aplicação de controle de finanças',
+  description:
+    'Domine suas finanças com nossa aplicação inovadora, simplificando o controle de gastos, transações e muito mais.',
   links,
   mainNav: [
     {

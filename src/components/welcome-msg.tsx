@@ -15,7 +15,7 @@ export function WelcomeMsg() {
         <ClerkLoaded>Bem vindo de volta, {user?.firstName} 👋🏻</ClerkLoaded>
       </h2>
       <p className="text-sm text-muted-foreground lg:text-base">
-        Esse é o resumo finanças.
+        Esse é o resumo de suas finanças.
       </p>
     </div>
   )
