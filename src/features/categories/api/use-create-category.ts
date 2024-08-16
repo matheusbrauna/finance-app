@@ -1,18 +1,12 @@
-import { client } from '@/lib/hono'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { InferRequestType, InferResponseType } from 'hono'
+import { useServerActionMutation } from '@/lib/server-actions-hooks'
+import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-
-type ResponseType = InferResponseType<typeof client.api.categories.$post>
-type RequestType = InferRequestType<typeof client.api.categories.$post>['json']
+import { createCategoryAction } from '@/features/categories/actions/create-category'
 
 export const useCreateCategory = () => {
   const queryClient = useQueryClient()
-  return useMutation<ResponseType, Error, RequestType>({
-    mutationFn: async (json) => {
-      const res = await client.api.categories.$post({ json })
-      return await res.json()
-    },
+
+  return useServerActionMutation(createCategoryAction, {
     onSuccess: () => {
       toast.success('Categoria criada!')
       queryClient.invalidateQueries({ queryKey: ['categories'] })

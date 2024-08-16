@@ -60,6 +60,9 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.10.5",
     "zod": "^3.23.8",
+    "zsa": "^0.6.0",
+    "zsa-react": "^0.2.2",
+    "zsa-react-query": "^0.2.1",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
