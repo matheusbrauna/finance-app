@@ -1,3 +1,5 @@
+import env from '@/lib/env'
+
 export default function Home() {
-  return <h1>Hello World!</h1>
+  return env.NEXT_PUBLIC_APP_URL
 }
