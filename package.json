@@ -13,8 +13,6 @@
     "db:studio": "bun drizzle-kit studio"
   },
   "dependencies": {
-    "@clerk/localizations": "3.6.4",
-    "@clerk/nextjs": "6.3.4",
     "@neondatabase/serverless": "0.10.3",
     "@t3-oss/env-nextjs": "0.11.1",
     "dotenv": "16.4.5",
