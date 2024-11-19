@@ -3,15 +3,7 @@ import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-export default async function Home() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-
-  if (!session) {
-    redirect('/sign-in')
-  }
-
+export default function Home() {
   return (
     <div>
       <h1>Protected Route</h1>
@@ -21,7 +13,7 @@ export default async function Home() {
           await auth.api.signOut({
             headers: await headers(),
           })
-          redirect('/')
+          redirect('/sign-in')
         }}
       >
         Sair

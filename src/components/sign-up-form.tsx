@@ -1,5 +1,6 @@
 'use client'
 
+import { signUpAction } from '@/app/actions/sign-up-action'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -17,20 +18,23 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { authClient } from '@/lib/auth-client'
 import { signUpSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import type { z } from 'zod'
+import { useServerAction } from 'zsa-react'
 
 export function SigUpForm() {
-  const [isPending, startTransition] = useTransition()
-  const router = useRouter()
+  const { execute, isPending } = useServerAction(signUpAction, {
+    onError: ({ err }) => {
+      toast.error('Falha ao criar conta', {
+        description: err.message,
+      })
+    },
+  })
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -41,26 +45,14 @@ export function SigUpForm() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof signUpSchema>) {
-    const { name, email, confirmPassword } = values
+  function onSubmit(values: z.infer<typeof signUpSchema>) {
+    const { name, email, password, confirmPassword } = values
 
-    startTransition(async () => {
-      const { error } = await authClient.signUp.email({
-        name,
-        email,
-        password: confirmPassword,
-        fetchOptions: {
-          onSuccess: () => {
-            router.push('/')
-          },
-        },
-      })
-
-      if (error) {
-        toast.error('Falha ao criar conta', {
-          description: error.message,
-        })
-      }
+    execute({
+      name,
+      email,
+      password,
+      confirmPassword,
     })
   }
 

@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 
+import { signInAction } from '@/app/actions/sign-in-action'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -19,17 +20,23 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { authClient } from '@/lib/auth-client'
 import { signInSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
-import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import type { z } from 'zod'
+import { useServerAction } from 'zsa-react'
 
 export function SignInForm() {
-  const [isPending, startTransition] = useTransition()
+  const { execute, isPending } = useServerAction(signInAction, {
+    onError: ({ err }) => {
+      toast.error('Falha ao realizar login', {
+        description: err.message,
+      })
+    },
+  })
+
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -38,21 +45,12 @@ export function SignInForm() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof signInSchema>) {
+  function onSubmit(values: z.infer<typeof signInSchema>) {
     const { email, password } = values
 
-    startTransition(async () => {
-      const { error } = await authClient.signIn.email({
-        email,
-        password,
-        callbackURL: '/',
-      })
-
-      if (error) {
-        toast.error('Falha ao realizar login', {
-          description: error.message,
-        })
-      }
+    execute({
+      email,
+      password,
     })
   }
 
@@ -66,7 +64,7 @@ export function SignInForm() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form onSubmit={form.handleSubmit(values => execute(values))}>
             <div className="grid gap-4">
               <FormField
                 control={form.control}
