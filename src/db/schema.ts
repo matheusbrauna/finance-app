@@ -1,10 +1,13 @@
+import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
 import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { createInsertSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const accounts = pgTable('accounts', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   name: text('name').notNull(),
   userId: text('user_id').notNull(),
 })
@@ -16,7 +19,9 @@ export const accountsRelations = relations(accounts, ({ many }) => ({
 export const insertAccountSchema = createInsertSchema(accounts)
 
 export const categories = pgTable('categories', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   name: text('name').notNull(),
   userId: text('user_id').notNull(),
 })
@@ -28,7 +33,9 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 export const insertCategorySchema = createInsertSchema(categories)
 
 export const transactions = pgTable('transactions', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   amount: integer('amount').notNull(),
   payee: text('payee').notNull(),
   notes: text('notes'),
@@ -59,7 +66,9 @@ export const insertTransactionSchema = createInsertSchema(transactions, {
 })
 
 export const user = pgTable('user', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   name: text('name').notNull(),
   email: text('email').notNull().unique(),
   emailVerified: boolean('emailVerified').notNull(),
@@ -69,7 +78,9 @@ export const user = pgTable('user', {
 })
 
 export const session = pgTable('session', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   expiresAt: timestamp('expiresAt').notNull(),
   ipAddress: text('ipAddress'),
   userAgent: text('userAgent'),
@@ -79,7 +90,9 @@ export const session = pgTable('session', {
 })
 
 export const account = pgTable('account', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   accountId: text('accountId').notNull(),
   providerId: text('providerId').notNull(),
   userId: text('userId')
@@ -93,7 +106,9 @@ export const account = pgTable('account', {
 })
 
 export const verification = pgTable('verification', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createId()),
   identifier: text('identifier').notNull(),
   value: text('value').notNull(),
   expiresAt: timestamp('expiresAt').notNull(),
