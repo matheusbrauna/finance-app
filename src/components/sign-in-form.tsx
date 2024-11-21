@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 
-import { signInAction } from '@/app/actions/sign-in-action'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -13,6 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { signInAction } from '@/lib/actions/auth'
 import { signInSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'

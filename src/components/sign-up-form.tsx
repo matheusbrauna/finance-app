@@ -1,6 +1,5 @@
 'use client'
 
-import { signUpAction } from '@/app/actions/sign-up-action'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -11,6 +10,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { signUpAction } from '@/lib/actions/auth'
 import { signUpSchema } from '@/lib/validations/auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
