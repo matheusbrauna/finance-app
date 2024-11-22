@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { relations } from 'drizzle-orm'
 import { boolean, integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
 export const accounts = pgTable('accounts', {
@@ -17,6 +17,9 @@ export const accountsRelations = relations(accounts, ({ many }) => ({
 }))
 
 export const insertAccountSchema = createInsertSchema(accounts)
+export const selectAccountSchema = createSelectSchema(accounts).omit({
+  userId: true,
+})
 
 export const categories = pgTable('categories', {
   id: text('id')

@@ -1,4 +1,4 @@
-'use server'
+import 'server-only'
 
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
@@ -13,6 +13,10 @@ export const authedProcedure = createServerActionProcedure().handler(
 
     if (!session) {
       redirect('/sign-in')
+    }
+
+    return {
+      userId: session.session.userId,
     }
   }
 )

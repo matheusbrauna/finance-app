@@ -1,13 +1,13 @@
 import { db } from '@/db/drizzle'
 import { accounts } from '@/db/schema'
 import { auth } from '@/lib/auth'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { unstable_cache as cache } from 'next/cache'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import 'server-only'
 
-export async function getAccounts() {
+export async function getAccount({ accountId }: { accountId: string }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   })
@@ -18,18 +18,30 @@ export async function getAccounts() {
         redirect('/sign-in')
       }
 
-      return db
+      if (!accountId) {
+        throw new Error('Missing id.')
+      }
+
+      const { userId } = session.session
+
+      const [data] = await db
         .select({
           id: accounts.id,
           name: accounts.name,
         })
         .from(accounts)
-        .where(eq(accounts.userId, session.session.userId))
+        .where(and(eq(accounts.userId, userId), eq(accounts.id, accountId)))
+
+      if (!data) {
+        throw new Error('Not found.')
+      }
+
+      return data
     },
-    ['get-accounts'],
+    [`account-${accountId}`],
     {
       revalidate: 3600, // every hour
-      tags: ['get-accounts'],
+      tags: [`account-${accountId}`],
     }
   )()
 }

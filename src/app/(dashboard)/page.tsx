@@ -1,6 +1,6 @@
+import { getAccounts } from '@/app/(dashboard)/accounts/_queries/get-accounts'
 import { Button } from '@/components/ui/button'
 import { auth } from '@/lib/auth'
-import { getAccounts } from '@/lib/queries/accounts'
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 
